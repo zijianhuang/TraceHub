@@ -153,7 +153,9 @@ namespace Fonlow.Diagnostics
         {
             Debug.Assert(hubConnection != null);
             hubConnection.Dispose();
+
             HubConnectionUnubscribeEvents();
+
             hubConnection = null;
         }
 
@@ -180,44 +182,76 @@ namespace Fonlow.Diagnostics
 
         private void HubConnection_Error(Exception obj)
         {
+#if DEBUG
+            Console.WriteLine("HubConnection_Error: " + obj.ToString());
+#endif
         }
 
         private void HubConnection_Reconnecting()
         {
+#if DEBUG
+            Console.WriteLine("HubConnection_Reconnecting: Reconnecting");
+#endif
         }
 
         private void HubConnection_Reconnected()
         {
+#if DEBUG
+            Console.WriteLine("HubConnection_Reconnected");
+#endif
         }
 
         private void HubConnection_StateChanged(StateChange obj)
         {
+#if DEBUG
+            Console.WriteLine($"HubConnection state changed from {obj.OldState} to {obj.NewState} .");
+#endif
             if ((obj.OldState == ConnectionState.Reconnecting) && (obj.NewState == ConnectionState.Disconnected))
             {
-                DisposeConnection();
-
-                Action d = () => Reconnect();//Need to fire it asynchronously in another thread in order not to hold up this event handling function StateChanged, so hubConnection could be really disposed.
-                d.BeginInvoke(null, null);//And Console seems to be thread safe with such asynchronous call.
+                DisposeAndReconnectAsync();
             }
+        }
+
+        void DisposeAndReconnectAsync()
+        {
+            DisposeConnection();
+#if DEBUG
+            Console.WriteLine("hubConnection disposed.");
+#endif
+
+            Action d = () => Reconnect();//Need to fire it asynchronously in another thread in order not to hold up this event handling function StateChanged, so hubConnection could be really disposed.
+            d.BeginInvoke(null, null);//And Console seems to be thread safe with such asynchronous call.
         }
 
         void Reconnect()
         {
+#if DEBUG
+            Console.WriteLine("Now need to create a new HubConnection object");
+#endif
             CreateHubConnection();
             var ok = DoFunctionRepeatedly(20, ConnectHub);
             if (!ok)
             {
                 throw new AbortException();
             }
+#if DEBUG
+            Console.WriteLine("HubConnection is created and successfully started.");
+#endif
 
         }
 
         private void HubConnection_ConnectionSlow()
         {
+#if DEBUG
+            Console.WriteLine("HubConnection_ConnectionSlow: Connection is about to timeout.");
+#endif
         }
 
         private void HubConnection_Closed()
         {
+#if DEBUG
+            Console.WriteLine("HubConnection_Closed: Hub could not connect or get disconnected.");
+#endif
         }
 
 
@@ -231,19 +265,17 @@ namespace Fonlow.Diagnostics
 
                 try
                 {
+#if DEBUG
+                    Console.WriteLine("........................................");
+                    Console.WriteLine(String.Format("Wait before {0} {1} elapse...", seconds, seconds > 1 ? "seconds" : "second"));
+#endif
                     var input = WaitReader.ReadLine(seconds);
-                    if (String.IsNullOrWhiteSpace(input))
-                        continue;
-
-                    if (input.Equals("Q", StringComparison.CurrentCultureIgnoreCase))
-                        return false;
-
-                    if (String.IsNullOrEmpty(input))
-                        continue;
-
                 }
                 catch (TimeoutException)
                 {
+#if DEBUG
+                    Debug.WriteLine("TimeoutException");
+#endif
                 }
 
             }

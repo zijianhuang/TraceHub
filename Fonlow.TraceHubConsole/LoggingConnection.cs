@@ -17,7 +17,6 @@ namespace Fonlow.Logging
             get { return hubConnection; }
         }
 
-        public string Url { get; private set; }
 
         /// <summary>
         /// For reproducing trace messages from the server
@@ -25,6 +24,8 @@ namespace Fonlow.Logging
         TraceSource loggingSource;
 
         const string sourceName = "loggingHub";
+
+        public string Url { get; private set; }
 
         public string UserName { get; set; }
 
@@ -70,11 +71,18 @@ namespace Fonlow.Logging
             
             HubConnectionSubscribeEvents();
 
-            IHubProxy loggingHubProxy = hubConnection.CreateHubProxy(sourceName);
-            
-            writeMessageHandler=   loggingHubProxy.On<string>("WriteMessage", s => Console.WriteLine(s));
+            HubConnectionProxySubscribeServerEvents();
 
-            writeMessagesHandler= loggingHubProxy.On<string[]>("WriteMessages", ss =>
+            Debug.WriteLine("HubProxy created.");
+        }
+
+        void HubConnectionProxySubscribeServerEvents()
+        {
+            IHubProxy loggingHubProxy = hubConnection.CreateHubProxy(sourceName);
+
+            writeMessageHandler = loggingHubProxy.On<string>("WriteMessage", s => Console.WriteLine(s));
+
+            writeMessagesHandler = loggingHubProxy.On<string[]>("WriteMessages", ss =>
             {
                 foreach (var s in ss)
                 {
@@ -99,29 +107,28 @@ namespace Fonlow.Logging
                 return builder.ToString();
             };
 
-            writeTraceHandler=  loggingHubProxy.On<TraceMessage>("WriteTrace", tm => loggingSource.TraceEvent(tm.EventType, 0, formatTraceMessage(tm)));
+            writeTraceHandler = loggingHubProxy.On<TraceMessage>("WriteTrace", tm => loggingSource.TraceEvent(tm.EventType, 0, formatTraceMessage(tm)));
 
-            writeTracesHandler= loggingHubProxy.On<TraceMessage[]>("WriteTraces", tms =>
+            writeTracesHandler = loggingHubProxy.On<TraceMessage[]>("WriteTraces", tms =>
             {
                 foreach (var tm in tms)
                 {
                     loggingSource.TraceEvent(tm.EventType, 0, formatTraceMessage(tm));
                 }
             });
-
-            Debug.WriteLine("HubProxy created.");
         }
 
         void DisposeConnection()
         {
             Debug.Assert(hubConnection != null);
-            hubConnection.Stop(TimeSpan.FromSeconds(2));
             hubConnection.Dispose();
             HubConnectionUnubscribeEvents();
+
             writeMessageHandler.Dispose();
             writeMessagesHandler.Dispose();
             writeTraceHandler.Dispose();
             writeTracesHandler.Dispose();
+
             hubConnection = null;
         }
 
@@ -222,11 +229,11 @@ namespace Fonlow.Logging
 
             if ((obj.OldState == ConnectionState.Reconnecting) && (obj.NewState == ConnectionState.Disconnected))
             {
-                DisposeAndReconnect();
+                DisposeAndReconnectAsync();
             }
         }
 
-        void DisposeAndReconnect()
+        void DisposeAndReconnectAsync()
         {
             DisposeConnection();
             Debug.WriteLine("hubConnection disposed.");
@@ -237,7 +244,7 @@ namespace Fonlow.Logging
 
         void Reconnect()
         {
-            Debug.Write("Now need to create a new HubConnection object");
+            Debug.WriteLine("Now need to create a new HubConnection object");
             CreateHubConnection();
             var ok = DoFunctionRepeatedly(20, ConnectHub);
             if (!ok)
@@ -250,13 +257,13 @@ namespace Fonlow.Logging
 
         private void HubConnection_ConnectionSlow()
         {
-            Trace.TraceWarning("Connection is about to timeout.");
+            Trace.TraceWarning("HubConnection_ConnectionSlow: Connection is about to timeout.");
         }
 
         private void HubConnection_Closed()
         {
             //SignalR client lib won't retry after closed.
-            Trace.TraceWarning("Hub could not connect or get disconnected.");
+            Trace.TraceWarning("HubConnection_Closed: Hub could not connect or get disconnected.");
         }
 
 
@@ -278,9 +285,6 @@ namespace Fonlow.Logging
 
                     if (input.Equals("Q", StringComparison.CurrentCultureIgnoreCase))
                         return false;
-
-                    if (String.IsNullOrEmpty(input))
-                        continue;
 
                     Trace.TraceWarning("Silly input with {0}. You should had inputted Q or Enter. Now continue to execute.", input);
                 }
