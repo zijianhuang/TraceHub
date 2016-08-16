@@ -6,14 +6,10 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("Fonlow.Logging.Console")]
+[assembly: AssemblyTitle("Fonlow TraceHub Console")]
 [assembly: AssemblyDescription("Display traces pushed from TraceHub")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("Fonlow.Logging.Console")]
-[assembly: AssemblyCopyright("Copyright ©  2016 Zijian Huang")]
-[assembly: AssemblyTrademark("")]
-[assembly: AssemblyCulture("")]
+[assembly: AssemblyProduct("Fonlow TraceHub Console")]
 
 // Setting ComVisible to false makes the types in this assembly not visible 
 // to COM components.  If you need to access a type in this assembly from 

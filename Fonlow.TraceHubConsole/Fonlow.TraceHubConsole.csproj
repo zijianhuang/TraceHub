@@ -52,6 +52,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\SolutionInfo.cs">
+      <Link>Properties\SolutionInfo.cs</Link>
+    </Compile>
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="LoggingConnection.cs" />
     <Compile Include="Program.cs" />

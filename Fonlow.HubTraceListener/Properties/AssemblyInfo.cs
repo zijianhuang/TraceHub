@@ -6,14 +6,10 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("Fonlow.ToHubTraceListener")]
-[assembly: AssemblyDescription("Tracelistener derived from Essential.Diagnostics to write trace messages to TraceToWeb.")]
+[assembly: AssemblyTitle("Fonlow.HubTraceListener")]
+[assembly: AssemblyDescription("Tracelistener derived from Essential.Diagnostics is to write trace messages to TraceHub.")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("Fonlow.ToHubTraceListener")]
-[assembly: AssemblyCopyright("Copyright ©  Zijian Huang 2016")]
-[assembly: AssemblyTrademark("")]
-[assembly: AssemblyCulture("")]
+[assembly: AssemblyProduct("Fonlow.HubTraceListener")]
 
 // Setting ComVisible to false makes the types in this assembly not visible 
 // to COM components.  If you need to access a type in this assembly from 

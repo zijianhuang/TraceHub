@@ -90,6 +90,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\SolutionInfo.cs">
+      <Link>Properties\SolutionInfo.cs</Link>
+    </Compile>
     <Compile Include="ApplicationOAuthProvider.cs" />
     <Compile Include="BearerAuthProvider.cs" />
     <Compile Include="Constants.cs" />
