@@ -112,6 +112,9 @@ namespace Fonlow.Diagnostics
         {
             try
             {
+#if DEBUG
+                Console.WriteLine("HubConnection starting ...");
+#endif
                 var tokenModel = GetBearerToken();
                 if (tokenModel == null)
                 {
@@ -122,29 +125,54 @@ namespace Fonlow.Diagnostics
                 }
                 hubConnection.Headers.Add("Authorization", $"{tokenModel.TokenType} {tokenModel.AccessToken}");
 
-                Connection.Start().Wait();
-                return true;
+                hubConnection.Start().Wait();
+#if DEBUG
+                Console.WriteLine("HubConnection state: " + hubConnection.State);
+#endif
+                return hubConnection.State == ConnectionState.Connected;
             }
             catch (AggregateException ex)
             {
                 ex.Handle((innerException) =>
                 {
+                    Debug.Assert(innerException != null);
+                    var exceptionName = innerException.GetType().Name;
+#if DEBUG
+                    Console.WriteLine(exceptionName + ": " + innerException.Message);
+#endif
                     if (innerException.InnerException != null)
                     {
+                        exceptionName = innerException.InnerException.GetType().Name;
+#if DEBUG
+                        Console.WriteLine(innerException.InnerException.Message);
+#endif
                     }
-                    return true;
+
+                    return (innerException is System.Net.Http.HttpRequestException)//Likely the server is unavailable
+                    || (innerException is System.Net.Sockets.SocketException)//Likely something wrong with the server
+                    || (innerException is Microsoft.AspNet.SignalR.Client.HttpClientException)//likely auth error
+                    || (innerException is Newtonsoft.Json.JsonReaderException)
+                    ;
+
                 });
 
-                if (ex.InnerException is System.Net.Http.HttpRequestException)//Likely the server is unavailable
-                {
-                    return false;
-                }
-                if (ex.InnerException is System.Net.Sockets.SocketException)//Likely something wrong with the server
-                {
-                    return false;
-                }
-
+                return false;
+            }
+            catch (FormatException ex)
+            {
+#if DEBUG
+                Console.WriteLine(ex.ToString());
+#endif
+                //DisposeAndReconnect(); For some reasons, disposing or stopping the connection will result in NullReferenceException inside Microsoft.AspNet.SignalR.Client.Connection.Stop(TimeSpan timeout)
+                return false;
+            }
+            catch (Exception ex)
+            {
+#if DEBUG
+                Console.WriteLine("Some new exception: " + ex);
+#endif
                 throw;
+
             }
 
         }
@@ -274,7 +302,7 @@ namespace Fonlow.Diagnostics
                 catch (TimeoutException)
                 {
 #if DEBUG
-                    Debug.WriteLine("TimeoutException");
+                    Console.WriteLine("TimeoutException");
 #endif
                 }
 
@@ -300,6 +328,9 @@ namespace Fonlow.Diagnostics
         TokenResponseModel GetBearerToken()
         {
             var tokenText = GetToken(new Uri(hubInfo.Url), hubInfo.User, hubInfo.Password);
+            if (String.IsNullOrEmpty(tokenText))
+                return null;
+
             return Newtonsoft.Json.JsonConvert.DeserializeObject<TokenResponseModel>(tokenText);
         }
 
@@ -332,7 +363,9 @@ namespace Fonlow.Diagnostics
             {
                 e.Handle((innerException) =>
                 {
-                    Trace.TraceWarning(innerException.Message);
+#if DEBUG
+                    Console.WriteLine(innerException.Message);
+#endif
                     return true;
                 });
                 return null;
