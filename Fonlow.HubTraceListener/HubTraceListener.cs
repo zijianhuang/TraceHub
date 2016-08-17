@@ -82,24 +82,6 @@ namespace Fonlow.Diagnostics
 
                 Origin = InstanceId,
             });
-            //var task = loggingConnection.Invoke("UploadTrace", new TraceMessage()
-            //{
-            //    EventType = eventType,
-            //    TimeUtc = eventCache==null? DateTime.UtcNow : eventCache.DateTime.ToUniversalTime(),
-            //    Message = output,
-            //    Callstack = IncludeCallstack?eventCache.Callstack : null,
-            //    Id = id,
-            //    ProcessId = eventCache==null? new Nullable<int>() : eventCache.ProcessId,
-            //    RelatedActivityId = relatedActivityId,
-            //    Source = source,
-            //    ThreadId = eventCache==null? null : eventCache.ThreadId,
-
-            //    Origin = InstanceId,
-            //});
-            //if (task != null)
-            //{
-            //    task.Wait(100);
-            //}
         }
 
         public override bool IsThreadSafe
@@ -110,7 +92,7 @@ namespace Fonlow.Diagnostics
             }
         }
 
-        private static string[] _supportedAttributes = new string[] { "template", "hubUrl", "instanceId", "callstack", "apiUser", "apiPassword", "apiKey" };
+        private static readonly string[] _supportedAttributes = new string[] { "template", "hubUrl", "instanceId", "callstack", "apiUser", "apiPassword", "apiKey" };
 
         protected override string[] GetSupportedAttributes()
         {

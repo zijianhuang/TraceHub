@@ -14,8 +14,6 @@ namespace AuthDbCreator
         {
             Console.WriteLine("Create database using databaseInitializer defined in config through Code First ...");
 
-
-            //  Database.SetInitializer<WebPortalDbContext>(new DropCreateDatabaseIfModelChanges<WebPortalDbContext>());
             Database.SetInitializer<ApplicationDbContext>(new DropCreateDatabaseAlways<ApplicationDbContext>());
             using (var context = new ApplicationDbContext())
             {
