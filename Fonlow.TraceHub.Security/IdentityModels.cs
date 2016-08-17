@@ -39,5 +39,22 @@ namespace Fonlow.TraceHub.Security
             return new ApplicationDbContext();
         }
 
+        /// <summary>
+        /// For shorter key length of MySql
+        /// </summary>
+        /// <param name="modelBuilder"></param>
+        protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+
+            modelBuilder.Entity<Microsoft.AspNet.Identity.EntityFramework.IdentityRole>()
+                .Property(c => c.Name).HasMaxLength(128).IsRequired();
+
+            modelBuilder.Entity<ApplicationUser>()//.ToTable("AspNetUsers")//I have to declare the table name, otherwise IdentityUser will be created
+                .Property(c => c.UserName).HasMaxLength(128).IsRequired();
+
+
+        }
+
     }
 }
