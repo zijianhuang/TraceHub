@@ -43,7 +43,7 @@ namespace Fonlow.Diagnostics
 
         bool SendSome(LoggingConnection loggingConnection)
         {
-            const int max = 100;
+            const int max = 200;  //200 seems like a good max. 50 gets 2250 milliconds, 100 gets 1700, 200 get 1450 for sending total 5000 trace messages
             int i = 0;
             TraceMessage tm;
             while ((sendingBuffer.Count<max) &&  pendingQueue.TryDequeue(out tm))

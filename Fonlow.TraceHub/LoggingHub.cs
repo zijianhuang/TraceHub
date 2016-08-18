@@ -23,7 +23,7 @@ namespace Fonlow.Web.Logging
           // LoggingHubContext.Instance.Pend(traceMessage);
         }
 
-        public void UploadTraces(IList<TraceMessage> traceMessages)
+        public void UploadTraces(IList<TraceMessage> traceMessages)//SignalR server functions does not like array, according to https://github.com/SignalR/SignalR/issues/2672
         {
             if (traceMessages == null)
                 return;

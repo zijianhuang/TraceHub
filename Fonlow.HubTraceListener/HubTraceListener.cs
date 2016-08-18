@@ -40,8 +40,19 @@ namespace Fonlow.Diagnostics
             };
 
             loggingConnection.ExecuteOnceAsync(hubInfo);
-
+#if DEBUG
+            Stopwatch watch = new Stopwatch();
+            watch.Start();
+#endif
             queueBuffer.SendAll(loggingConnection);
+
+#if DEBUG
+            watch.Stop();
+            if (watch.ElapsedMilliseconds > 1)
+            {
+                Console.WriteLine("Send all in milliseconds: " + watch.ElapsedMilliseconds);
+            }
+#endif
 
             timer.Change(1000, Timeout.Infinite);
         }
