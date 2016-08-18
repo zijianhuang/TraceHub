@@ -1,24 +1,23 @@
 ﻿<div class="jumbotron">
-    <h1>ASP.NET</h1>
-    <p class="lead">ASP.NET is a free web framework for building great Web sites and Web applications using HTML, CSS, and JavaScript.</p>
-    <p><a href="http://asp.net" class="btn btn-primary btn-lg">Learn more &raquo;</a></p>
+    <h1>Trace Hub</h1>
+    <p class="lead">Trace Hub is a set of service, application and component for centralizing logging of Web applications and services. It is open source, fast, flexible, simple and robust.</p>
+    <p><a href="https://github.com/zijianhuang/TraceHub" class="btn btn-primary btn-lg">Learn more &raquo;</a></p>
 </div>
 <div class="row">
     <div class="col-md-4">
-        <h2>Getting started</h2>
-        <p>ASP.NET Web API is a framework that makes it easy to build HTTP services that reach
-        a broad range of clients, including browsers and mobile devices. ASP.NET Web API
-        is an ideal platform for building RESTful applications on the .NET Framework.</p>
-        <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301870">Learn more &raquo;</a></p>
+        <h2>TraceHub Service</h2>
+        <p>TraceHub is to provide centralized logging for Web and service applications through extending System.Diagnostics of .NET Framework. Traces from service applications could be displayed in TraceHub’s logging page.</p>
+        <p>@Html.ActionLink("Logging", "Index", "Logging", new { area = "" }, null)</p>
     </div>
     <div class="col-md-4">
-        <h2>Get more libraries</h2>
-        <p>NuGet is a free Visual Studio extension that makes it easy to add, remove, and update libraries and tools in Visual Studio projects.</p>
-        <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301871">Learn more &raquo;</a></p>
+        <h2>HubTraceListener</h2>
+        <p>HubTraceListener is a derived class from TraceListenerBase of Essential.Diagnostics, while Essential.Diagnostics is an extension of System.Diagnostics, providing structure tracing and logging. Your .NET applications utilizing System.Diagnostics can utilize TraceHub through HubTraceListner without you altering one line of application codes, since trace listeners could be injected through app.config.</p>
+        @*<p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301871">Learn more &raquo;</a></p>*@
     </div>
     <div class="col-md-4">
-        <h2>Web Hosting</h2>
-        <p>You can easily find a web hosting company that offers the right mix of features and price for your applications.</p>
-        <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301872">Learn more &raquo;</a></p>
+        <h2>TraceHub Console</h2>
+        <p>TraceHub Console is a Windows console application that displays traces aggregated in TraceHub which will push traces to the Console when traces arrive. The Console is an alternative to TraceHub’s logging page. And because of the architecture of System.Diagnostics, you could easily introduce new sinks of traces through injecting trace listeners in BCL of .NET Framework and Essential.Diagnostics, as well as your own custom trace listeners. </p>
+        @*<p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301872">Learn more &raquo;</a></p>*@
     </div>
+
 </div>

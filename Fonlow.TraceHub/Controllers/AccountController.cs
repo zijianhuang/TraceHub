@@ -16,8 +16,9 @@ using Microsoft.Owin.Security.OAuth;
 using Fonlow.Web.Logging.Models;
 using Fonlow.Web.Logging.Results;
 using Fonlow.TraceHub.Security;
+using Fonlow.Web.Logging;
 
-namespace Fonlow.Web.Logging.Controllers
+namespace Fonlow.TraceHub.Api.Controllers
 {
     [Authorize]
     [RoutePrefix("api/Account")]

@@ -93,6 +93,7 @@
     <Compile Include="..\SolutionInfo.cs">
       <Link>Properties\SolutionInfo.cs</Link>
     </Compile>
+    <Compile Include="AccountHelper.cs" />
     <Compile Include="ApplicationOAuthProvider.cs" />
     <Compile Include="BearerAuthProvider.cs" />
     <Compile Include="Constants.cs" />

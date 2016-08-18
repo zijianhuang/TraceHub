@@ -54,7 +54,7 @@ namespace Fonlow.Diagnostics
             }
 #endif
 
-            timer.Change(1000, Timeout.Infinite);
+            timer.Change(1000, Timeout.Infinite);// 1 second is a good number, with optimal performance, 0.5 second does not make performance noticablly better.
         }
 
         LoggingConnection loggingConnection

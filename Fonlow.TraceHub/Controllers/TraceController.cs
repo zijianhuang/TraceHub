@@ -8,7 +8,7 @@ using System.Diagnostics;
 using Fonlow.Diagnostics;
 using Fonlow.TraceHub.Security;
 
-namespace Fonlow.Web.Logging.Controllers
+namespace Fonlow.TraceHub.Api.Controllers
 {
     [Authorize(Roles = RoleConstants.Api)]
     [RoutePrefix("api/Trace")]

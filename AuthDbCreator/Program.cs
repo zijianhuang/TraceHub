@@ -50,8 +50,8 @@ namespace AuthDbCreator
                 //This bypasses ApplicationUserManager defined in the Service Portal, and related constraints.
                 using (var userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(context)))
                 {
-                    userManager.CreateUser("zijian.huang@fonlow.com", "zijian.huang@fonlow.com", "Zzzzzzzz*7", RoleConstants.Admin);//will call context.SaveChangesAsync
-                    userManager.CreateUser("API", "zijian.huang@fonlow.com", "Aaaaaaaa*7", RoleConstants.Api);
+                    userManager.CreateUser("admin", "noreply@somewhere.com", "Zzzzzz*8", RoleConstants.Admin);
+                    userManager.CreateUser("API", "noreply@somewhereoutthere.com", "Aaaaaa*8", RoleConstants.Api);
                 }
 
             }

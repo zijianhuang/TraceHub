@@ -17,21 +17,6 @@ namespace Fonlow.TraceHub.Security
         /// </summary>
         public const string Admin = "Admin";
 
-        /// <summary>
-        /// Licensing Manager is authroized to activate and deactivate licences
-        /// </summary>
-        public const string Manager = "Manager";
-
-        /// <summary>
-        /// Support could issue temp licences and view customer info
-        /// </summary>
-        public const string Staff = "Staff";
-
-        /// <summary>
-        /// Shop owner who may access shop info and activate licences assigned to the shop.
-        /// </summary>
-        public const string Customer = "Customer";
-
         public const string Api = "Api";
 
         /// <summary>
@@ -39,13 +24,8 @@ namespace Fonlow.TraceHub.Security
         /// </summary>
         public readonly static string[] Names = new string[]
         {
-            Admin, Manager, Staff,  Customer, Api
+            Admin, Api
         };
-
-
-        public const string InternalRoles = Admin + "," + Manager + "," + Staff;
-        public const string InternalBusinessAdmins = Admin + "," + Manager;
-
 
     }
 

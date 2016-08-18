@@ -8,7 +8,7 @@ using System.Collections.Generic;
 using System.Threading;
 using Fonlow.TraceHub.Security;
 
-namespace Fonlow.Web.Logging
+namespace Fonlow.TraceHub
 {
     [Microsoft.AspNet.SignalR.Authorize(Roles = RoleConstants.Api)]
     [Microsoft.AspNet.SignalR.Hubs.HubName("loggingHub")]
