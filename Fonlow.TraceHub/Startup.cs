@@ -33,6 +33,7 @@ namespace Fonlow.Web.Logging
             //    Provider = new Fonlow.TraceHub.Security.ApplicationOAuthBearerAuthenticationProvider(),
             //}));
 
+            //GlobalHost.Configuration.DefaultMessageBufferSize = 5000;
             app.MapSignalR();
 
         }

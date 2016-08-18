@@ -4,6 +4,7 @@ using Microsoft.AspNet.SignalR;
 using System.Diagnostics;
 using Fonlow.Diagnostics;
 using System.Collections.Concurrent;
+using System.Collections.Generic;
 using System.Threading;
 using Fonlow.TraceHub.Security;
 
@@ -12,17 +13,26 @@ namespace Fonlow.Web.Logging
     [Microsoft.AspNet.SignalR.Authorize(Roles = RoleConstants.Api)]
     [Microsoft.AspNet.SignalR.Hubs.HubName("loggingHub")]
     [CLSCompliantAttribute(false)]
-    public class LoggingHub : Hub<ILoggingClient>, ILogging
+    public class LoggingHub : Hub<ILoggingClient>, ILogging  //multiple instances expected each time it needs to handle a Hub operation
     {
         public void UploadTrace(TraceMessage traceMessage)
         {
+            if (traceMessage == null)
+                return;
             Clients.All.WriteTrace(traceMessage);
+          // LoggingHubContext.Instance.Pend(traceMessage);
         }
 
-        public void UploadTraces(TraceMessage[] traceMessages)
+        public void UploadTraces(IList<TraceMessage> traceMessages)
         {
-            Clients.All.WriteTraces(traceMessages);
+            if (traceMessages == null)
+                return;
+
+             Clients.All.WriteTraces(traceMessages);
+           // LoggingHubContext.Instance.Pend(traceMessages);
         }
+
+
     }
 
     /// <summary>
@@ -61,6 +71,14 @@ namespace Fonlow.Web.Logging
             pendingQueue.Enqueue(tm);
         }
 
+        public void Pend(TraceMessage[] tms)
+        {
+            foreach (var tm in tms)
+            {
+                pendingQueue.Enqueue(tm);
+            }
+        }
+
         public bool SendAll()
         {
             TraceMessage tm;
@@ -70,6 +88,7 @@ namespace Fonlow.Web.Logging
                 try
                 {
                     HubContext.Clients.All.WriteTrace(tm);
+                    pendingQueue.TryDequeue(out tm);
                 }
                 catch (AggregateException)
                 {
@@ -102,5 +121,8 @@ namespace Fonlow.Web.Logging
         }
         #endregion
     }
+
+
+
 
 }

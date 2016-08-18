@@ -243,20 +243,20 @@
     <Cell ss:StyleID="s74"/>
    </Row>
    <Row ss:AutoFitHeight="0" ss:Height="18.75">
-    <Cell ss:StyleID="s73"/>
+    <Cell ss:StyleID="s73"><Data ss:Type="String">ApiUser</Data></Cell>
     <Cell ss:StyleID="s77"/>
     <Cell ss:StyleID="s74"/>
-    <Cell ss:StyleID="s74"/>
-    <Cell ss:StyleID="Default"/>
+    <Cell ss:StyleID="s74"><Data ss:Type="String">api</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="String">api</Data></Cell>
     <Cell ss:StyleID="s74"/>
     <Cell ss:StyleID="s74"/>
    </Row>
    <Row ss:AutoFitHeight="0" ss:Height="18.75">
-    <Cell ss:StyleID="s73"/>
+    <Cell ss:StyleID="s73"><Data ss:Type="String">ApiPassword</Data></Cell>
     <Cell ss:StyleID="s77"/>
     <Cell ss:StyleID="s74"/>
-    <Cell ss:StyleID="s74"/>
-    <Cell ss:StyleID="s74"/>
+    <Cell ss:StyleID="s74"><Data ss:Type="String">Aaaaaaaa*7</Data></Cell>
+    <Cell ss:StyleID="s74"><Data ss:Type="String">Aaaaaaaa*7</Data></Cell>
     <Cell ss:StyleID="s74"/>
     <Cell ss:StyleID="s74"/>
    </Row>
@@ -2288,8 +2288,8 @@
     </Pane>
     <Pane>
      <Number>2</Number>
-     <ActiveRow>1</ActiveRow>
-     <ActiveCol>6</ActiveCol>
+     <ActiveRow>8</ActiveRow>
+     <ActiveCol>4</ActiveCol>
     </Pane>
    </Panes>
    <ProtectObjects>False</ProtectObjects>

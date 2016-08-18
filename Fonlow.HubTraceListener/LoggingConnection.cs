@@ -99,10 +99,10 @@ namespace Fonlow.Diagnostics
         void CreateHubConnection()
         {
             Connection = new HubConnection(hubInfo.Url);
-#if DEBUG
-            hubConnection.TraceLevel = TraceLevels.All;
-            hubConnection.TraceWriter = Console.Out;
-#endif
+//#if DEBUG
+//            hubConnection.TraceLevel = TraceLevels.All;
+//            hubConnection.TraceWriter = Console.Out;
+//#endif
             HubConnectionSubscribeEvents();
 
             loggingHubProxy = Connection.CreateHubProxy(sourceName);

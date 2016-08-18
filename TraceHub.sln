@@ -19,7 +19,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AuthDbCreator", "AuthDbCrea
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{FD8CD723-C961-4B20-9E45-8628063D9E90}"
 	ProjectSection(SolutionItems) = preProject
+		ReleaseBuild.bat = ReleaseBuild.bat
 		SolutionInfo.cs = SolutionInfo.cs
+		TraceHub.msbuild = TraceHub.msbuild
 	EndProjectSection
 EndProject
 Global

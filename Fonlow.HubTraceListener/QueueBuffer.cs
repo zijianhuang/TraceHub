@@ -14,10 +14,12 @@ namespace Fonlow.Diagnostics
     internal class QueueBuffer
     {
         ConcurrentQueue<TraceMessage> pendingQueue;
+        List<TraceMessage> sendingBuffer;
 
         public QueueBuffer()
         {
             pendingQueue = new ConcurrentQueue<TraceMessage>();
+            sendingBuffer = new List<TraceMessage>();
         }
 
         public void Pend(TraceMessage tm)
@@ -30,28 +32,47 @@ namespace Fonlow.Diagnostics
 
         public bool SendAll(LoggingConnection loggingConnection)
         {
-            TraceMessage tm;
             while (!pendingQueue.IsEmpty)
             {
-                pendingQueue.TryPeek(out tm);
+                if (!SendSome(loggingConnection))
+                    return false;
+            }
+
+            return true;
+        }
+
+        bool SendSome(LoggingConnection loggingConnection)
+        {
+            const int max = 100;
+            int i = 0;
+            TraceMessage tm;
+            while ((sendingBuffer.Count<max) &&  pendingQueue.TryDequeue(out tm))
+            {
+                sendingBuffer.Add(tm);
+                i++;
+            }
+
+            if (sendingBuffer.Count>0)
+            {
                 try
                 {
-                    var task = loggingConnection.Invoke("UploadTrace", tm);
+                    var task = loggingConnection.Invoke("UploadTraces", sendingBuffer);
                     if (task != null)
                     {
-                        task.Wait(100);
-                        pendingQueue.TryDequeue(out tm);
-                        //And continue
+                        task.Wait(10000);
                     }
                     else
                     {
                         return false;
                     }
+                    sendingBuffer.Clear();
                 }
-                catch (AggregateException)
+                catch (AggregateException ex)
                 {
+                    Console.WriteLine(ex.ToString());
                     return false;
                 }
+
             }
 
             return true;

@@ -32,9 +32,9 @@
             logging.client.writeTrace = clientFunctions.writeTrace;
             logging.client.writeTraces = clientFunctions.writeTraces;
 
-
+            $.connection.start
             // Start the connection.
-            $.connection.hub.start().done(function () {
+            $.connection.hub.start({ transport: ['webSockets', 'longPolling'] }).done(function () {
 
 
             });

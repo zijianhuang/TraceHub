@@ -14,7 +14,7 @@ namespace Fonlow.Diagnostics
 
         void WriteMessage(string message);
 
-        void WriteTraces(TraceMessage[] traceMessages);
+        void WriteTraces(IList<TraceMessage> traceMessages);
 
         void WriteMessages(string[] messages);
     }
@@ -23,7 +23,7 @@ namespace Fonlow.Diagnostics
     {
         void UploadTrace(TraceMessage traceMessage);
 
-        void UploadTraces(TraceMessage[] traceMessages);
+        void UploadTraces(IList<TraceMessage> traceMessages);
     }
 
     [DataContract]

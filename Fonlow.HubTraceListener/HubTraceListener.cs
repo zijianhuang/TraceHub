@@ -101,6 +101,8 @@ namespace Fonlow.Diagnostics
 
         private const string _defaultTemplate = "{DateTime:u} [{Thread}] {EventType} {Source} {Id}: {Message}{Data}";
 
+        #region Custom Attributes
+
         public string Template
         {
             get
@@ -193,6 +195,8 @@ namespace Fonlow.Diagnostics
                 Attributes["apiPassword"] = value;
             }
         }
+
+        #endregion
 
         public bool IncludeCallstack
         {

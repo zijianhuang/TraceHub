@@ -63,10 +63,10 @@ namespace Fonlow.Logging
         void CreateHubConnection()
         {
             hubConnection = new HubConnection(Url);
-#if DEBUG
-            hubConnection.TraceLevel = TraceLevels.All;
-            hubConnection.TraceWriter = Console.Out;
-#endif
+//#if DEBUG
+//            hubConnection.TraceLevel = TraceLevels.All;
+//            hubConnection.TraceWriter = Console.Out;
+//#endif
             Debug.WriteLine($"HubConnection created for {Url}.");
             
             HubConnectionSubscribeEvents();
@@ -323,6 +323,7 @@ namespace Fonlow.Logging
             {
                 using (var client = new System.Net.Http.HttpClient())
                 {
+                    Console.WriteLine($"Connecting {baseUri}...");
                     var response = client.PostAsync(new Uri(baseUri, "Token"), content).Result;
                     if (!response.IsSuccessStatusCode)
                     {
