@@ -27,12 +27,11 @@
             // Reference the auto-generated proxy for the hub.
             var logging = $.connection.loggingHub;
 
-            logging.client.writeMessage = clientFunctions.writeMessage;
-            logging.client.writeMessages = clientInformation.writeMessages;
             logging.client.writeTrace = clientFunctions.writeTrace;
             logging.client.writeTraces = clientFunctions.writeTraces;
+            logging.client.writeMessage = clientFunctions.writeMessage;
+            logging.client.writeMessages = clientInformation.writeMessages;
 
-            $.connection.start
             // Start the connection.
             $.connection.hub.start({ transport: ['webSockets', 'longPolling'] }).done(function () {
 
