@@ -26,8 +26,13 @@ namespace Fonlow.Logging
                 }
 
             }
-            catch (AbortException)
+            catch (AbortException ex)
             {
+                if (!String.IsNullOrEmpty(ex.Message))
+                {
+                    Console.WriteLine(ex.Message);
+                }
+
                 Environment.Exit(0);
             }
         }

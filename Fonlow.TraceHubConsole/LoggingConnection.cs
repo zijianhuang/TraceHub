@@ -35,6 +35,8 @@ namespace Fonlow.Logging
         {
             loggingSource = new TraceSource(sourceName);
             Url = System.Configuration.ConfigurationManager.AppSettings[sourceName];
+            Password = System.Configuration.ConfigurationManager.AppSettings["loggingHub_Password"];
+            UserName = System.Configuration.ConfigurationManager.AppSettings["loggingHub_Username"];
 
             if (String.IsNullOrEmpty(Url))
             {
@@ -44,7 +46,27 @@ namespace Fonlow.Logging
                 Url = Console.ReadLine();
                 if (String.IsNullOrEmpty(Url))
                 {
-                    throw new AbortException();
+                    throw new AbortException("Not to define URL, so exit the program.");
+                }
+            }
+
+            if (String.IsNullOrEmpty(UserName))
+            {
+                Console.Write("Username: ");
+                UserName = Console.ReadLine();
+                if (String.IsNullOrEmpty(UserName))
+                {
+                    throw new AbortException("Not to define username, so exit the program." );
+                }
+            }
+
+            if (String.IsNullOrEmpty(Password))
+            {
+                Console.Write("Password: ");
+                Password = Console.ReadLine();
+                if (String.IsNullOrEmpty(Password))
+                {
+                    throw new AbortException("Not to define password, so exit the program.");
                 }
             }
 
@@ -300,8 +322,6 @@ namespace Fonlow.Logging
 
         TokenResponseModel GetBearerToken()
         {
-            Password = System.Configuration.ConfigurationManager.AppSettings["loggingHub_Password"];
-            UserName = System.Configuration.ConfigurationManager.AppSettings["loggingHub_Username"];
             var tokenText = GetToken(new Uri(Url), UserName, Password);
             if (String.IsNullOrEmpty(tokenText))
                 return null;
