@@ -14,26 +14,11 @@ namespace Fonlow.Web.Logging
         {
             ConfigureAuth(app);
 
-            app.UseOAuthAuthorizationServer(OAuthOptions);
-
-            app.UseOAuthBearerAuthentication(new OAuthBearerAuthenticationOptions
-            {
-                Provider = new ApplicationOAuthBearerAuthenticationProvider(),
-            });
-
-
-
-            var hubConfiguration = new HubConfiguration();
+        //    var hubConfiguration = new HubConfiguration();
 #if DEBUG
             //      hubConfiguration.EnableDetailedErrors = true;
 #endif
 
-            //app.Map("/signalr", map => map.UseOAuthBearerAuthentication(new Microsoft.Owin.Security.OAuth.OAuthBearerAuthenticationOptions()
-            //{
-            //    Provider = new Fonlow.TraceHub.Security.ApplicationOAuthBearerAuthenticationProvider(),
-            //}));
-
-            //GlobalHost.Configuration.DefaultMessageBufferSize = 5000;
             app.MapSignalR();
 
         }
