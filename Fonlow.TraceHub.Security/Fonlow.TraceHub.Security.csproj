@@ -94,6 +94,7 @@
       <Link>Properties\SolutionInfo.cs</Link>
     </Compile>
     <Compile Include="AccountHelper.cs" />
+    <Compile Include="ApplicationOAuthBearerAuthenticationProvider.cs" />
     <Compile Include="ApplicationOAuthProvider.cs" />
     <Compile Include="Constants.cs" />
     <Compile Include="Extensions.cs" />

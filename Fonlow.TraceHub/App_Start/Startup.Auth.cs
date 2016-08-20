@@ -77,7 +77,7 @@ namespace Fonlow.Web.Logging
 
             //app.UseOAuthBearerAuthentication(new OAuthBearerAuthenticationOptions
             //{
-            //    Provider = new ApplicationOAuthBearerAuthenticationProvider(),
+            //    Provider = new Fonlow.TraceHub.Security.ApplicationOAuthBearerAuthenticationProvider(),
             //});
 
 

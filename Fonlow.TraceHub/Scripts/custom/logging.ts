@@ -49,19 +49,31 @@ module Fonlow_Logging {
             }
         }
 
-        private addLine(tm: TraceMessage) {
+        bufferSize  = 10000;
+
+        private createNewLine(tm: TraceMessage): JQuery {
             var et = this.eventTypeToString(tm.eventType);
             var $eventText = $('<span/>', { class: et }).text(et + ': ');
-            var $timeText = $('<span/>', { class: 'time' }).text(' '+tm.timeUtc + ' ');
+            var $timeText = $('<span/>', { class: 'time' }).text(' ' + tm.timeUtc + ' ');
             var $originText = $('<span/>', { class: 'origin' }).text(' ' + tm.origin + '  ');
             var newLine = $('<li/>', { class: evenLine ? 'even' : 'odd' });
             newLine.append($eventText);
             newLine.append($timeText);
             newLine.append($originText);
             newLine.append(tm.message);
-            $('#traces').append(newLine);
+            return newLine;
+        }
+
+        private addLine(tm: TraceMessage) {
+            var newLine = this.createNewLine(tm);
+            $('#traces').prepend(newLine);
             evenLine = !evenLine;
             lineCount++;
+
+            if (lineCount > this.bufferSize) {
+                $('#traces li:last').remove();
+            }
+            
         }
 
         writeMessage(m: string) {
@@ -79,9 +91,25 @@ module Fonlow_Logging {
         }
 
         writeTraces = (tms: TraceMessage[]) => {
-            tms.forEach((tm) => {
-                this.addLine(tm);
+            //Clean up some space first
+            if (lineCount + tms.length > this.bufferSize) {
+                var numberOfLineToRemove = lineCount + tms.length - this.bufferSize;
+                $('#traces li:nth-last-child(-n+' + numberOfLineToRemove + ')').remove();//Thanks to this trick http://stackoverflow.com/questions/9443101/how-to-remove-the-n-number-of-first-or-last-elements-with-jquery-in-an-optimal, much faster than my loop
+
+                lineCount -= numberOfLineToRemove;
+            }
+
+
+            //Buffer what to add
+            var itemsToPrepend = $();
+            $.each(tms.reverse(), (index, tm) => {
+                itemsToPrepend = itemsToPrepend.add(this.createNewLine(tm));//prepend of siblings
+                evenLine = !evenLine; //Silly, I should have used math :), but I wanted simplicity
             });
+
+            $('#traces').prepend(itemsToPrepend);
+            lineCount += tms.length;
+
         }
 
     }

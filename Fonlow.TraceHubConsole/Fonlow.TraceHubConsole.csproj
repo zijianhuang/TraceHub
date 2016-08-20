@@ -63,6 +63,7 @@
   <ItemGroup>
     <None Include="App.config" />
     <None Include="CopyForCloudDev.bat" />
+    <None Include="CopyForSlim.bat" />
     <None Include="CopyForTest.bat" />
     <None Include="packages.config" />
   </ItemGroup>

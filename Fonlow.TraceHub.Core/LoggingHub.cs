@@ -9,7 +9,8 @@ using System.Threading;
 
 namespace Fonlow.TraceHub
 {
-    [TraceHubAuthorize(Roles = "api")]
+    [TraceHubAuthorize(Roles = "API")]
+//    [Authorize(Roles = "API")]
     [Microsoft.AspNet.SignalR.Hubs.HubName("loggingHub")]
     [CLSCompliantAttribute(false)]
     public class LoggingHub : Hub<ILoggingClient>, ILogging  //multiple instances expected each time it needs to handle a Hub operation

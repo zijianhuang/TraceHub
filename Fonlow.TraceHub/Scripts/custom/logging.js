@@ -15,13 +15,25 @@ var Fonlow_Logging;
     var ClientFunctions = (function () {
         function ClientFunctions() {
             var _this = this;
+            this.bufferSize = 10000;
             this.writeTrace = function (tm) {
                 _this.addLine(tm);
             };
             this.writeTraces = function (tms) {
-                tms.forEach(function (tm) {
-                    _this.addLine(tm);
+                //Clean up some space first
+                if (lineCount + tms.length > _this.bufferSize) {
+                    var numberOfLineToRemove = lineCount + tms.length - _this.bufferSize;
+                    $('#traces li:nth-last-child(-n+' + numberOfLineToRemove + ')').remove(); //Thanks to this trick http://stackoverflow.com/questions/9443101/how-to-remove-the-n-number-of-first-or-last-elements-with-jquery-in-an-optimal, much faster than my loop
+                    lineCount -= numberOfLineToRemove;
+                }
+                //Buffer what to add
+                var itemsToPrepend = $();
+                $.each(tms.reverse(), function (index, tm) {
+                    itemsToPrepend = itemsToPrepend.add(_this.createNewLine(tm)); //prepend of siblings
+                    evenLine = !evenLine; //Silly, I should have used math :), but I wanted simplicity
                 });
+                $('#traces').prepend(itemsToPrepend);
+                lineCount += tms.length;
             };
         }
         ClientFunctions.prototype.eventTypeToString = function (t) {
@@ -40,7 +52,7 @@ var Fonlow_Logging;
                     return "Misc ";
             }
         };
-        ClientFunctions.prototype.addLine = function (tm) {
+        ClientFunctions.prototype.createNewLine = function (tm) {
             var et = this.eventTypeToString(tm.eventType);
             var $eventText = $('<span/>', { class: et }).text(et + ': ');
             var $timeText = $('<span/>', { class: 'time' }).text(' ' + tm.timeUtc + ' ');
@@ -50,9 +62,16 @@ var Fonlow_Logging;
             newLine.append($timeText);
             newLine.append($originText);
             newLine.append(tm.message);
-            $('#traces').append(newLine);
+            return newLine;
+        };
+        ClientFunctions.prototype.addLine = function (tm) {
+            var newLine = this.createNewLine(tm);
+            $('#traces').prepend(newLine);
             evenLine = !evenLine;
             lineCount++;
+            if (lineCount > this.bufferSize) {
+                $('#traces li:last').remove();
+            }
         };
         ClientFunctions.prototype.writeMessage = function (m) {
             $('#traces').append('<li>' + m + '</li>');

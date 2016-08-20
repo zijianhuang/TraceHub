@@ -17,7 +17,7 @@ namespace Fonlow.TraceHub.Security
         /// </summary>
         public const string Admin = "Admin";
 
-        public const string Api = "Api";
+        public const string Api = "API";
 
         /// <summary>
         /// All role constants in one array
