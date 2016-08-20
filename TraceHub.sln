@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
 VisualStudioVersion = 14.0.25123.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fonlow.Web.Logging.Common", "Fonlow.Web.Logging.Common\Fonlow.Web.Logging.Common.csproj", "{ED8EFF5F-1EF8-4FD1-AF11-85DF81CC1CDC}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fonlow.TraceHub.Common", "Fonlow.Web.Logging.Common\Fonlow.TraceHub.Common.csproj", "{ED8EFF5F-1EF8-4FD1-AF11-85DF81CC1CDC}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestTraceListener", "TestTraceListener\TestTraceListener.csproj", "{A6690ACF-0CCE-4A47-ABD8-9F3B3AA04EC0}"
 EndProject

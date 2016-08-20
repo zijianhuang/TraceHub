@@ -128,9 +128,9 @@
       <Project>{69c595a5-887a-429c-b226-dd03bf85dd6b}</Project>
       <Name>Fonlow.TraceHub.Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Fonlow.Web.Logging.Common\Fonlow.Web.Logging.Common.csproj">
+    <ProjectReference Include="..\Fonlow.Web.Logging.Common\Fonlow.TraceHub.Common.csproj">
       <Project>{ed8eff5f-1ef8-4fd1-af11-85df81cc1cdc}</Project>
-      <Name>Fonlow.Web.Logging.Common</Name>
+      <Name>Fonlow.TraceHub.Common</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>

@@ -7,8 +7,8 @@
     <ProjectGuid>{ED8EFF5F-1EF8-4FD1-AF11-85DF81CC1CDC}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Fonlow.Web.Logging.Common</RootNamespace>
-    <AssemblyName>Fonlow.Web.Logging.Common</AssemblyName>
+    <RootNamespace>Fonlow.TraceHub.Common</RootNamespace>
+    <AssemblyName>Fonlow.TraceHub.Common</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>

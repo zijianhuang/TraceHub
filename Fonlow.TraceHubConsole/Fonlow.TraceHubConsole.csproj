@@ -67,9 +67,9 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Fonlow.Web.Logging.Common\Fonlow.Web.Logging.Common.csproj">
+    <ProjectReference Include="..\Fonlow.Web.Logging.Common\Fonlow.TraceHub.Common.csproj">
       <Project>{ed8eff5f-1ef8-4fd1-af11-85df81cc1cdc}</Project>
-      <Name>Fonlow.Web.Logging.Common</Name>
+      <Name>Fonlow.TraceHub.Common</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

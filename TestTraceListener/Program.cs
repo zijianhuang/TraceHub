@@ -68,7 +68,7 @@ namespace TestTraceListener
             };
 
             Console.WriteLine("Press Enter for concurrent tests ...");
-            for (var i = 0; i < 10; i++)
+            for (var i = 0; i < 200; i++)
             {
                 Console.ReadLine();
                 concurrentTest();
