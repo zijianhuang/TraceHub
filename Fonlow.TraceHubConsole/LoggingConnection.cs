@@ -31,6 +31,8 @@ namespace Fonlow.Logging
 
         public string Password { get; set; }
 
+        bool isAnonymous = false;
+
         public bool Execute()
         {
             loggingSource = new TraceSource(sourceName);
@@ -50,26 +52,30 @@ namespace Fonlow.Logging
                 }
             }
 
-            if (String.IsNullOrEmpty(UserName))
+            isAnonymous= String.Equals(UserName, "anonymous", StringComparison.CurrentCultureIgnoreCase);
+
+            if (!isAnonymous)
             {
-                Console.Write("Username: ");
-                UserName = Console.ReadLine();
                 if (String.IsNullOrEmpty(UserName))
                 {
-                    throw new AbortException("Not to define username, so exit the program." );
+                    Console.Write("Username: ");
+                    UserName = Console.ReadLine();
+                    if (String.IsNullOrEmpty(UserName))
+                    {
+                        throw new AbortException("Not to define username, so exit the program.");
+                    }
                 }
-            }
 
-            if (String.IsNullOrEmpty(Password))
-            {
-                Console.Write("Password: ");
-                Password = Console.ReadLine();
                 if (String.IsNullOrEmpty(Password))
                 {
-                    throw new AbortException("Not to define password, so exit the program.");
+                    Console.Write("Password: ");
+                    Password = Console.ReadLine();
+                    if (String.IsNullOrEmpty(Password))
+                    {
+                        throw new AbortException("Not to define password, so exit the program.");
+                    }
                 }
             }
-
 
             CreateHubConnection();
 
@@ -179,13 +185,17 @@ namespace Fonlow.Logging
             try
             {
                 Debug.WriteLine("HubConnection starting ...");
-                var tokenModel = GetBearerToken();
-                if (tokenModel == null)
+
+                if (!isAnonymous)
                 {
-                    Console.WriteLine("Auth failed");
-                    return false;
+                    var tokenModel = GetBearerToken();
+                    if (tokenModel == null)
+                    {
+                        Console.WriteLine("Auth failed");
+                        return false;
+                    }
+                    hubConnection.Headers.Add("Authorization", $"{tokenModel.TokenType} {tokenModel.AccessToken}");
                 }
-                hubConnection.Headers.Add("Authorization", $"{tokenModel.TokenType} {tokenModel.AccessToken}");
 
                 hubConnection.Start().Wait();
                 Debug.WriteLine("HubConnection state: "+hubConnection.State);

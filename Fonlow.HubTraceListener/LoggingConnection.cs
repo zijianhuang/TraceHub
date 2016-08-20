@@ -53,6 +53,7 @@ namespace Fonlow.Diagnostics
                 throw new AbortException("The config file does not define app setting loggingHub which should be the URL that this program should listen to. Please input one and press Enter, or just press Enter to exit.");
             }
 
+            isAnonymous = String.Equals(hubInfo.User, "anonymous", StringComparison.CurrentCultureIgnoreCase);
 
             CreateHubConnection();
 
@@ -115,15 +116,18 @@ namespace Fonlow.Diagnostics
 #if DEBUG
                 Console.WriteLine("HubConnection starting ...");
 #endif
-                var tokenModel = GetBearerToken();
-                if (tokenModel == null)
+                if (!isAnonymous)
                 {
+                    var tokenModel = GetBearerToken();
+                    if (tokenModel == null)
+                    {
 #if DEBUG
-                    Console.WriteLine("Auth failed");
+                        Console.WriteLine("Auth failed");
 #endif
-                    return false;
+                        return false;
+                    }
+                    hubConnection.Headers.Add("Authorization", $"{tokenModel.TokenType} {tokenModel.AccessToken}");
                 }
-                hubConnection.Headers.Add("Authorization", $"{tokenModel.TokenType} {tokenModel.AccessToken}");
 
                 hubConnection.Start().Wait();
 #if DEBUG
@@ -324,6 +328,7 @@ namespace Fonlow.Diagnostics
             return loggingHubProxy.Invoke(method, args);
         }
 
+        bool isAnonymous = false;
 
         TokenResponseModel GetBearerToken()
         {

@@ -10,7 +10,7 @@ using Fonlow.TraceHub.Security;
 
 namespace Fonlow.TraceHub
 {
-    [Microsoft.AspNet.SignalR.Authorize(Roles = RoleConstants.Api)]
+    [TraceHubAuthorize(Roles = RoleConstants.Api)]
     [Microsoft.AspNet.SignalR.Hubs.HubName("loggingHub")]
     [CLSCompliantAttribute(false)]
     public class LoggingHub : Hub<ILoggingClient>, ILogging  //multiple instances expected each time it needs to handle a Hub operation
