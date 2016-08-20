@@ -6,7 +6,6 @@ using Fonlow.Diagnostics;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Threading;
-using Fonlow.TraceHub.Security;
 using System.Configuration;
 using Microsoft.AspNet.SignalR.Hubs;
 

@@ -73,10 +73,6 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Fonlow.TraceHub.Security\Fonlow.TraceHub.Security.csproj">
-      <Project>{4223afdd-0bb2-4575-bde7-6f55bbe94992}</Project>
-      <Name>Fonlow.TraceHub.Security</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Fonlow.Web.Logging.Common\Fonlow.Web.Logging.Common.csproj">
       <Project>{ed8eff5f-1ef8-4fd1-af11-85df81cc1cdc}</Project>
       <Name>Fonlow.Web.Logging.Common</Name>

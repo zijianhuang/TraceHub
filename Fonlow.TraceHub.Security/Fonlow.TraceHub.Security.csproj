@@ -95,7 +95,6 @@
     </Compile>
     <Compile Include="AccountHelper.cs" />
     <Compile Include="ApplicationOAuthProvider.cs" />
-    <Compile Include="BearerAuthProvider.cs" />
     <Compile Include="Constants.cs" />
     <Compile Include="Extensions.cs" />
     <Compile Include="IdentityConfig.cs" />
