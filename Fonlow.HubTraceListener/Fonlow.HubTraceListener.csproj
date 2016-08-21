@@ -61,6 +61,7 @@
     <Compile Include="..\SolutionInfo.cs">
       <Link>Properties\SolutionInfo.cs</Link>
     </Compile>
+    <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="HubInfo.cs" />
     <Compile Include="QueueBuffer.cs" />
     <Compile Include="LoggingConnection.cs" />

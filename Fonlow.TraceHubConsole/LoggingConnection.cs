@@ -13,12 +13,6 @@ namespace Fonlow.Logging
     {
         HubConnection hubConnection;
 
-        public HubConnection Connection
-        {
-            get { return hubConnection; }
-        }
-
-
         /// <summary>
         /// For reproducing trace messages from the server
         /// </summary>

@@ -301,7 +301,7 @@ namespace Fonlow.Diagnostics
                     Console.WriteLine("........................................");
                     Console.WriteLine(String.Format("Wait before {0} {1} elapse...", seconds, seconds > 1 ? "seconds" : "second"));
 #endif
-                    var input = WaitReader.ReadLine(seconds);
+                    WaitReader.ReadLine(seconds);
                 }
                 catch (TimeoutException)
                 {
