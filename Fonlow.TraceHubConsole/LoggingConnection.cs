@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.Threading;
 using Fonlow.Diagnostics;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Fonlow.Logging
 {
@@ -118,32 +119,44 @@ namespace Fonlow.Logging
                 }
             });
 
-            Func<TraceMessage, string> formatTraceMessage = (tm) =>
-            {
-                StringBuilder builder = new StringBuilder();
-                if (!String.IsNullOrEmpty(tm.Origin))
-                {
-                    builder.Append("ORIGIN: " + tm.Origin + "  ");
-                }
 
-                if (tm.TimeUtc != null)
-                {
-                    builder.Append(tm.TimeUtc.Value.ToString("yy-MM-ddTHH:mm:ss:fffZ") + "  ");//To use the timestamp sent from the source.
-                }
-
-                builder.Append(tm.Message);
-                return builder.ToString();
-            };
-
-            writeTraceHandler = loggingHubProxy.On<TraceMessage>("WriteTrace", tm => loggingSource.TraceEvent(tm.EventType, 0, formatTraceMessage(tm)));
+            writeTraceHandler = loggingHubProxy.On<TraceMessage>("WriteTrace", tm => ReproduceTrace(tm));
 
             writeTracesHandler = loggingHubProxy.On<TraceMessage[]>("WriteTraces", tms =>
             {
                 foreach (var tm in tms)
                 {
-                    loggingSource.TraceEvent(tm.EventType, 0, formatTraceMessage(tm));
+                    ReproduceTrace(tm);
                 }
             });
+        }
+
+        string FormatTraceMessage(TraceMessage tm)
+        {
+            StringBuilder builder = new StringBuilder();
+            if (!String.IsNullOrEmpty(tm.Origin))
+            {
+                builder.Append("ORIGIN: " + tm.Origin + "  ");
+            }
+
+            if (tm.TimeUtc != null)
+            {
+                builder.Append(tm.TimeUtc.Value.ToString("yy-MM-ddTHH:mm:ss:fffZ") + "  ");//To use the timestamp sent from the source.
+            }
+
+            builder.Append(tm.Message);
+            return builder.ToString();
+        }
+
+        void ReproduceTrace(TraceMessage tm)
+        {
+            if (loggingSource.Listeners.Count == 0)
+                return;
+
+            foreach (var listener in loggingSource.Listeners.OfType<TraceListener>())
+            {
+                listener.TraceEvent(new TraceEventCache(), tm.Source, tm.EventType, tm.Id, FormatTraceMessage(tm));
+            }
         }
 
         void DisposeConnection()
