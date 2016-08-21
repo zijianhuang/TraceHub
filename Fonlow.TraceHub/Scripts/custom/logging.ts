@@ -44,6 +44,16 @@ module Fonlow_Logging {
                     return "Info";
                 case 16:
                     return "Verbose";
+                case 256:
+                    return "Start";
+                case 512:
+                    return "Stop";
+                case 1024:
+                    return "Suspend";
+                case 2048:
+                    return "Resume";
+                case 4096:
+                    return "Transfer";
                 default:
                     return "Misc ";
             }

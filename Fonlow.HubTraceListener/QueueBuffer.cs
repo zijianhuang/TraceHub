@@ -32,7 +32,7 @@ namespace Fonlow.Diagnostics
 
         public bool SendAll(LoggingConnection loggingConnection)
         {
-            while (!pendingQueue.IsEmpty)
+            while (!pendingQueue.IsEmpty || sendingBuffer.Count>0)
             {
                 if (!SendSome(loggingConnection))
                     return false;
