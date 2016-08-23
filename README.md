@@ -1,6 +1,6 @@
 # TraceHub
 
-This project delivers TraceHub, TraceHubSlim, HubTraceListener and TraceHub Console.
+This project delivers TraceHub, TraceHubSlim, HubTraceListener and TraceHub Console out of the box, as well as 3 NuGet packages for you to make your own Trace Hub in one of your existing ASP.NET Websites.
 
 ### TraceHub 
 is to provide centralized logging for Web and service applications through extending System.Diagnostics of .NET Framework. Traces from service applications could be displayed in TraceHub’s logging page.
@@ -18,5 +18,5 @@ TraceHub is fast and consuming very little system resources in all ends. Being i
 
 Currently, the codebase is maintained at https://github.com/zijianhuang/TraceHub , the project management is carried out at https://www.fonlow.com:8443/redmine/projects/tracetoweb/issues . Please feel free to raise issues at the Issues section of Github.
 
-Please check Wiki for more details.
+Please check [Wiki](https://github.com/zijianhuang/TraceHub/wiki) for more details.
 
