@@ -114,7 +114,7 @@ namespace Fonlow.Diagnostics
             try
             {
 #if DEBUG
-                Console.WriteLine("HubConnection starting ...");
+                Console.WriteLine($"HubConnection to {hubInfo.Url} starting ...");
 #endif
                 if (!isAnonymous)
                 {
@@ -170,14 +170,14 @@ namespace Fonlow.Diagnostics
                 //DisposeAndReconnect(); For some reasons, disposing or stopping the connection will result in NullReferenceException inside Microsoft.AspNet.SignalR.Client.Connection.Stop(TimeSpan timeout)
                 return false;
             }
+#if DEBUG
             catch (Exception ex)
             {
-#if DEBUG
                 Console.WriteLine("Some new exception: " + ex);
-#endif
                 throw;
 
             }
+#endif
 
         }
 

@@ -231,19 +231,23 @@ namespace Fonlow.Logging
 
                 return false;
             }
-            catch (FormatException ex)
+            catch (FormatException 
+#if DEBUG            
+            ex
+#endif
+            )
             {
                 Trace.TraceError(ex.ToString());
-                //DisposeAndReconnect(); For some reasons, disposing or stopping the connection will result in NullReferenceException inside Microsoft.AspNet.SignalR.Client.Connection.Stop(TimeSpan timeout)
                 return false;
             }
+#if DEBUG
             catch (Exception ex)
             {
                 Trace.TraceError("Some new exception: " + ex);
                 throw;
 
             }
-
+#endif
         }
 
         private void HubConnection_Error(Exception obj)

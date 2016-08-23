@@ -3,11 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using Fonlow.TraceHub.Security;
 
 namespace Fonlow.Web.Logging.Controllers
 {
-    [Authorize(Roles = RoleConstants.Api)]
+    [Authorize(Roles = "API")]
     public class LoggingController : Controller
     {
         // GET: LoggingView

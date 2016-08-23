@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>Fonlow.TraceHub.Core</id>
+    <version>$version$</version>
+    <title>Trace Hub Core</title>
+    <authors>Zijian Huang</authors>
+    <owners>Zijian Huang</owners>
+    <licenseUrl>https://github.com/zijianhuang/TraceHub/blob/master/LICENSE</licenseUrl>
+    <projectUrl>https://github.com/zijianhuang/TraceHub</projectUrl>
+    <requireLicenseAcceptance>true</requireLicenseAcceptance>
+    <description>The core component of Trace Hub</description>
+    <summary>The core component of Trace Hub</summary>
+    <releaseNotes>Initial release</releaseNotes>
+    <copyright>Copyright © Zijian Huang 2016</copyright>
+    <tags>ASP API Web Client Fonlow.TraceHub rest restful aspnet aspnet httpclient</tags>
+  </metadata>
+  <files>
+    <file src="bin\Release\Fonlow.TraceHub.Common.dll" target="lib\net45" />
+  </files>
+</package>

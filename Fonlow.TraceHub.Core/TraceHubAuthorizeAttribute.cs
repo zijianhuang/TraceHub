@@ -11,6 +11,10 @@ using Microsoft.AspNet.SignalR.Hubs;
 
 namespace Fonlow.TraceHub
 {
+    /// <summary>
+    /// Whether to authorize calls according to appSetting loggingHub_Anonymous
+    /// </summary>
+    /// <remarks>However, the host like IIS may still require authentication.</remarks>
     [System.CLSCompliant(false)]
     [AttributeUsage(AttributeTargets.Class, Inherited = false, AllowMultiple = false)]
     public class TraceHubAuthorizeAttribute : AuthorizeAttribute

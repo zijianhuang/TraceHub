@@ -9,8 +9,9 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Fonlow.TraceHub.Core</RootNamespace>
     <AssemblyName>Fonlow.TraceHub.Core</AssemblyName>
-    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -28,6 +29,12 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>true</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>..\FonlowWebLogging.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.AspNet.SignalR.Core, Version=2.2.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
@@ -69,8 +76,14 @@
     <Compile Include="TraceHubAuthorizeAttribute.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\FonlowWebLogging.snk">
+      <Link>FonlowWebLogging.snk</Link>
+    </None>
     <None Include="app.config" />
+    <None Include="Fonlow.TraceHub.Core.nuspec" />
+    <None Include="Fonlow.TraceHub.nuspec" />
     <None Include="packages.config" />
+    <None Include="PackTraceHubCore.bat" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Fonlow.Web.Logging.Common\Fonlow.TraceHub.Common.csproj">
