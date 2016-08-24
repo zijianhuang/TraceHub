@@ -24,7 +24,8 @@ var Fonlow_Logging;
                 //Clean up some space first
                 if (lineCount + tms.length > _this.bufferSize) {
                     var numberOfLineToRemove = lineCount + tms.length - _this.bufferSize;
-                    $('#traces li:nth-last-child(-n+' + numberOfLineToRemove + ')').remove(); //Thanks to this trick http://stackoverflow.com/questions/9443101/how-to-remove-the-n-number-of-first-or-last-elements-with-jquery-in-an-optimal, much faster than my loop
+                    //                $('#traces li:nth-last-child(-n+' + numberOfLineToRemove + ')').remove();//Thanks to this trick http://stackoverflow.com/questions/9443101/how-to-remove-the-n-number-of-first-or-last-elements-with-jquery-in-an-optimal, much faster than my loop
+                    $('#traces li:nth-child(-n+' + numberOfLineToRemove + ')').remove(); //Thanks to this trick http://stackoverflow.com/questions/9443101/how-to-remove-the-n-number-of-first-or-last-elements-with-jquery-in-an-optimal, much faster than my loop
                     lineCount -= numberOfLineToRemove;
                 }
                 //Buffer what to add
@@ -66,8 +67,8 @@ var Fonlow_Logging;
         };
         ClientFunctions.prototype.createNewLine = function (tm) {
             var et = this.eventTypeToString(tm.eventType);
-            var $eventText = $('<span/>', { class: et }).text(et + ': ');
-            var $timeText = $('<span/>', { class: 'time', value: tm.timeUtc }).text(' ' + this.getShortTimeText(new Date(tm.timeUtc)) + ' ');
+            var $eventText = $('<span/>', { class: et + ' et' }).text(et + ': ');
+            var $timeText = $('<span/>', { class: 'time', value: tm.timeUtc }).text(' ' + this.getShortTimeText(new Date(tm.timeUtc.toString())) + ' '); //The Json object seem to become string rather than Date. A bug in SignalR JS? Now I have to cast it 
             var $originText = $('<span/>', { class: 'origin' }).text(' ' + tm.origin + '  ');
             var newLine = $('<li/>', { class: evenLine ? 'even' : 'odd' });
             newLine.append($eventText);
@@ -86,7 +87,11 @@ var Fonlow_Logging;
             }
         };
         ClientFunctions.prototype.getShortTimeText = function (dt) {
-            return dt.getHours() + ':' + dt.getMinutes() + ':' + dt.getSeconds();
+            var h = dt.getHours().toString();
+            var m = dt.getMinutes().toString();
+            var s = dt.getSeconds().toString();
+            var pp = '00';
+            return pp.substring(0, 2 - h.length) + h + ':' + pp.substring(0, 2 - m.length) + m + ':' + pp.substring(0, 2 - s.length) + s;
         };
         ClientFunctions.prototype.writeMessage = function (m) {
             $('#traces').append('<li>' + m + '</li>');

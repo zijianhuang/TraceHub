@@ -23,9 +23,11 @@ namespace Fonlow.Web.Logging
 
             var settings = JsonUtility.CreateDefaultSerializerSettings();
             settings.DateTimeZoneHandling = DateTimeZoneHandling.Utc;
-            settings.DateFormatString = "yyyy-MM-ddTHH:mm:ss.fffZ";
+            settings.DateFormatString = "yyyy-MM-ddTHH:mm:ss.fffZ"; //otherwise, the milliseconds might have up to 7 dights.
             var serializer = JsonSerializer.Create(settings);
-            GlobalHost.DependencyResolver.Register(typeof(JsonSerializer), () => serializer); app.MapSignalR();
+            GlobalHost.DependencyResolver.Register(typeof(JsonSerializer), () => serializer);
+
+            app.MapSignalR();
 
         }
     }

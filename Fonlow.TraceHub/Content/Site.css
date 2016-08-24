@@ -26,6 +26,12 @@ ul#traces {
 
 }
 
+span.et{
+    width : 4em;
+    display:inline-block;
+    margin-right : 10px;
+}
+
 span.Critical{color: #800000}
 span.Error{color:#FF0000}
 span.Warning{color:#FFA500}
@@ -33,8 +39,22 @@ span.Info{color:#0000FF}
 span.Verbose{color:#808080}
 span.Misc{color:#2F4F4F}
 
-span.time{background-color : #66a9a9}
-span.origin{background-color:burlywood}
+span.time{
+    background-color : #66a9a9;
+
+    min-width : 4em;
+    display:inline-block;
+    margin-right : 6px;
+}
+
+span.origin{
+    background-color:burlywood;
+
+    min-width : 4em;
+    display:inline-block;
+    margin-right : 6px;
+
+}
 /*Logging*/
 
 div.moduleCategory{
