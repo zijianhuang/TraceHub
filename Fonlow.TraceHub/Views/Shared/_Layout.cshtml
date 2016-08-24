@@ -16,11 +16,10 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                @Html.ActionLink("Trace Hub", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+                @Html.ActionLink("TraceHub", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("API", "Index", "Help", new { area = "" }, null)</li>
                     @if (Request.IsAuthenticated && Fonlow.TraceHub.Security.AccountHelper.IsApiUser(User))
                     {
                         <li>@Html.ActionLink("Logging", "Index", "Logging", new { area = "" }, null)</li>

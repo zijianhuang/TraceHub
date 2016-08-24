@@ -19,6 +19,7 @@ var Fonlow_Logging;
             this.writeTrace = function (tm) {
                 _this.addLine(tm);
             };
+            //Write traces in fixed size queue defined by this.bufferSize 
             this.writeTraces = function (tms) {
                 //Clean up some space first
                 if (lineCount + tms.length > _this.bufferSize) {
@@ -32,7 +33,8 @@ var Fonlow_Logging;
                     itemsToPrepend = itemsToPrepend.add(_this.createNewLine(tm)); //prepend of siblings
                     evenLine = !evenLine; //Silly, I should have used math :), but I wanted simplicity
                 });
-                $('#traces').prepend(itemsToPrepend);
+                $('#traces').append(itemsToPrepend);
+                $("html, body").animate({ scrollTop: $(document).height() - $(window).height() }); //prepend is too slow, so better just scroll down like the Console
                 lineCount += tms.length;
             };
         }
@@ -65,7 +67,7 @@ var Fonlow_Logging;
         ClientFunctions.prototype.createNewLine = function (tm) {
             var et = this.eventTypeToString(tm.eventType);
             var $eventText = $('<span/>', { class: et }).text(et + ': ');
-            var $timeText = $('<span/>', { class: 'time' }).text(' ' + tm.timeUtc + ' ');
+            var $timeText = $('<span/>', { class: 'time', value: tm.timeUtc }).text(' ' + tm.timeUtc.toTimeString() + ' ');
             var $originText = $('<span/>', { class: 'origin' }).text(' ' + tm.origin + '  ');
             var newLine = $('<li/>', { class: evenLine ? 'even' : 'odd' });
             newLine.append($eventText);
@@ -109,4 +111,11 @@ var evenLine = false;
 var lineCount = 0;
 var clientFunctions = new Fonlow_Logging.ClientFunctions();
 var managementFunctions = new Fonlow_Logging.ManagementFunctions();
+var originalText = "saveTime";
+$("span.time").hover(function () {
+    originalText = $(this).text();
+    $(this).text($(this).attr("value"));
+}, function () {
+    $(this).text(originalText);
+});
 //# sourceMappingURL=logging.js.map

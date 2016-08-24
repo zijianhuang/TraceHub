@@ -22,6 +22,10 @@ li.even {
     background-color : lightgray;
 }
 
+ul#traces {
+
+}
+
 span.Critical{color: #800000}
 span.Error{color:#FF0000}
 span.Warning{color:#FFA500}
