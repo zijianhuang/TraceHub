@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Diagnostics;
+using System.Threading;
 
 namespace TestTraceListener
 {
@@ -40,7 +41,9 @@ namespace TestTraceListener
                     case "Q":
                         Environment.Exit(0);
                         break;
-
+                    case "R":
+                        RandomTestsNeverEnd();
+                        break;
                     default:
                         break;
                 }
@@ -124,6 +127,19 @@ namespace TestTraceListener
             var msg = $"---------------------------{count * 10} trace messages in parallel finished in total seconds: {stopWatch.Elapsed.TotalSeconds} ";
             Trace.TraceInformation(msg);
             Console.WriteLine(msg);
+        }
+
+        static Timer timer;
+
+        static void RandomTestsNeverEnd()
+        {
+            timer = new Timer((stateInfo) =>
+            {
+                TraceSourceTest();
+                timer.Change(1000, Timeout.Infinite);
+            },
+            null, 1000, Timeout.Infinite);
+
         }
 
 
