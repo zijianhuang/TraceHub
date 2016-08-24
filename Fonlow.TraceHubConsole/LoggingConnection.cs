@@ -47,7 +47,7 @@ namespace Fonlow.Logging
                 }
             }
 
-            isAnonymous= String.Equals(UserName, "anonymous", StringComparison.CurrentCultureIgnoreCase);
+            isAnonymous = String.Equals(UserName, "anonymous", StringComparison.CurrentCultureIgnoreCase);
 
             if (!isAnonymous)
             {
@@ -86,12 +86,12 @@ namespace Fonlow.Logging
         void CreateHubConnection()
         {
             hubConnection = new HubConnection(Url);
-//#if DEBUG
-//            hubConnection.TraceLevel = TraceLevels.All;
-//            hubConnection.TraceWriter = Console.Out;
-//#endif
+            //#if DEBUG
+            //            hubConnection.TraceLevel = TraceLevels.All;
+            //            hubConnection.TraceWriter = Console.Out;
+            //#endif
             Debug.WriteLine($"HubConnection created for {Url}.");
-            
+
             HubConnectionSubscribeEvents();
 
             HubConnectionProxySubscribeServerEvents();
@@ -205,7 +205,7 @@ namespace Fonlow.Logging
                 }
 
                 hubConnection.Start().Wait();
-                Debug.WriteLine("HubConnection state: "+hubConnection.State);
+                Debug.WriteLine("HubConnection state: " + hubConnection.State);
                 return hubConnection.State == ConnectionState.Connected;
             }
             catch (AggregateException ex)
@@ -214,7 +214,7 @@ namespace Fonlow.Logging
                 {
                     Debug.Assert(innerException != null);
                     var exceptionName = innerException.GetType().Name;
-                    Trace.TraceWarning(exceptionName + ": "+innerException.Message);
+                    Trace.TraceWarning(exceptionName + ": " + innerException.Message);
                     if (innerException.InnerException != null)
                     {
                         exceptionName = innerException.InnerException.GetType().Name;
@@ -226,16 +226,12 @@ namespace Fonlow.Logging
                     || (innerException is Microsoft.AspNet.SignalR.Client.HttpClientException)//likely auth error
                     || (innerException is Newtonsoft.Json.JsonReaderException)
                     ;
-                    
+
                 });
 
                 return false;
             }
-            catch (FormatException 
-#if DEBUG            
-            ex
-#endif
-            )
+            catch (FormatException ex)
             {
                 Trace.TraceError(ex.ToString());
                 return false;

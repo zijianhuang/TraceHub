@@ -100,10 +100,10 @@ namespace Fonlow.Diagnostics
         void CreateHubConnection()
         {
             Connection = new HubConnection(hubInfo.Url);
-//#if DEBUG
-//            hubConnection.TraceLevel = TraceLevels.All;
-//            hubConnection.TraceWriter = Console.Out;
-//#endif
+            //#if DEBUG
+            //            hubConnection.TraceLevel = TraceLevels.All;
+            //            hubConnection.TraceWriter = Console.Out;
+            //#endif
             HubConnectionSubscribeEvents();
 
             loggingHubProxy = Connection.CreateHubProxy(sourceName);
@@ -162,7 +162,11 @@ namespace Fonlow.Diagnostics
 
                 return false;
             }
-            catch (FormatException ex)
+            catch (FormatException
+#if DEBUG
+            ex
+#endif             
+            )
             {
 #if DEBUG
                 Console.WriteLine(ex.ToString());
