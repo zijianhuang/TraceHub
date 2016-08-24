@@ -81,7 +81,6 @@
     </None>
     <None Include="app.config" />
     <None Include="Fonlow.TraceHub.Core.nuspec" />
-    <None Include="Fonlow.TraceHub.nuspec" />
     <None Include="packages.config" />
     <None Include="PackTraceHubCore.bat" />
   </ItemGroup>

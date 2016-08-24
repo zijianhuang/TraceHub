@@ -28,12 +28,12 @@ var Fonlow_Logging;
                     lineCount -= numberOfLineToRemove;
                 }
                 //Buffer what to add
-                var itemsToPrepend = $();
+                var itemsToAppend = $();
                 $.each(tms.reverse(), function (index, tm) {
-                    itemsToPrepend = itemsToPrepend.add(_this.createNewLine(tm)); //prepend of siblings
+                    itemsToAppend = itemsToAppend.add(_this.createNewLine(tm)); //append siblings
                     evenLine = !evenLine; //Silly, I should have used math :), but I wanted simplicity
                 });
-                $('#traces').append(itemsToPrepend);
+                $('#traces').append(itemsToAppend);
                 $("html, body").animate({ scrollTop: $(document).height() - $(window).height() }); //prepend is too slow, so better just scroll down like the Console
                 lineCount += tms.length;
             };
@@ -67,7 +67,7 @@ var Fonlow_Logging;
         ClientFunctions.prototype.createNewLine = function (tm) {
             var et = this.eventTypeToString(tm.eventType);
             var $eventText = $('<span/>', { class: et }).text(et + ': ');
-            var $timeText = $('<span/>', { class: 'time', value: tm.timeUtc }).text(' ' + tm.timeUtc.toTimeString() + ' ');
+            var $timeText = $('<span/>', { class: 'time', value: tm.timeUtc }).text(' ' + this.getShortTimeText(new Date(tm.timeUtc)) + ' ');
             var $originText = $('<span/>', { class: 'origin' }).text(' ' + tm.origin + '  ');
             var newLine = $('<li/>', { class: evenLine ? 'even' : 'odd' });
             newLine.append($eventText);
@@ -78,12 +78,15 @@ var Fonlow_Logging;
         };
         ClientFunctions.prototype.addLine = function (tm) {
             var newLine = this.createNewLine(tm);
-            $('#traces').prepend(newLine);
+            $('#traces').append(newLine);
             evenLine = !evenLine;
             lineCount++;
             if (lineCount > this.bufferSize) {
                 $('#traces li:last').remove();
             }
+        };
+        ClientFunctions.prototype.getShortTimeText = function (dt) {
+            return dt.getHours() + ':' + dt.getMinutes() + ':' + dt.getSeconds();
         };
         ClientFunctions.prototype.writeMessage = function (m) {
             $('#traces').append('<li>' + m + '</li>');
@@ -112,10 +115,19 @@ var lineCount = 0;
 var clientFunctions = new Fonlow_Logging.ClientFunctions();
 var managementFunctions = new Fonlow_Logging.ManagementFunctions();
 var originalText = "saveTime";
-$("span.time").hover(function () {
+//$("span.time").hover(
+//    function () {
+//        originalText = $(this).text();
+//        $(this).text($(this).attr("value"));
+//    },
+//    function () {
+//        $(this).text(originalText);
+//    }
+//);
+$(document).on("mouseenter", "span.time", function () {
     originalText = $(this).text();
     $(this).text($(this).attr("value"));
-}, function () {
+});
+$(document).on("mouseleave", "span.time", function () {
     $(this).text(originalText);
 });
-//# sourceMappingURL=logging.js.map

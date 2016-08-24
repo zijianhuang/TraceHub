@@ -1,9 +1,11 @@
 ﻿using Microsoft.Owin;
 using Owin;
 using Microsoft.AspNet.SignalR;
+using Microsoft.AspNet.SignalR.Json;
 using System;
 using Fonlow.TraceHub.Security;
 using Microsoft.Owin.Security.OAuth;
+using Newtonsoft.Json;
 
 [assembly: OwinStartup(typeof(Fonlow.Web.Logging.Startup))]
 namespace Fonlow.Web.Logging
@@ -14,12 +16,16 @@ namespace Fonlow.Web.Logging
         {
             ConfigureAuth(app);
 
-        //    var hubConfiguration = new HubConfiguration();
+            //            var hubConfiguration = new HubConfiguration() { f}
 #if DEBUG
             //      hubConfiguration.EnableDetailedErrors = true;
 #endif
 
-            app.MapSignalR();
+            var settings = JsonUtility.CreateDefaultSerializerSettings();
+            settings.DateTimeZoneHandling = DateTimeZoneHandling.Utc;
+            settings.DateFormatString = "yyyy-MM-ddTHH:mm:ss.fffZ";
+            var serializer = JsonSerializer.Create(settings);
+            GlobalHost.DependencyResolver.Register(typeof(JsonSerializer), () => serializer); app.MapSignalR();
 
         }
     }

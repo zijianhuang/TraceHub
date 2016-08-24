@@ -61,7 +61,7 @@ namespace Fonlow.Diagnostics
         /// The Time when the trace is created in the source. Assuming all clocks in servers are correct.
         /// </summary>
         [DataMember(Name = "timeUtc")]
-        public DateTime? TimeUtc { get; set; }
+        public DateTime TimeUtc { get; set; }
         #endregion
 
 
