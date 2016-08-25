@@ -75,15 +75,20 @@ module Fonlow_Logging {
         }
 
         private addLine(tm: TraceMessage) {
+            //Clean up some space
+            if (lineCount > this.bufferSize) {
+                $('#traces li:first').remove();
+                lineCount--;
+            }
+
             var newLine = this.createNewLine(tm);
             $('#traces').append(newLine);
             evenLine = !evenLine;
             lineCount++;
 
-            if (lineCount > this.bufferSize) {
-                $('#traces li:last').remove();
-            }
-            
+            //Scroll to bottom
+            $("html, body").animate({ scrollTop: $(document).height() - $(window).height() });//prepend is too slow, so better just scroll down like the Console
+
         }
 
         private getShortTimeText(dt: Date) {
@@ -123,15 +128,17 @@ module Fonlow_Logging {
 
             //Buffer what to add
             var itemsToAppend = $();
-            $.each(tms.reverse(), (index, tm) => {
+            $.each(tms, (index, tm) => {
                 itemsToAppend = itemsToAppend.add(this.createNewLine(tm));//append siblings
                 evenLine = !evenLine; //Silly, I should have used math :), but I wanted simplicity
             });
 
             $('#traces').append(itemsToAppend);
-            $("html, body").animate({ scrollTop: $(document).height() - $(window).height() });//prepend is too slow, so better just scroll down like the Console
 
             lineCount += tms.length;
+
+            //Scroll to bottom
+            $("html, body").animate({ scrollTop: $(document).height() - $(window).height() });//prepend is too slow, so better just scroll down like the Console
 
         }
 

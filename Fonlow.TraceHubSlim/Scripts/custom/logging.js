@@ -30,7 +30,7 @@ var Fonlow_Logging;
                 }
                 //Buffer what to add
                 var itemsToAppend = $();
-                $.each(tms.reverse(), function (index, tm) {
+                $.each(tms, function (index, tm) {
                     itemsToAppend = itemsToAppend.add(_this.createNewLine(tm)); //append siblings
                     evenLine = !evenLine; //Silly, I should have used math :), but I wanted simplicity
                 });
