@@ -71,7 +71,7 @@ namespace TestTraceListener
 
         static void TraceTest()
         {
-            Trace.TraceInformation("Structured tracing is available since .NET Framework 2 through TraceSource and TraceEventCache etc. Structured logging is done through TraceListener derived classes, include thos in Essential Diagnostics.");
+            Trace.TraceInformation("Structured tracing is available since .NET Framework 2 through TraceSource and TraceEventCache etc. Structured logging is done through TraceListener derived classes, including those in Essential Diagnostics.");
             Trace.TraceWarning("some warnings.");
             Trace.TraceError("some errors.");
             Trace.WriteLine("just WriteLine.");
@@ -85,7 +85,7 @@ namespace TestTraceListener
 
         static void OneLineTest()
         {
-            Trace.TraceInformation("Structured tracing is available since .NET Framework 2 through TraceSource and TraceEventCache etc. Structured logging is done through TraceListener derived classes, include thos in Essential Diagnostics.");
+            Trace.TraceInformation("Structured tracing is available since .NET Framework 2 through TraceSource and TraceEventCache etc. Structured logging is done through TraceListener derived classes, including those in Essential Diagnostics.");
         }
 
         static void SequentialTests()
