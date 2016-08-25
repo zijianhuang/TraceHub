@@ -136,3 +136,4 @@ $(document).on("mouseenter", "span.time", function () {
 $(document).on("mouseleave", "span.time", function () {
     $(this).text(originalText);
 });
+//# sourceMappingURL=logging.js.map

@@ -19,20 +19,23 @@ var Fonlow_Logging;
             this.writeTrace = function (tm) {
                 _this.addLine(tm);
             };
+            //Write traces in fixed size queue defined by this.bufferSize 
             this.writeTraces = function (tms) {
                 //Clean up some space first
                 if (lineCount + tms.length > _this.bufferSize) {
                     var numberOfLineToRemove = lineCount + tms.length - _this.bufferSize;
-                    $('#traces li:nth-last-child(-n+' + numberOfLineToRemove + ')').remove(); //Thanks to this trick http://stackoverflow.com/questions/9443101/how-to-remove-the-n-number-of-first-or-last-elements-with-jquery-in-an-optimal, much faster than my loop
+                    //                $('#traces li:nth-last-child(-n+' + numberOfLineToRemove + ')').remove();//Thanks to this trick http://stackoverflow.com/questions/9443101/how-to-remove-the-n-number-of-first-or-last-elements-with-jquery-in-an-optimal, much faster than my loop
+                    $('#traces li:nth-child(-n+' + numberOfLineToRemove + ')').remove(); //Thanks to this trick http://stackoverflow.com/questions/9443101/how-to-remove-the-n-number-of-first-or-last-elements-with-jquery-in-an-optimal, much faster than my loop
                     lineCount -= numberOfLineToRemove;
                 }
                 //Buffer what to add
-                var itemsToPrepend = $();
+                var itemsToAppend = $();
                 $.each(tms.reverse(), function (index, tm) {
-                    itemsToPrepend = itemsToPrepend.add(_this.createNewLine(tm)); //prepend of siblings
+                    itemsToAppend = itemsToAppend.add(_this.createNewLine(tm)); //append siblings
                     evenLine = !evenLine; //Silly, I should have used math :), but I wanted simplicity
                 });
-                $('#traces').prepend(itemsToPrepend);
+                $('#traces').append(itemsToAppend);
+                $("html, body").animate({ scrollTop: $(document).height() - $(window).height() }); //prepend is too slow, so better just scroll down like the Console
                 lineCount += tms.length;
             };
         }
@@ -64,8 +67,8 @@ var Fonlow_Logging;
         };
         ClientFunctions.prototype.createNewLine = function (tm) {
             var et = this.eventTypeToString(tm.eventType);
-            var $eventText = $('<span/>', { class: et }).text(et + ': ');
-            var $timeText = $('<span/>', { class: 'time' }).text(' ' + tm.timeUtc + ' ');
+            var $eventText = $('<span/>', { class: et + ' et' }).text(et + ': ');
+            var $timeText = $('<span/>', { class: 'time', value: tm.timeUtc }).text(' ' + this.getShortTimeText(new Date(tm.timeUtc.toString())) + ' '); //The Json object seem to become string rather than Date. A bug in SignalR JS? Now I have to cast it 
             var $originText = $('<span/>', { class: 'origin' }).text(' ' + tm.origin + '  ');
             var newLine = $('<li/>', { class: evenLine ? 'even' : 'odd' });
             newLine.append($eventText);
@@ -76,12 +79,19 @@ var Fonlow_Logging;
         };
         ClientFunctions.prototype.addLine = function (tm) {
             var newLine = this.createNewLine(tm);
-            $('#traces').prepend(newLine);
+            $('#traces').append(newLine);
             evenLine = !evenLine;
             lineCount++;
             if (lineCount > this.bufferSize) {
                 $('#traces li:last').remove();
             }
+        };
+        ClientFunctions.prototype.getShortTimeText = function (dt) {
+            var h = dt.getHours().toString();
+            var m = dt.getMinutes().toString();
+            var s = dt.getSeconds().toString();
+            var pp = '00';
+            return pp.substring(0, 2 - h.length) + h + ':' + pp.substring(0, 2 - m.length) + m + ':' + pp.substring(0, 2 - s.length) + s;
         };
         ClientFunctions.prototype.writeMessage = function (m) {
             $('#traces').append('<li>' + m + '</li>');
@@ -109,4 +119,21 @@ var evenLine = false;
 var lineCount = 0;
 var clientFunctions = new Fonlow_Logging.ClientFunctions();
 var managementFunctions = new Fonlow_Logging.ManagementFunctions();
+var originalText = "saveTime";
+//$("span.time").hover(
+//    function () {
+//        originalText = $(this).text();
+//        $(this).text($(this).attr("value"));
+//    },
+//    function () {
+//        $(this).text(originalText);
+//    }
+//);
+$(document).on("mouseenter", "span.time", function () {
+    originalText = $(this).text();
+    $(this).text($(this).attr("value"));
+});
+$(document).on("mouseleave", "span.time", function () {
+    $(this).text(originalText);
+});
 //# sourceMappingURL=logging.js.map

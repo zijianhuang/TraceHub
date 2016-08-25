@@ -135,7 +135,7 @@ namespace Fonlow.Logging
 
             if (tm.TimeUtc != null)
             {
-                builder.Append(tm.TimeUtc.Value.ToString("yy-MM-ddTHH:mm:ss:fffZ") + "  ");//To use the timestamp sent from the source.
+                builder.Append(tm.TimeUtc.ToString("yy-MM-ddTHH:mm:ss:fffZ") + "  ");//To use the timestamp sent from the source.
             }
 
             builder.Append(tm.Message);

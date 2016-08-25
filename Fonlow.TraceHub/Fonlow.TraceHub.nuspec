@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>Fonlow.TraceHub</id>
-    <version>1.0.0</version>
+    <version>1.1.0</version>
     <title>Trace Hub</title>
     <authors>Zijian Huang</authors>
     <owners>Zijian Huang</owners>
@@ -11,7 +11,7 @@
     <requireLicenseAcceptance>true</requireLicenseAcceptance>
     <description>Trace Hub components that make your existing ASP.NET MVC Web Application have TraceHub functionality.</description>
     <summary>Trace Hub components that make your existing ASP.NET MVC Web Application have TraceHub functionality.</summary>
-    <releaseNotes>Initial release</releaseNotes>
+    <releaseNotes>Improvement on the Web UI</releaseNotes>
     <copyright>Copyright © Zijian Huang 2016</copyright>
     <tags>ASP API Web Client Fonlow.TraceHub rest restful aspnet aspnet SignalR httpclient</tags>
     <dependencies>

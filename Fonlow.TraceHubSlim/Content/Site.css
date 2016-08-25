@@ -1,5 +1,5 @@
 ﻿body {
-    padding-top : 40px;
+    padding-top: 40px;
     padding-bottom: 20px;
 }
 
@@ -17,28 +17,76 @@ textarea {
 }
 
 
-/*About Logging*/
+/*About TraceHub*/
 li.even {
-    background-color : lightgray;
+    background-color: lightgray;
 }
 
-span.Critical{color: #800000}
-span.Error{color:#FF0000}
-span.Warning{color:#FFA500}
-span.Info{color:#0000FF}
-span.Verbose{color:#808080}
-span.Misc{color:#2F4F4F}
-
-span.time{background-color : #66a9a9}
-span.origin{background-color:burlywood}
-/*Logging*/
-
-div.moduleCategory{
-    background-color:mintcream;
+ul#traces {
 }
 
-input.moduleItem{
-    padding-left:30px;
+span.et {
+    width: 4em;
+    display: inline-block;
+    margin-right: 10px;
+}
+
+span.Critical {
+    color: #800000;
+}
+
+span.Error {
+    color: #FF0000;
+}
+
+span.Warning {
+    color: #FFA500;
+}
+
+span.Info {
+    color: #0000FF;
+}
+
+span.Verbose {
+    color: #808080;
+}
+
+span.Misc {
+    color: #2F4F4F;
+}
+
+span.time {
+    background-color: #66a9a9;
+    min-width: 4em;
+    display: inline-block;
+    margin-right: 6px;
+}
+
+span.origin {
+    background-color: burlywood;
+    min-width: 4em;
+    display: inline-block;
+    margin-right: 6px;
+}
+
+input.clear {
+    margin-top: 5px;
+    margin-left:5px;
+}
+
+.navbar{
+    background-color : darkblue;
+}
+
+
+/*TraceHub*/
+
+div.moduleCategory {
+    background-color: mintcream;
+}
+
+input.moduleItem {
+    padding-left: 30px;
 }
 
 fieldset.modules {
@@ -46,8 +94,8 @@ fieldset.modules {
     border: 1px solid silver;
     padding: 18px;
     border-radius: 4px;
-    display:table-cell;
-    width:250px;
+    display: table-cell;
+    width: 250px;
 }
 
 label {
@@ -136,7 +184,6 @@ div.resultHint {
     font-size: large;
     margin: 0px 0px 0px 0px;
     display: inline-block;
-    
     padding: 0px 0px 0px 0px;
     font-weight: normal;
     line-height: 1.42857143;
@@ -166,16 +213,16 @@ div.resultHint {
     border: none;
 }
 
-.table-noborder > thead > tr > th,
-.table-noborder > tbody > tr > th,
-.table-noborder > tfoot > tr > th,
-.table-noborder > thead > tr > td,
-.table-noborder > tbody > tr > td,
-.table-noborder > tfoot > tr > td {
-    border: none;
-    border-spacing : 0em;
-    margin : 0px 0px 0px 0px;
-}
+    .table-noborder > thead > tr > th,
+    .table-noborder > tbody > tr > th,
+    .table-noborder > tfoot > tr > th,
+    .table-noborder > thead > tr > td,
+    .table-noborder > tbody > tr > td,
+    .table-noborder > tfoot > tr > td {
+        border: none;
+        border-spacing: 0em;
+        margin: 0px 0px 0px 0px;
+    }
 
 .compact1 > thead > tr > th,
 .compact1 > tbody > tr > th,
@@ -183,24 +230,22 @@ div.resultHint {
 .compact1 > thead > tr > td,
 .compact1 > tbody > tr > td,
 .compact1 > tfoot > tr > td {
-    padding : 1px;
+    padding: 1px;
 }
 
 
 
 textarea.form-editor {
-    width:80%;
-    height:auto;
-
+    width: 80%;
+    height: auto;
 }
 
 pre.detail-item {
-/*inline-block make the .symbol button appear in the same line*/
-  display: inline-block;
-  word-break: break-all;
-  word-wrap: break-word;
-  background-color: #f5f5f5;
-  border: none;
-  margin-bottom : 0px;
+    /*inline-block make the .symbol button appear in the same line*/
+    display: inline-block;
+    word-break: break-all;
+    word-wrap: break-word;
+    background-color: #f5f5f5;
+    border: none;
+    margin-bottom: 0px;
 }
-
