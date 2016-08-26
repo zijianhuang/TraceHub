@@ -54,6 +54,7 @@
     <Compile Include="AbortException.cs" />
     <Compile Include="LoggingModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TraceMessage.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\FonlowWebLogging.snk">
