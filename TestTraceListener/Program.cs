@@ -49,6 +49,8 @@ namespace TestTraceListener
             if (args.Length > 0)
             {
                 ActionOnCommand(args[0]);
+                Console.WriteLine("Please press enter to exist.");//need to by some time for the trace listener to send all out. Also make the program stay for the R option.
+                Console.ReadLine();
                 Environment.Exit(0);
             };
 
