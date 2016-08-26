@@ -2,16 +2,6 @@
 ///<reference path="../typings/signalr/signalr.d.ts" />
 var Fonlow_Logging;
 (function (Fonlow_Logging) {
-    //export interface ILoggingClient {
-    //    writeMessage(m: string);
-    //    writeMessages(ms: string[]);
-    //    writeTrace(tm: TraceMessage);
-    //    writeTraces(tms: TraceMessage[]);
-    //}
-    //export interface ILogging {
-    //    writeTrace(tm: TraceMessage);
-    //    writeTraces(tms: TraceMessage[]);
-    //}
     var ClientFunctions = (function () {
         function ClientFunctions() {
             var _this = this;
@@ -24,7 +14,6 @@ var Fonlow_Logging;
                 //Clean up some space first
                 if (lineCount + tms.length > _this.bufferSize) {
                     var numberOfLineToRemove = lineCount + tms.length - _this.bufferSize;
-                    //                $('#traces li:nth-last-child(-n+' + numberOfLineToRemove + ')').remove();//Thanks to this trick http://stackoverflow.com/questions/9443101/how-to-remove-the-n-number-of-first-or-last-elements-with-jquery-in-an-optimal, much faster than my loop
                     $('#traces li:nth-child(-n+' + numberOfLineToRemove + ')').remove(); //Thanks to this trick http://stackoverflow.com/questions/9443101/how-to-remove-the-n-number-of-first-or-last-elements-with-jquery-in-an-optimal, much faster than my loop
                     lineCount -= numberOfLineToRemove;
                 }
@@ -36,8 +25,7 @@ var Fonlow_Logging;
                 });
                 $('#traces').append(itemsToAppend);
                 lineCount += tms.length;
-                //Scroll to bottom
-                $("html, body").animate({ scrollTop: $(document).height() - $(window).height() }); //prepend is too slow, so better just scroll down like the Console
+                _this.ScrollToBottom();
             };
         }
         ClientFunctions.prototype.eventTypeToString = function (t) {
@@ -80,7 +68,7 @@ var Fonlow_Logging;
         };
         ClientFunctions.prototype.addLine = function (tm) {
             //Clean up some space
-            if (lineCount > this.bufferSize) {
+            if (lineCount + 1 > this.bufferSize) {
                 $('#traces li:first').remove();
                 lineCount--;
             }
@@ -88,8 +76,7 @@ var Fonlow_Logging;
             $('#traces').append(newLine);
             evenLine = !evenLine;
             lineCount++;
-            //Scroll to bottom
-            $("html, body").animate({ scrollTop: $(document).height() - $(window).height() }); //prepend is too slow, so better just scroll down like the Console
+            this.ScrollToBottom();
         };
         ClientFunctions.prototype.getShortTimeText = function (dt) {
             var h = dt.getHours().toString();
@@ -105,6 +92,9 @@ var Fonlow_Logging;
             ms.forEach(function (m) {
                 $('#traces').append('<li><strong>' + m + '</li>');
             });
+        };
+        ClientFunctions.prototype.ScrollToBottom = function () {
+            $("html, body").animate({ scrollTop: $(document).height() - $(window).height() });
         };
         return ClientFunctions;
     }());

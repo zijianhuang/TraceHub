@@ -30,7 +30,7 @@ namespace Fonlow.Logging
 
         public bool Execute()
         {
-            loggingSource = new TraceSource(sourceName);
+            loggingSource = new TraceSource(sourceName); //However, the source value won't be "loggingHub" but the source value from the original traces emitted by the source applications.
             Url = System.Configuration.ConfigurationManager.AppSettings[sourceName];
             Password = System.Configuration.ConfigurationManager.AppSettings["loggingHub_Password"];
             UserName = System.Configuration.ConfigurationManager.AppSettings["loggingHub_Username"];

@@ -13,25 +13,12 @@ module Fonlow_Logging {
         processId?: number;
         threadId?: number;
         timeUtc: Date;
-       
+
         origin?: string;
     }
 
 
-    //export interface ILoggingClient {
-    //    writeMessage(m: string);
-    //    writeMessages(ms: string[]);
-    //    writeTrace(tm: TraceMessage);
-    //    writeTraces(tms: TraceMessage[]);
-    //}
-
-    //export interface ILogging {
-    //    writeTrace(tm: TraceMessage);
-    //    writeTraces(tms: TraceMessage[]);
-    //}
-
     export class ClientFunctions {
-
         private eventTypeToString(t: number): string {
             switch (t) {
                 case 1:
@@ -59,7 +46,7 @@ module Fonlow_Logging {
             }
         }
 
-        bufferSize  = 10000;
+        bufferSize = 10000;
 
         private createNewLine(tm: TraceMessage): JQuery {
             var et = this.eventTypeToString(tm.eventType);
@@ -76,7 +63,7 @@ module Fonlow_Logging {
 
         private addLine(tm: TraceMessage) {
             //Clean up some space
-            if (lineCount > this.bufferSize) {
+            if (lineCount+1 > this.bufferSize) {
                 $('#traces li:first').remove();
                 lineCount--;
             }
@@ -86,9 +73,7 @@ module Fonlow_Logging {
             evenLine = !evenLine;
             lineCount++;
 
-            //Scroll to bottom
-            $("html, body").animate({ scrollTop: $(document).height() - $(window).height() });//prepend is too slow, so better just scroll down like the Console
-
+            this.ScrollToBottom();
         }
 
         private getShortTimeText(dt: Date) {
@@ -119,7 +104,6 @@ module Fonlow_Logging {
             //Clean up some space first
             if (lineCount + tms.length > this.bufferSize) {
                 var numberOfLineToRemove = lineCount + tms.length - this.bufferSize;
-//                $('#traces li:nth-last-child(-n+' + numberOfLineToRemove + ')').remove();//Thanks to this trick http://stackoverflow.com/questions/9443101/how-to-remove-the-n-number-of-first-or-last-elements-with-jquery-in-an-optimal, much faster than my loop
                 $('#traces li:nth-child(-n+' + numberOfLineToRemove + ')').remove();//Thanks to this trick http://stackoverflow.com/questions/9443101/how-to-remove-the-n-number-of-first-or-last-elements-with-jquery-in-an-optimal, much faster than my loop
 
                 lineCount -= numberOfLineToRemove;
@@ -137,10 +121,13 @@ module Fonlow_Logging {
 
             lineCount += tms.length;
 
-            //Scroll to bottom
-            $("html, body").animate({ scrollTop: $(document).height() - $(window).height() });//prepend is too slow, so better just scroll down like the Console
-
+            this.ScrollToBottom();
         }
+
+        private ScrollToBottom() {
+            $("html, body").animate({ scrollTop: $(document).height() - $(window).height() });
+        }
+
 
     }
 

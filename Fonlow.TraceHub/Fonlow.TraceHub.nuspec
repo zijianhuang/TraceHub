@@ -9,8 +9,8 @@
     <licenseUrl>https://github.com/zijianhuang/TraceHub/blob/master/LICENSE</licenseUrl>
     <projectUrl>https://github.com/zijianhuang/TraceHub</projectUrl>
     <requireLicenseAcceptance>true</requireLicenseAcceptance>
-    <description>Trace Hub components that make your existing ASP.NET MVC Web Application have TraceHub functionality.</description>
-    <summary>Trace Hub components that make your existing ASP.NET MVC Web Application have TraceHub functionality.</summary>
+    <description>TraceHub components that make your existing ASP.NET MVC Web Application have TraceHub functionality.</description>
+    <summary>TraceHub components that make your existing ASP.NET MVC Web Application have TraceHub functionality.</summary>
     <releaseNotes>Improvement on the Web UI</releaseNotes>
     <copyright>Copyright © Zijian Huang 2016</copyright>
     <tags>ASP API Web Client Fonlow.TraceHub rest restful aspnet aspnet SignalR httpclient</tags>

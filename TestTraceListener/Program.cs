@@ -17,12 +17,8 @@ namespace TestTraceListener
         {
             Console.WriteLine("This program is to stress test ToHubTraceListener and TraceToWeb. ");
 
-
-
-            while(true)
+            Action<string> ActionOnCommand = (r) =>
             {
-                Console.WriteLine("Press O and enter to trace 1, T to trace 10, S to trace sequential 5000, C to trace concurrent 5000, and Q to quit ");
-                var r = Console.ReadLine();
                 r = r.ToUpper();
                 switch (r)
                 {
@@ -47,6 +43,21 @@ namespace TestTraceListener
                     default:
                         break;
                 }
+
+            };
+
+            if (args.Length > 0)
+            {
+                ActionOnCommand(args[0]);
+                Environment.Exit(0);
+            };
+
+
+            while (true)
+            {
+                Console.WriteLine("Press O and enter to trace 1, T to trace 10, S to trace sequential 5000, C to trace concurrent 5000, and Q to quit ");
+                var rl = Console.ReadLine();
+                ActionOnCommand(rl);
             }
 
         }
