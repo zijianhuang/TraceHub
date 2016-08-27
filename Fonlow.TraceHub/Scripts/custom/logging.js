@@ -6,7 +6,7 @@ var Fonlow_Logging;
         function ClientFunctions() {
             var _this = this;
             this.bufferSize = 10000;
-            this.scrollToBottomSuspended = false;
+            this.stayWithLatest = true;
             this.writeTrace = function (tm) {
                 _this.addLine(tm);
             };
@@ -95,12 +95,12 @@ var Fonlow_Logging;
             });
         };
         ClientFunctions.prototype.scrollToBottom = function () {
-            if (!this.scrollToBottomSuspended) {
-                $("html, body").animate({ scrollTop: $(document).height() - $(window).height() });
+            if (this.stayWithLatest) {
+                $("html, body").animate({ scrollTop: $(document).height() - $(window).height() }, 100);
             }
         };
         ClientFunctions.prototype.scrollToBottomSuspendedToggle = function (checked, id) {
-            this.scrollToBottomSuspended = checked;
+            this.stayWithLatest = checked;
         };
         return ClientFunctions;
     }());

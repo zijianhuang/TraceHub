@@ -48,7 +48,7 @@ module Fonlow_Logging {
 
         bufferSize = 10000;
 
-        scrollToBottomSuspended: boolean = false;
+        stayWithLatest: boolean = true;
 
         private createNewLine(tm: TraceMessage): JQuery {
             var et = this.eventTypeToString(tm.eventType);
@@ -127,13 +127,13 @@ module Fonlow_Logging {
         }
 
         private scrollToBottom() {
-            if (!this.scrollToBottomSuspended) {
-                $("html, body").animate({ scrollTop: $(document).height() - $(window).height() });
+            if (this.stayWithLatest) {
+                $("html, body").animate({ scrollTop: $(document).height() - $(window).height() }, 100);
             }
         }
 
         scrollToBottomSuspendedToggle(checked: boolean, id: string) {
-            this.scrollToBottomSuspended = checked;
+            this.stayWithLatest = checked;
         }
 
 
