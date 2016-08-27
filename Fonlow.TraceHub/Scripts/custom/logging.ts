@@ -48,6 +48,8 @@ module Fonlow_Logging {
 
         bufferSize = 10000;
 
+        scrollToBottomSuspended: boolean = false;
+
         private createNewLine(tm: TraceMessage): JQuery {
             var et = this.eventTypeToString(tm.eventType);
             var $eventText = $('<span/>', { class: et + ' et' }).text(et + ': ');
@@ -73,7 +75,7 @@ module Fonlow_Logging {
             evenLine = !evenLine;
             lineCount++;
 
-            this.ScrollToBottom();
+            this.scrollToBottom();
         }
 
         private getShortTimeText(dt: Date) {
@@ -121,11 +123,17 @@ module Fonlow_Logging {
 
             lineCount += tms.length;
 
-            this.ScrollToBottom();
+            this.scrollToBottom();
         }
 
-        private ScrollToBottom() {
-            $("html, body").animate({ scrollTop: $(document).height() - $(window).height() });
+        private scrollToBottom() {
+            if (!this.scrollToBottomSuspended) {
+                $("html, body").animate({ scrollTop: $(document).height() - $(window).height() });
+            }
+        }
+
+        scrollToBottomSuspendedToggle(checked: boolean, id: string) {
+            this.scrollToBottomSuspended = checked;
         }
 
 

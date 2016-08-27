@@ -21,12 +21,8 @@
             <div class="navbar-collapse collapse">
 
                 <ul class="nav navbar-nav">
-                    <li class="bottom"><input type="button" value="Clear" onclick="managementFunctions.clear()" class="btn btn-default clear" /></li>
-
-                    @*@if (Request.IsAuthenticated && Fonlow.TraceHub.Security.AccountHelper.IsApiUser(User))
-                    {
-                        <li>@Html.ActionLink("Logging", "Index", "Logging", new { area = "" }, null)</li>
-                    }*@
+                    <li class="bottom"><input type="button" value="Clear" onclick="managementFunctions.clear()" class="btn btn-default navbar-btn " /></li>
+                    <li class="checkbox-inline bottom"><label class="navbar-text"><input type="checkbox" id="scrollToBottomSuspended" class="toolbar" onclick="clientFunctions.scrollToBottomSuspendedToggle(this.checked, this.id)" />Stay</label></li>
                 </ul>
                 @Html.Partial("_LoginPartial")
             </div>
