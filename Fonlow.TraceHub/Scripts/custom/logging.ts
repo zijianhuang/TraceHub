@@ -128,7 +128,7 @@ module Fonlow_Logging {
 
         private scrollToBottom() {
             if (this.stayWithLatest) {
-                $("html, body").animate({ scrollTop: $(document).height() - $(window).height() }, 100);
+                $('html, body').scrollTop($(document).height());
             }
         }
 

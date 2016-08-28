@@ -96,7 +96,7 @@ var Fonlow_Logging;
         };
         ClientFunctions.prototype.scrollToBottom = function () {
             if (this.stayWithLatest) {
-                $("html, body").animate({ scrollTop: $(document).height() - $(window).height() }, 100);
+                $('html, body').scrollTop($(document).height());
             }
         };
         ClientFunctions.prototype.scrollToBottomSuspendedToggle = function (checked, id) {
