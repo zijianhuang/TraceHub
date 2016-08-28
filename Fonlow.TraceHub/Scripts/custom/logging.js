@@ -121,15 +121,6 @@ var lineCount = 0;
 var clientFunctions = new Fonlow_Logging.ClientFunctions();
 var managementFunctions = new Fonlow_Logging.ManagementFunctions();
 var originalText = "saveTime";
-//$("span.time").hover(
-//    function () {
-//        originalText = $(this).text();
-//        $(this).text($(this).attr("value"));
-//    },
-//    function () {
-//        $(this).text(originalText);
-//    }
-//);
 $(document).on("mouseenter", "span.time", function () {
     originalText = $(this).text();
     $(this).text($(this).attr("value"));
@@ -137,3 +128,4 @@ $(document).on("mouseenter", "span.time", function () {
 $(document).on("mouseleave", "span.time", function () {
     $(this).text(originalText);
 });
+//# sourceMappingURL=logging.js.map
