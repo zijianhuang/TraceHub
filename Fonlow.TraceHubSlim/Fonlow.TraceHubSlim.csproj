@@ -92,6 +92,7 @@
     <Content Include="Scripts\jquery-3.1.0.min.map" />
     <Content Include="PackNuGet.bat" />
     <Content Include="Fonlow.TraceHub.Slim.nuspec" />
+    <Content Include="CopyForLocalIIS.bat" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
