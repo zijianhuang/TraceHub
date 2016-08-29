@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <package >
   <metadata>
-    <id>Fonlow.TraceHub</id>
+    <id>Fonlow.TraceHub.MVC</id>
     <version>1.1.0</version>
     <title>Trace Hub</title>
     <authors>Zijian Huang</authors>

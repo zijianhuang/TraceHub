@@ -22,7 +22,7 @@ is a Windows console application that displays traces aggregated in TraceHub whi
 
 ## NuGet packages
 
-#### [Fonlow.TraceHub](https://www.nuget.org/packages/Fonlow.TraceHub/)
+#### [Fonlow.TraceHub.MVC](https://www.nuget.org/packages/Fonlow.TraceHub.MVC/)
 
 #### [Fonlow.TraceHub.Slim](https://www.nuget.org/packages/Fonlow.TraceHub.Slim/)
 
