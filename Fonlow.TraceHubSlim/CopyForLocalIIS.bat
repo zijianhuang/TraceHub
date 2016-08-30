@@ -9,4 +9,6 @@ xcopy Content\Site.css %target%Content\ /Y /D
 
 copy Web.config %target%web.config /Y /D
 copy index.html %target% /Y /D
+c:\green\XmlPreprocess\bin\XmlPreprocess.exe /i Web.config /x C:\Release\TraceHub\settings.xml /o %target%web.config /e Test /clean
+
 pause
