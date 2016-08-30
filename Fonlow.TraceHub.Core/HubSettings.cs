@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Configuration;
+using NetTools;
 
 namespace Fonlow.TraceHub
 {
@@ -16,31 +17,34 @@ namespace Fonlow.TraceHub
 
         private HubSettings()
         {
-            AllowedIpAddresses= System.Configuration.ConfigurationManager.AppSettings["loggingHub_AllowedIpAddresses"];
+            var rangesText= System.Configuration.ConfigurationManager.AppSettings["loggingHub_AllowedIpAddresses"];
+            AllowedIpAddresses = IPAddressRangesHelper.ParseIPAddressRanges(rangesText);
         }
 
         /// <summary>
-        /// A CSV of IP addresses. When this is not null or empty, only connections from these IP addresses will be allowed to call Hub server functions
+        /// A CSV of IP addresses, ranges and subnet. When this is not null or empty, only connections from these IP addresses will be allowed to call Hub server functions
         /// </summary>
-        /// <remarks>To restrict client connections like Web browsers, you have better to do the restrictions on the Web server like IIS. In the future, ip address range may be supported.</remarks>
-        public string AllowedIpAddresses { get; private set; }
+        /// <remarks>To restrict client connections like Web browsers, you have better to do the restrictions on the Web server like IIS.</remarks>
+        public IPAddressRange[] AllowedIpAddresses { get; private set; }
 
         public bool ClientCallRestricted
         {
             get
             {
-                return !String.IsNullOrWhiteSpace(AllowedIpAddresses);
+                return AllowedIpAddresses != null;
             }
         }
 
         public bool AllowedToCallServer(string ipAddress)
         {
-            if (String.IsNullOrWhiteSpace(AllowedIpAddresses))
+            if (AllowedIpAddresses==null)
             {
                 return true;
             }
 
-            return AllowedIpAddresses.Contains(ipAddress);
+            return AllowedIpAddresses.IsInRanges(ipAddress);
         }
+
+  
     }
 }

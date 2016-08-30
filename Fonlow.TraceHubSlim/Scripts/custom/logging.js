@@ -1,4 +1,5 @@
-
+///<reference path="../typings/jquery/jquery.d.ts" />
+///<reference path="../typings/signalr/signalr.d.ts" />
 var Fonlow_Logging;
 (function (Fonlow_Logging) {
     var ClientFunctions = (function () {
@@ -126,21 +127,5 @@ $(document).on("mouseenter", "span.time", function () {
 });
 $(document).on("mouseleave", "span.time", function () {
     $(this).text(originalText);
-});
-
-$(function () {
-    // Reference the auto-generated proxy for the hub.
-    var logging = $.connection.loggingHub;
-
-    logging.client.writeTrace = clientFunctions.writeTrace;
-    logging.client.writeTraces = clientFunctions.writeTraces;
-    logging.client.writeMessage = clientFunctions.writeMessage;
-    logging.client.writeMessages = clientFunctions.writeMessages;
-
-    // Start the connection. Better with these 2 transports. The others are not too slow for this TraceHub
-    $.connection.hub.start({ transport: ['webSockets', 'longPolling'] }).done(function () {
-
-
-    });
 });
 //# sourceMappingURL=logging.js.map

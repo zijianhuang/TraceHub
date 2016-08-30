@@ -72,6 +72,9 @@
       <Link>Properties\SolutionInfo.cs</Link>
     </Compile>
     <Compile Include="HubSettings.cs" />
+    <Compile Include="IPAddressRange\Bits.cs" />
+    <Compile Include="IPAddressRange\IpAddressRange.cs" />
+    <Compile Include="IPAddressRange\IPAddressRangesHelper.cs" />
     <Compile Include="LoggingHub.cs" />
     <Compile Include="LoggingHubContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
