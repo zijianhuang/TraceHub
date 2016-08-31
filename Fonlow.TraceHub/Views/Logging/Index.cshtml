@@ -70,6 +70,14 @@
                 $('input#clients').click(function () { logging.server.getAllClients(); });
 
                 logging.server.reportClientType(2);
+
+                logging.server.retrieveClientSettings().done(function (result) {
+                    clientSettings = result;
+
+                    $('input#clients').toggle(clientSettings.advancedMode);
+                    clientFunctions.bufferSize = clientSettings.bufferSize;
+                })
+                
             });
 
         });

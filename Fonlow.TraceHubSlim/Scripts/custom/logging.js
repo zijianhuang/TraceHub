@@ -5,7 +5,7 @@ var Fonlow_Logging;
     var ClientFunctions = (function () {
         function ClientFunctions() {
             var _this = this;
-            this.bufferSize = 10000;
+            this.bufferSize = 10000; //this will be altered by Web.config through a server call retrieveClientSettings once the signalR connection is established.
             this.stayWithLatest = true;
             this.writeTrace = function (tm) {
                 _this.addLine(tm);
@@ -122,6 +122,7 @@ var lineCount = 0;
 var clientFunctions = new Fonlow_Logging.ClientFunctions();
 var managementFunctions = new Fonlow_Logging.ManagementFunctions();
 var originalText = "saveTime";
+var clientSettings;
 $(document).on("mouseenter", "span.time", function () {
     originalText = $(this).text();
     $(this).text($(this).attr("value"));

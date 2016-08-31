@@ -125,6 +125,11 @@ namespace Fonlow.TraceHub
             ClientsDic.Instance.UpdateClientType(Context.ConnectionId, clientType);
         }
 
+        public ClientSettings RetrieveClientSettings()
+        {
+            return HubSettings.Instance.ClientSettings;
+        }
+
         #endregion
     }
 

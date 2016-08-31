@@ -17,6 +17,10 @@ module Fonlow_Logging {
         origin?: string;
     }
 
+    export interface ClientSettings {
+        bufferSize: number;
+        advancedMode: boolean;
+    }
 
     export class ClientFunctions {
         private eventTypeToString(t: number): string {
@@ -46,7 +50,7 @@ module Fonlow_Logging {
             }
         }
 
-        bufferSize = 10000;
+        bufferSize = 10000;//this will be altered by Web.config through a server call retrieveClientSettings once the signalR connection is established.
 
         stayWithLatest: boolean = true;
 
@@ -158,6 +162,8 @@ var clientFunctions = new Fonlow_Logging.ClientFunctions();
 var managementFunctions = new Fonlow_Logging.ManagementFunctions();
 
 var originalText = "saveTime";
+
+var clientSettings: Fonlow_Logging.ClientSettings;
 
 $(document).on("mouseenter", "span.time", function () {
     originalText = $(this).text();

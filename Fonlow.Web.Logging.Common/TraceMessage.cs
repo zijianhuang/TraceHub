@@ -95,4 +95,19 @@ namespace Fonlow.Diagnostics
         Console = 4
     }
 
+    /// <summary>
+    /// It is up to the client to hornor these settings.
+    /// </summary>
+    [DataContract]
+    public class ClientSettings
+    {
+        [DataMember(Name = "bufferSize")]
+        public int BufferSize;
+
+        [DataMember(Name = "advancedMode")]
+        public bool AdvancedMode;
+
+
+    }
+
 }

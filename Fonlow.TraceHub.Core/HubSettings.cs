@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Configuration;
 using NetTools;
+using Fonlow.Diagnostics;
 
 namespace Fonlow.TraceHub
 {
@@ -17,8 +18,25 @@ namespace Fonlow.TraceHub
 
         private HubSettings()
         {
-            var rangesText= System.Configuration.ConfigurationManager.AppSettings["loggingHub_AllowedIpAddresses"];
+            var rangesText= ConfigurationManager.AppSettings["loggingHub_AllowedIpAddresses"];
             AllowedIpAddresses = IPAddressRangesHelper.ParseIPAddressRanges(rangesText);
+
+            int bufferSize = 2000;
+            int.TryParse(ConfigurationManager.AppSettings["loggingHub_ClientBufferSize"], out bufferSize);
+            if (bufferSize>Constants.ClientBufferSizeMax)
+            {
+                bufferSize = Constants.ClientBufferSizeMax;
+            }
+            else if (bufferSize< Constants.ClientBufferSizeMin)
+            {
+                bufferSize = Constants.ClientBufferSizeMin;
+            }
+
+            ClientSettings = new ClientSettings
+            {
+                AdvancedMode=String.Equals("true", ConfigurationManager.AppSettings["loggingHub_AdvancedMode"], StringComparison.CurrentCultureIgnoreCase),
+                BufferSize=bufferSize,
+            };
         }
 
         /// <summary>
@@ -26,6 +44,8 @@ namespace Fonlow.TraceHub
         /// </summary>
         /// <remarks>To restrict client connections like Web browsers, you have better to do the restrictions on the Web server like IIS.</remarks>
         public IPAddressRange[] AllowedIpAddresses { get; private set; }
+
+        public ClientSettings ClientSettings { get; private set; }
 
         public bool ClientCallRestricted
         {

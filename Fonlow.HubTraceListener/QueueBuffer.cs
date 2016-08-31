@@ -43,7 +43,9 @@ namespace Fonlow.Diagnostics
 
         bool SendSome(LoggingConnection loggingConnection)
         {
-            const int max = 200;  //200 seems like a good max. 50 gets 2250 milliconds, 100 gets 1700, 200 get 1450 for sending total 5000 trace messages
+            const int max = Fonlow.TraceHub.Constants.ClientBufferSizeMin;  //200 seems like a good max. 50 gets 2250 milliconds, 100 gets 1700, 200 get 1450 for sending total 5000 trace messages
+            // and this also make the client side queue calculation is healthy: var numberOfLineToRemove = lineCount + tms.length - this.bufferSize;
+
             int i = 0;
             TraceMessage tm;
             while ((sendingBuffer.Count<max) &&  pendingQueue.TryDequeue(out tm))

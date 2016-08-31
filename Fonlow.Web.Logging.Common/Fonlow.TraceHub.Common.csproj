@@ -52,6 +52,7 @@
       <Link>Properties\SolutionInfo.cs</Link>
     </Compile>
     <Compile Include="AbortException.cs" />
+    <Compile Include="Constants.cs" />
     <Compile Include="HubInterfaces.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TokenResponseModel.cs" />

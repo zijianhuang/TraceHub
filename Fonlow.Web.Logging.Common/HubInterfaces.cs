@@ -22,6 +22,8 @@ namespace Fonlow.Diagnostics
         ClientInfo[] GetAllClients();
 
         void ReportClientType(ClientType clientType);
+
+        ClientSettings RetrieveClientSettings();
     }
 
 
