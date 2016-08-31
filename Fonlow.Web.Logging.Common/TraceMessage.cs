@@ -47,4 +47,49 @@ namespace Fonlow.Diagnostics
         public string Origin { get; set; }
 
     }
+
+    [DataContract]
+    public class ClientInfo
+    {
+        /// <summary>
+        /// GUID string initiated by a client
+        /// </summary>
+        [DataMember(Name ="id")]
+        public string Id { get; set; }
+
+        [DataMember(Name = "username")]
+        public string Username { get; set; }
+
+        [DataMember(Name = "ipAddress")]
+        public string IpAddress { get; set; }
+
+        [DataMember(Name = "connectedTimeUtc")]
+        public DateTime ConnectedTimeUtc { get; set; }
+
+        /// <summary>
+        /// Reported by a client
+        /// </summary>
+        [DataMember(Name = "clientType")]
+        public ClientType ClientType { get; set; }
+
+        public override string ToString()
+        {
+            return $"HubClient  Id: {Id}; IP Address: {IpAddress}; Connected UTC: {ConnectedTimeUtc}; User: {Username}; Type: {ClientType}";
+        }
+    }
+
+    [Flags]
+    [DataContract]
+    public enum ClientType
+    {
+        [EnumMember]
+        Undefined=0,
+        [EnumMember]
+        TraceListener = 1,
+        [EnumMember]
+        Display = 2,
+        [EnumMember]
+        Manager = 4
+    }
+
 }

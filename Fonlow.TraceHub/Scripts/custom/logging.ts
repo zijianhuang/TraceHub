@@ -55,17 +55,18 @@ module Fonlow_Logging {
             var $eventText = $('<span/>', { class: et + ' et' }).text(et + ': ');
             var $timeText = $('<span/>', { class: 'time', value: tm.timeUtc }).text(' ' + this.getShortTimeText(new Date(tm.timeUtc.toString())) + ' ');//The Json object seem to become string rather than Date. A bug in SignalR JS? Now I have to cast it 
             var $originText = $('<span/>', { class: 'origin' }).text(' ' + tm.origin + '  ');
+            var $messageText = $('<span/>', { class: 'message' }).text(tm.message);
             var newLine = $('<li/>', { class: evenLine ? 'even' : 'odd' });
             newLine.append($eventText);
             newLine.append($timeText);
             newLine.append($originText);
-            newLine.append(tm.message);
+            newLine.append($messageText);
             return newLine;
         }
 
         private addLine(tm: TraceMessage) {
             //Clean up some space
-            if (lineCount+1 > this.bufferSize) {
+            if (lineCount + 1 > this.bufferSize) {
                 $('#traces li:first').remove();
                 lineCount--;
             }
@@ -165,4 +166,13 @@ $(document).on("mouseenter", "span.time", function () {
 
 $(document).on("mouseleave", "span.time", function () {
     $(this).text(originalText);
+});
+
+$(document).on("dblclick", "span.message", function () {
+    $(this).replaceWith(function () {
+        return $('<pre/>', {
+            text: $(this).text()
+
+        });
+    });
 });

@@ -23,6 +23,7 @@
                 <ul class="nav navbar-nav">
                     <li class="bottom"><input type="button" value="Clear" onclick="managementFunctions.clear()" class="btn btn-default navbar-btn " /></li>
                     <li class="checkbox-inline bottom"><label class="navbar-text"><input type="checkbox" id="stayWithLatest" checked="checked" onclick="clientFunctions.scrollToBottomSuspendedToggle(this.checked, this.id)" />Stay with latest</label></li>
+                    <li class="bottom"><input type="button" id="clients" value="Clients" class="btn btn-default navbar-btn " /></li>
                 </ul>
                 @Html.Partial("_LoginPartial")
             </div>
@@ -33,7 +34,7 @@
         <h3>Traces from Origins and Sources</h3>
 
         <div class="container">
-            <ul id="traces"></ul>
+            <ul id="traces" class="clearfix"></ul>
         </div>
 
         <hr />
@@ -62,9 +63,15 @@
             logging.client.writeMessage = clientFunctions.writeMessage;
             logging.client.writeMessages = clientFunctions.writeMessages;
 
+            
+
             // Start the connection. Better with these 2 transports. The others are not too slow for this TraceHub
             $.connection.hub.start({ transport: ['webSockets', 'longPolling'] }).done(function () {
+                $('input#clients').click(function () { logging.server.getAllClients(); });
+
+                logging.server.reportClientType(2);
             });
+
         });
     </script>
 </body>

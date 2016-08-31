@@ -71,6 +71,7 @@
     <Compile Include="..\SolutionInfo.cs">
       <Link>Properties\SolutionInfo.cs</Link>
     </Compile>
+    <Compile Include="ClientsDic.cs" />
     <Compile Include="HubSettings.cs" />
     <Compile Include="IPAddressRange\Bits.cs" />
     <Compile Include="IPAddressRange\IpAddressRange.cs" />

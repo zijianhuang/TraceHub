@@ -114,7 +114,7 @@ namespace Fonlow.Diagnostics
             try
             {
 #if DEBUG
-                Console.WriteLine($"HubConnection to {hubInfo.Url} starting ...");
+                Console.WriteLine($"HubConnection to {hubInfo.Url} starting ...");// I know this will go to a dummy output in service apps. Just to save 1 line here through DEBUG directive.
 #endif
                 if (!isAnonymous)
                 {
@@ -133,6 +133,7 @@ namespace Fonlow.Diagnostics
 #if DEBUG
                 Console.WriteLine("HubConnection state: " + hubConnection.State);
 #endif
+                Invoke("ReportClientType", ClientType.TraceListener);
                 return hubConnection.State == ConnectionState.Connected;
             }
             catch (AggregateException ex)

@@ -18,6 +18,10 @@ namespace Fonlow.Diagnostics
         void UploadTrace(TraceMessage traceMessage);
 
         void UploadTraces(IList<TraceMessage> traceMessages);
+
+        ClientInfo[] GetAllClients();
+
+        void ReportClientType(ClientType clientType);
     }
 
 
