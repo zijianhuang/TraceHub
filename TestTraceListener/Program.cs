@@ -84,7 +84,9 @@ namespace TestTraceListener
 
         static void TraceTest()
         {
-            Trace.TraceInformation("Structured tracing is available since .NET Framework 2 through TraceSource and TraceEventCache etc. Structured logging is done through TraceListener derived classes, including those in Essential Diagnostics.");
+            Trace.TraceInformation(@"Structured tracing is available since .NET Framework 2 through TraceSource and TraceEventCache etc. Structured logging is done through TraceListener derived classes, including those in Essential Diagnostics.
+
+To add a trace listener, edit the configuration file that corresponds to the name of your application. Within this file, you can add a listener, set its type and set its parameter, remove a listener, or clear all the listeners previously set by the application.");
             Trace.TraceWarning("some warnings.");
             Trace.TraceError("some errors.");
             Trace.WriteLine("just WriteLine.");
