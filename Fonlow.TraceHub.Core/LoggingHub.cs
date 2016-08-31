@@ -36,7 +36,6 @@ namespace Fonlow.TraceHub
         {
             ClientInfo clientInfo;
             ClientsDic.Instance.Remove(Context.ConnectionId, out clientInfo);
-            Debug.WriteLineIf(clientInfo!=null, $"OnConnected:  stopCalled: {stopCalled};   ConnectionId: {Context.ConnectionId}; UserIdentityName: {Context.User.Identity.Name}; Client IP address: {clientInfo.IpAddress }; ");
             return base.OnDisconnected(stopCalled);
         }
         #endregion
