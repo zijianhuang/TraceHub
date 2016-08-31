@@ -27,6 +27,7 @@ namespace Fonlow.TraceHub
                 ConnectedTimeUtc = DateTime.UtcNow,
                 Username= Context.User.Identity.Name,
                 IpAddress=GetRemoteIpAddress(),
+                UserAgent= Context.Request.Headers["User-Agent"],
             });
             return base.OnConnected();
         }

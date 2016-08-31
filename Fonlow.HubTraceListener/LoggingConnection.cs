@@ -12,7 +12,7 @@ namespace Fonlow.Diagnostics
     {
         HubConnection hubConnection;
 
-        public HubConnection Connection
+        public HubConnection HubConnection
         {
             get
             {
@@ -99,14 +99,14 @@ namespace Fonlow.Diagnostics
 
         void CreateHubConnection()
         {
-            Connection = new HubConnection(hubInfo.Url);
+            HubConnection = new HubConnection(hubInfo.Url);
             //#if DEBUG
             //            hubConnection.TraceLevel = TraceLevels.All;
             //            hubConnection.TraceWriter = Console.Out;
             //#endif
             HubConnectionSubscribeEvents();
 
-            loggingHubProxy = Connection.CreateHubProxy(sourceName);
+            loggingHubProxy = HubConnection.CreateHubProxy(sourceName);
         }
 
         bool ConnectHub()
@@ -327,7 +327,7 @@ namespace Fonlow.Diagnostics
         /// <returns>Null if no connection.</returns>
         public Task Invoke(string method, params object[] args)
         {
-            if ((Connection == null) || (Connection.State != ConnectionState.Connected))
+            if ((HubConnection == null) || (HubConnection.State != ConnectionState.Connected))
                 return null;
 
             return loggingHubProxy.Invoke(method, args);
@@ -391,9 +391,9 @@ namespace Fonlow.Diagnostics
             {
                 if (disposing)
                 {
-                    if (Connection != null)
+                    if (HubConnection != null)
                     {
-                        Connection.Dispose();
+                        HubConnection.Dispose();
                     }
 
                     lockConnection.Dispose();

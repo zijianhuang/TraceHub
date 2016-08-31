@@ -6,6 +6,7 @@ using System.Threading;
 using Fonlow.Diagnostics;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Fonlow.Logging
 {
@@ -77,6 +78,7 @@ namespace Fonlow.Logging
             var ok = DoFunctionRepeatedly(20, ConnectHub);
             return ok;
         }
+        IHubProxy loggingHubProxy;
 
         IDisposable writeMessageHandler;
         IDisposable writeMessagesHandler;
@@ -101,7 +103,7 @@ namespace Fonlow.Logging
 
         void HubConnectionProxySubscribeServerEvents()
         {
-            IHubProxy loggingHubProxy = hubConnection.CreateHubProxy(sourceName);
+            loggingHubProxy = hubConnection.CreateHubProxy(sourceName);
 
             writeMessageHandler = loggingHubProxy.On<string>("WriteMessage", s => Console.WriteLine(s));
 
@@ -204,6 +206,7 @@ namespace Fonlow.Logging
 
                 hubConnection.Start().Wait();
                 Debug.WriteLine("HubConnection state: " + hubConnection.State);
+                Invoke("ReportClientType", ClientType.Console);
                 return hubConnection.State == ConnectionState.Connected;
             }
             catch (AggregateException ex)
@@ -243,6 +246,21 @@ namespace Fonlow.Logging
             }
 #endif
         }
+
+        /// <summary>
+        /// Invoke. Null if not successful.
+        /// </summary>
+        /// <param name="method"></param>
+        /// <param name="args"></param>
+        /// <returns>Null if no connection.</returns>
+        public Task Invoke(string method, params object[] args)
+        {
+            if ((hubConnection == null) || (hubConnection.State != ConnectionState.Connected))
+                return null;
+
+            return loggingHubProxy.Invoke(method, args);
+        }
+
 
         private void HubConnection_Error(Exception obj)
         {

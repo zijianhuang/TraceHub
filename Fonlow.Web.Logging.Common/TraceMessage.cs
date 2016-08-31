@@ -72,9 +72,12 @@ namespace Fonlow.Diagnostics
         [DataMember(Name = "clientType")]
         public ClientType ClientType { get; set; }
 
+        [DataMember(Name ="userAgent")]
+        public string UserAgent { get; set; }
+
         public override string ToString()
         {
-            return $"HubClient  Id: {Id}; IP Address: {IpAddress}; Connected UTC: {ConnectedTimeUtc}; User: {Username}; Type: {ClientType}";
+            return $"HubClient  Id: {Id}; IP Address: {IpAddress}; Connected UTC: {ConnectedTimeUtc}; User: {Username}; Type: {ClientType}; UserAgent: {UserAgent}";
         }
     }
 
@@ -87,9 +90,9 @@ namespace Fonlow.Diagnostics
         [EnumMember]
         TraceListener = 1,
         [EnumMember]
-        Display = 2,
+        Browser = 2,
         [EnumMember]
-        Manager = 4
+        Console = 4
     }
 
 }
