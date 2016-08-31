@@ -129,8 +129,8 @@ $(document).on("mouseenter", "span.time", function () {
 $(document).on("mouseleave", "span.time", function () {
     $(this).text(originalText);
 });
-$(document).on("dblclick", "span.message", function () {
-    $(this).replaceWith(function () {
+$(document).on("click", "span.origin", function () {
+    $(this).siblings('.message').replaceWith(function () {
         return $('<pre/>', {
             text: $(this).text()
         });
