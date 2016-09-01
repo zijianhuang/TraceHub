@@ -24,6 +24,19 @@
                     <li class="bottom"><input type="button" value="Clear" onclick="managementFunctions.clear()" class="btn btn-default navbar-btn" /></li>
                     <li class="checkbox-inline bottom"><label class="navbar-text"><input type="checkbox" id="stayWithLatest" checked="checked" onclick="clientFunctions.scrollToBottomSuspendedToggle(this.checked, this.id)" />Stay with latest</label></li>
                     <li class="bottom"><input type="button" id="clients" value="Clients" class="btn btn-default navbar-btn " /></li>
+                    <li><label class="navbar-text"></label></li>
+                    <li class="bottom">
+                        <select id="sourceLevels" class="form-control ui-selectable btn-default navbar-btn">
+                            <option value="-1">All</option>
+                            <option value="0">Off</option>
+                            <option value="1">Critical</option>
+                            <option value="3">Error</option>
+                            <option value="7">Warning</option>
+                            <option value="15">Information</option>
+                            <option value="31">Verbose</option>
+                            <option value="65280">ActivityTracing</option>
+                        </select>
+                    </li>
                 </ul>
                 @Html.Partial("_LoginPartial")
             </div>
@@ -63,7 +76,7 @@
             logging.client.writeMessage = clientFunctions.writeMessage;
             logging.client.writeMessages = clientFunctions.writeMessages;
 
-            
+
 
             // Start the connection. Better with these 2 transports. The others are not too slow for this TraceHub
             $.connection.hub.start({ transport: ['webSockets', 'longPolling'] }).done(function () {
@@ -77,7 +90,7 @@
                     $('input#clients').toggle(clientSettings.advancedMode);
                     clientFunctions.bufferSize = clientSettings.bufferSize;
                 })
-                
+
             });
 
         });

@@ -7,11 +7,20 @@ var Fonlow_Logging;
             var _this = this;
             this.bufferSize = 10000; //this will be altered by Web.config through a server call retrieveClientSettings once the signalR connection is established.
             this.stayWithLatest = true;
+            this.sourceLevels = -1; //all
             this.writeTrace = function (tm) {
+                if ((tm.eventType & _this.sourceLevels) == 0)
+                    return;
                 _this.addLine(tm);
             };
             //Write traces in fixed size queue defined by this.bufferSize 
             this.writeTraces = function (tms) {
+                if (_this.sourceLevels > 0) {
+                    tms = tms.filter(function (m) { return (m.eventType & _this.sourceLevels) != 0; });
+                }
+                else if (_this.sourceLevels === 0) {
+                    return;
+                }
                 //Clean up some space first
                 if (lineCount + tms.length > _this.bufferSize) {
                     var numberOfLineToRemove = lineCount + tms.length - _this.bufferSize;
@@ -144,4 +153,6 @@ $(document).on("click", "span.origin", function () {
                 });
     });
 });
-//# sourceMappingURL=logging.js.map
+$(document).on('change', 'select#sourceLevels', function () {
+    clientFunctions.sourceLevels = parseInt(this.value);
+});

@@ -7,6 +7,7 @@ var Fonlow_Logging;
             var _this = this;
             this.bufferSize = 10000; //this will be altered by Web.config through a server call retrieveClientSettings once the signalR connection is established.
             this.stayWithLatest = true;
+            this.sourceLevels = -1; //all
             this.writeTrace = function (tm) {
                 _this.addLine(tm);
             };
@@ -143,5 +144,8 @@ $(document).on("click", "span.origin", function () {
                     text: $(this).text()
                 });
     });
+});
+$(document).on('change', 'select#sourceLevels', function () {
+    clientFunctions.sourceLevels = parseInt(this.value);
 });
 //# sourceMappingURL=logging.js.map

@@ -54,6 +54,8 @@ module Fonlow_Logging {
 
         stayWithLatest: boolean = true;
 
+        sourceLevels: number = -1;//all
+
         private createNewLine(tm: TraceMessage): JQuery {
             var et = this.eventTypeToString(tm.eventType);
             var $eventText = $('<span/>', { class: et + ' et' }).text(et + ': ');
@@ -103,11 +105,21 @@ module Fonlow_Logging {
         }
 
         writeTrace = (tm: TraceMessage) => { //Arrow function to ensure "this" is about this instance of the class, rather than caller SingleR Hub
+            if ((tm.eventType & this.sourceLevels) == 0)
+                return;
+
             this.addLine(tm);
         }
 
         //Write traces in fixed size queue defined by this.bufferSize 
         writeTraces = (tms: TraceMessage[]) => {
+            if (this.sourceLevels > 0) {
+                tms = tms.filter((m) => (m.eventType & this.sourceLevels) != 0);
+            } else if (this.sourceLevels === 0) {
+                return;
+            }
+
+
             //Clean up some space first
             if (lineCount + tms.length > this.bufferSize) {
                 var numberOfLineToRemove = lineCount + tms.length - this.bufferSize;
@@ -190,4 +202,8 @@ $(document).on("click", "span.origin", function () {
             ;
 
     });
+});
+
+$(document).on('change', 'select#sourceLevels', function () {
+    clientFunctions.sourceLevels = parseInt(this.value);
 });
