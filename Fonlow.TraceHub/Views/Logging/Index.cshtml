@@ -77,10 +77,13 @@
             logging.client.writeMessages = clientFunctions.writeMessages;
 
 
-
             // Start the connection. Better with these 2 transports. The others are not too slow for this TraceHub
             $.connection.hub.start({ transport: ['webSockets', 'longPolling'] }).done(function () {
-                $('input#clients').click(function () { logging.server.getAllClients(); });
+                $('input#clients').click(function () {
+                    logging.server.getAllClients().done(function (clientsInfo) {
+                        webUiFunctions.renderClientsInfo(clientsInfo);
+                    });
+                });
 
                 logging.server.reportClientType(2);
 

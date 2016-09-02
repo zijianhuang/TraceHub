@@ -106,13 +106,13 @@ namespace Fonlow.TraceHub
             // LoggingHubContext.Instance.Pend(traceMessages);
         }
 
-        public ClientInfo[] GetAllClients()
+        public IList<ClientInfo> GetAllClients()
         {
             if (NotAllowed())
                 return null;
 
             var r = ClientsDic.Instance.GetAllClients();
-            Report(TraceEventType.Information, String.Join(Environment.NewLine, r.Select(d => d.ToString())));
+            //Report(TraceEventType.Information, String.Join(Environment.NewLine, r.Select(d => d.ToString())));
             return r;
         }
 

@@ -40,9 +40,9 @@ namespace Fonlow.TraceHub
             clientInfo.ClientType = clientType;
         }
 
-        public ClientInfo[] GetAllClients()
+        public IList<ClientInfo> GetAllClients()
         {
-            return dic.Values.ToArray();
+            return dic.Values.ToList();
         }
     }
 

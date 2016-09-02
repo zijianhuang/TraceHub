@@ -22,6 +22,41 @@ module Fonlow_Logging {
         advancedMode: boolean;
     }
 
+    export interface ClientInfo {
+        id: string;
+        username: string;
+        ipAddress: string;
+        connectedTimeUtc: Date;
+        clientType: ClientType;
+        userAgent: string;
+
+    }
+
+    export enum ClientType { Undefined = 0, TraceListener = 1, Browser = 2, Console = 4 }
+
+    export class WebUiFunctions {
+        renderClientsInfo(clientsInfo: ClientInfo[]) {
+            var tms = clientsInfo.map(function (m) {
+                var s = 'HubClient id: ' + m.id + '; IP Address: ' + m.ipAddress + '; Connected UTC: ' + m.connectedTimeUtc + '; User: ' + m.username + '; Type: ' + Fonlow_Logging.ClientType[m.clientType] + '; UserAgent: ' + m.userAgent;
+                return s;
+            });
+
+            var ss = tms.join('\n');
+            var tm: TraceMessage = {
+                origin: 'TraceHub',
+                source: 'TraceHub',
+                message: ss,
+                eventType: 8,
+                timeUtc: new Date(Date.now()),
+
+            };
+
+            clientFunctions.writeTrace(tm);
+        }
+
+
+    }
+
     export class ClientFunctions {
         private eventTypeToString(t: number): string {
             switch (t) {
@@ -153,7 +188,6 @@ module Fonlow_Logging {
             this.stayWithLatest = checked;
         }
 
-
     }
 
     export class ManagementFunctions {
@@ -170,6 +204,8 @@ var evenLine: boolean = false;
 var lineCount = 0;
 
 var clientFunctions = new Fonlow_Logging.ClientFunctions();
+
+var webUiFunctions = new Fonlow_Logging.WebUiFunctions();
 
 var managementFunctions = new Fonlow_Logging.ManagementFunctions();
 

@@ -2,6 +2,34 @@
 ///<reference path="../typings/signalr/signalr.d.ts" />
 var Fonlow_Logging;
 (function (Fonlow_Logging) {
+    (function (ClientType) {
+        ClientType[ClientType["Undefined"] = 0] = "Undefined";
+        ClientType[ClientType["TraceListener"] = 1] = "TraceListener";
+        ClientType[ClientType["Browser"] = 2] = "Browser";
+        ClientType[ClientType["Console"] = 4] = "Console";
+    })(Fonlow_Logging.ClientType || (Fonlow_Logging.ClientType = {}));
+    var ClientType = Fonlow_Logging.ClientType;
+    var WebUiFunctions = (function () {
+        function WebUiFunctions() {
+        }
+        WebUiFunctions.prototype.renderClientsInfo = function (clientsInfo) {
+            var tms = clientsInfo.map(function (m) {
+                var s = 'HubClient id: ' + m.id + '; IP Address: ' + m.ipAddress + '; Connected UTC: ' + m.connectedTimeUtc + '; User: ' + m.username + '; Type: ' + Fonlow_Logging.ClientType[m.clientType] + '; UserAgent: ' + m.userAgent;
+                return s;
+            });
+            var ss = tms.join('\n');
+            var tm = {
+                origin: 'TraceHub',
+                source: 'TraceHub',
+                message: ss,
+                eventType: 8,
+                timeUtc: new Date(Date.now()),
+            };
+            clientFunctions.writeTrace(tm);
+        };
+        return WebUiFunctions;
+    }());
+    Fonlow_Logging.WebUiFunctions = WebUiFunctions;
     var ClientFunctions = (function () {
         function ClientFunctions() {
             var _this = this;
@@ -129,6 +157,7 @@ var Fonlow_Logging;
 var evenLine = false;
 var lineCount = 0;
 var clientFunctions = new Fonlow_Logging.ClientFunctions();
+var webUiFunctions = new Fonlow_Logging.WebUiFunctions();
 var managementFunctions = new Fonlow_Logging.ManagementFunctions();
 var originalText = "saveTime";
 var clientSettings;
