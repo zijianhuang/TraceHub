@@ -23,7 +23,7 @@ namespace Fonlow.Diagnostics
 
         public HubTraceListener()
         {
-            _loggingConnection = new Lazy<LoggingConnection>(true);
+            _loggingConnection = new Lazy<LoggingConnection>(()=>new LoggingConnection(this), true);
             queueBuffer = new QueueBuffer();
             timer = new Timer(TimerCallback, null, 1000, Timeout.Infinite);
         }

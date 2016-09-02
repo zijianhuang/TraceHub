@@ -130,6 +130,14 @@ namespace Fonlow.TraceHub
             return HubSettings.Instance.ClientSettings;
         }
 
+        public void ReportTraceTemplate(string template)
+        {
+            if (NotAllowed())
+                return;
+
+            ClientsDic.Instance.UpdateTemplate(Context.ConnectionId, template);
+        }
+
         #endregion
     }
 

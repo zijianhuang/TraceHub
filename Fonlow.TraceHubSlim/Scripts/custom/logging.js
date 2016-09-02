@@ -14,7 +14,9 @@ var Fonlow_Logging;
         }
         WebUiFunctions.prototype.renderClientsInfo = function (clientsInfo) {
             var tms = clientsInfo.map(function (m) {
-                var s = 'HubClient id: ' + m.id + '; IP Address: ' + m.ipAddress + '; Connected UTC: ' + m.connectedTimeUtc + '; User: ' + m.username + '; Type: ' + m.clientType + '; UserAgent: ' + m.userAgent;
+                var s = 'HubClient id: ' + m.id + '; IP Address: ' + m.ipAddress + '; Connected UTC: ' + m.connectedTimeUtc + '; User: ' + m.username + '; Type: ' + '; UserAgent: ' + m.userAgent
+                    + Fonlow_Logging.ClientType[m.clientType]
+                    + ((m.clientType == Fonlow_Logging.ClientType.TraceListener) ? (' Template: ' + m.template) : '');
                 return s;
             });
             var ss = tms.join('\n');

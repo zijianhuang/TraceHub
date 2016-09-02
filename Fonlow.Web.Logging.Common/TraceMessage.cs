@@ -75,6 +75,10 @@ namespace Fonlow.Diagnostics
         [DataMember(Name ="userAgent")]
         public string UserAgent { get; set; }
 
+
+        [DataMember(Name="template")]
+        public string Template { get; set; }
+
         public override string ToString()
         {
             return $"HubClient  Id: {Id}; IP Address: {IpAddress}; Connected UTC: {ConnectedTimeUtc}; User: {Username}; Type: {ClientType}; UserAgent: {UserAgent}";

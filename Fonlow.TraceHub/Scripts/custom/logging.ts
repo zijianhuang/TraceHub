@@ -29,7 +29,7 @@ module Fonlow_Logging {
         connectedTimeUtc: Date;
         clientType: ClientType;
         userAgent: string;
-
+        template: string;
     }
 
     export enum ClientType { Undefined = 0, TraceListener = 1, Browser = 2, Console = 4 }
@@ -37,7 +37,9 @@ module Fonlow_Logging {
     export class WebUiFunctions {
         renderClientsInfo(clientsInfo: ClientInfo[]) {
             var tms = clientsInfo.map(function (m) {
-                var s = 'HubClient id: ' + m.id + '; IP Address: ' + m.ipAddress + '; Connected UTC: ' + m.connectedTimeUtc + '; User: ' + m.username + '; Type: ' + Fonlow_Logging.ClientType[m.clientType] + '; UserAgent: ' + m.userAgent;
+                var s = 'HubClient id: ' + m.id + '; IP Address: ' + m.ipAddress + '; Connected UTC: ' + m.connectedTimeUtc + '; User: ' + m.username + '; Type: ' + '; UserAgent: ' + m.userAgent
+                    +'; '+ Fonlow_Logging.ClientType[m.clientType]
+                    + ((m.clientType == Fonlow_Logging.ClientType.TraceListener) ? ('; Template: ' + m.template): '');
                 return s;
             });
 

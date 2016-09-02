@@ -45,6 +45,13 @@ namespace Fonlow.Diagnostics
 
         const string sourceName = "loggingHub";
 
+        HubTraceListener listener;
+
+        public LoggingConnection(HubTraceListener listener)
+        {
+            this.listener = listener;
+        }
+
         bool Execute(HubInfo hubInfo)
         {
             this.hubInfo = hubInfo;
@@ -134,6 +141,8 @@ namespace Fonlow.Diagnostics
                 Console.WriteLine("HubConnection state: " + hubConnection.State);
 #endif
                 Invoke("ReportClientType", ClientType.TraceListener);
+                Invoke("ReportTraceTemplate", listener.Template);
+
                 return hubConnection.State == ConnectionState.Connected;
             }
             catch (AggregateException ex)
