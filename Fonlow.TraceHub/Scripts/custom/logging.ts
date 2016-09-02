@@ -41,7 +41,8 @@ module Fonlow_Logging {
                 div.append($('<span/>', { class: 'hc-type' }).text(Fonlow_Logging.ClientType[m.clientType]));
                 div.append($('<span/>', { class: 'hc-userAgent' }).text(m.userAgent));
                 div.append($('<span/>', { class: 'hc-ip' }).text(m.ipAddress));
-                div.append($('<span/>', { class: 'time' }).text(new Date(m.connectedTimeUtc.toString()).toUTCString()));
+//                div.append($('<span/>', { class: 'time' }).text(new Date(m.connectedTimeUtc.toString()).toString()));
+                div.append($('<span/>', { class: 'time' }).text(m.connectedTimeUtc.toString()));
 
                 if (m.clientType == Fonlow_Logging.ClientType.TraceListener) {
                     div.append($('<span/>', { class: 'hc-template' }).text(m.template));

@@ -13,35 +13,21 @@ var Fonlow_Logging;
         function WebUiFunctions() {
         }
         WebUiFunctions.prototype.renderClientsInfo = function (clientsInfo) {
-            //var tms = clientsInfo.map(function (m) {
-            //    var s = 'HubClient id: ' + m.id + '; IP Address: ' + m.ipAddress + '; Connected UTC: ' + m.connectedTimeUtc + '; User: ' + m.username + '; Type: ' + '; UserAgent: ' + m.userAgent
-            //        +'; '+ Fonlow_Logging.ClientType[m.clientType]
-            //        + ((m.clientType == Fonlow_Logging.ClientType.TraceListener) ? ('; Template: ' + m.template): '');
-            //    return s;
-            //});
-            //var ss = tms.join('\n');
-            //var tm: TraceMessage = {
-            //    origin: 'TraceHub',
-            //    source: 'TraceHub',
-            //    message: ss,
-            //    eventType: 8,
-            //    timeUtc: new Date(Date.now()),
-            //};
-            //clientFunctions.writeTrace(tm);
             var divs = clientsInfo.map(function (m) {
                 var div = $('<div/>', { class: 'hubClientInfo' });
-                div.append($('<span/>', { class: '' }).text(m.clientType));
-                div.append($('<span/>', { class: '' }).text(m.userAgent));
-                div.append($('<span/>', { class: '' }).text(m.ipAddress));
-                div.append($('<span/>', { class: '' }).text(new Date(m.connectedTimeUtc.toString()).toUTCString()));
+                div.append($('<span/>', { class: 'hc-type' }).text(Fonlow_Logging.ClientType[m.clientType]));
+                div.append($('<span/>', { class: 'hc-userAgent' }).text(m.userAgent));
+                div.append($('<span/>', { class: 'hc-ip' }).text(m.ipAddress));
+                //                div.append($('<span/>', { class: 'time' }).text(new Date(m.connectedTimeUtc.toString()).toString()));
+                div.append($('<span/>', { class: 'time' }).text(m.connectedTimeUtc.toString()));
                 if (m.clientType == Fonlow_Logging.ClientType.TraceListener) {
-                    div.append($('<span/>', { class: '' }).text(m.template));
+                    div.append($('<span/>', { class: 'hc-template' }).text(m.template));
                 }
-                div.append($('<span/>', { class: '' }).text(m.username));
-                div.append($('<span/>', { class: '' }).text(m.id));
+                div.append($('<span/>', { class: 'hc-user' }).text(m.username));
+                div.append($('<span/>', { class: 'hc-id' }).text(m.id));
                 return div;
             });
-            var list = $('<div/>', { class: 'hubClients' });
+            var list = $('<li/>', { class: 'hubClients' });
             list.append(divs);
             $('#traces').append(list);
             lineCount++;
