@@ -75,6 +75,43 @@ span.origin {
 }
 
 
+.hc-type{
+    background-color: lightblue;
+    display: inline-block;
+    margin-right: 6px;
+}
+
+.hc-userAgent{
+    background-color: lightgreen;
+    display: inline-block;
+    margin-right: 6px;
+} 
+
+.hc-ip{
+    background-color: lightgoldenrodyellow;
+    display: inline-block;
+    margin-right: 6px;
+}
+
+.hc-template{
+    background-color: lightsalmon;
+    display: inline-block;
+    margin-right: 6px;
+}
+
+.hc-user{
+    background-color: lightskyblue;
+    display: inline-block;
+    margin-right: 6px;
+}
+
+.hc-id{
+    background-color: lightcyan;
+    display: inline-block;
+    margin-right: 6px;
+}
+
+
 /*TraceHub*/
 
 div.moduleCategory {
