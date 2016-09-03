@@ -100,7 +100,7 @@ module Fonlow_Logging {
             var et = this.eventTypeToString(tm.eventType);
             var $eventText = $('<span/>', { class: et + ' et' }).text(et + ': ');
             var $timeText = $('<span/>', { class: 'time', value: tm.timeUtc }).text(' ' + this.getShortTimeText(new Date(tm.timeUtc.toString())) + ' ');//The Json object seem to become string rather than Date. A bug in SignalR JS? Now I have to cast it 
-            var $originText = $('<span/>', { class: 'origin btn-xs btn-primary' }).text(' ' + tm.origin + '  ');
+            var $originText = $('<span/>', { class: 'origin btn-xs btn-primary', onclick: 'void(0)' }).text(' ' + tm.origin + '  ');
             var $messageText = $('<span/>', { class: 'message' }).text(tm.message);
             var newLine = $('<li/>', { class: evenLine ? 'even' : 'odd' });
             newLine.append($eventText);
