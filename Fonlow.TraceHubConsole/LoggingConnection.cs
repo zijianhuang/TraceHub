@@ -276,6 +276,7 @@ namespace Fonlow.Logging
         private void HubConnection_Reconnected()
         {
             Trace.TraceInformation($"{Url} reconnected.");
+            Invoke("ReportClientType", ClientType.Console);
         }
 
         private void HubConnection_StateChanged(StateChange obj)

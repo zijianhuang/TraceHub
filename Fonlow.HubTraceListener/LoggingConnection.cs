@@ -47,6 +47,7 @@ namespace Fonlow.Diagnostics
 
         HubTraceListener listener;
 
+
         public LoggingConnection(HubTraceListener listener)
         {
             this.listener = listener;
@@ -114,6 +115,7 @@ namespace Fonlow.Diagnostics
             HubConnectionSubscribeEvents();
 
             loggingHubProxy = HubConnection.CreateHubProxy(sourceName);
+
         }
 
         bool ConnectHub()
@@ -140,9 +142,7 @@ namespace Fonlow.Diagnostics
 #if DEBUG
                 Console.WriteLine("HubConnection state: " + hubConnection.State);
 #endif
-                Invoke("ReportClientType", ClientType.TraceListener);
-                Invoke("ReportTraceTemplate", listener.Template);
-
+                ReportClientDetails();
                 return hubConnection.State == ConnectionState.Connected;
             }
             catch (AggregateException ex)
@@ -195,6 +195,12 @@ namespace Fonlow.Diagnostics
 
         }
 
+        void ReportClientDetails()
+        {
+            Invoke("ReportClientType", ClientType.TraceListener);
+            Invoke("ReportTraceTemplate", listener.Template);
+        }
+
         void DisposeConnection()
         {
             Debug.Assert(hubConnection != null);
@@ -245,6 +251,7 @@ namespace Fonlow.Diagnostics
 #if DEBUG
             Console.WriteLine("HubConnection_Reconnected");
 #endif
+            ReportClientDetails();
         }
 
         private void HubConnection_StateChanged(StateChange obj)
@@ -406,6 +413,7 @@ namespace Fonlow.Diagnostics
                     }
 
                     lockConnection.Dispose();
+
                 }
 
                 disposed = true;

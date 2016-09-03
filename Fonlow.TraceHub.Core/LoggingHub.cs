@@ -20,15 +20,7 @@ namespace Fonlow.TraceHub
 
         public override Task OnConnected()
         {
-            Debug.WriteLine($"OnConnected:   ConnectionId: {Context.ConnectionId}; UserIdentityName: {Context.User.Identity.Name}; Client IP address: {GetRemoteIpAddress()}; ");
-            ClientsDic.Instance.Add(Context.ConnectionId, new ClientInfo
-            {
-                Id=Context.ConnectionId,
-                ConnectedTimeUtc = DateTime.UtcNow,
-                Username= Context.User.Identity.Name,
-                IpAddress=GetRemoteIpAddress(),
-                UserAgent= Context.Request.Headers["User-Agent"],
-            });
+            RegisterClient();
             return base.OnConnected();
         }
 
@@ -38,6 +30,26 @@ namespace Fonlow.TraceHub
             ClientsDic.Instance.Remove(Context.ConnectionId, out clientInfo);
             return base.OnDisconnected(stopCalled);
         }
+
+        public override Task OnReconnected()
+        {
+            RegisterClient();
+            return base.OnReconnected();
+        }
+       
+        void RegisterClient()
+        {
+            Debug.WriteLine($"OnConnected:   ConnectionId: {Context.ConnectionId}; UserIdentityName: {Context.User.Identity.Name}; Client IP address: {GetRemoteIpAddress()}; ");
+            ClientsDic.Instance.Add(Context.ConnectionId, new ClientInfo
+            {
+                Id = Context.ConnectionId,
+                ConnectedTimeUtc = DateTime.UtcNow,
+                Username = Context.User.Identity.Name,
+                IpAddress = GetRemoteIpAddress(),
+                UserAgent = Context.Request.Headers["User-Agent"],
+            });
+        }
+
         #endregion
 
         string GetRemoteIpAddress()
