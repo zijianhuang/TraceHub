@@ -219,12 +219,12 @@ namespace Fonlow.Diagnostics
 
         protected override void Dispose(bool disposing)
         {
-            if (loggingConnection != null)
+            if (loggingConnection != null)//loggingConnection gets disposed in AppDomain.CurrentDomain.ProcessExit as well.
             {
-                loggingConnection.Dispose();
+                loggingConnection.Dispose(); 
             }
 
-            timer.Dispose();
+            timer.Dispose();//If the host process is not calling Dispose() when shutting down, this won't be a problem.
 
             base.Dispose(disposing);
         }

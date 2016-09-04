@@ -116,6 +116,12 @@ namespace Fonlow.Diagnostics
 
             loggingHubProxy = HubConnection.CreateHubProxy(sourceName);
 
+            AppDomain.CurrentDomain.ProcessExit += (sender, e) =>
+            {
+                Debug.Assert(hubConnection != null);
+                hubConnection.Dispose();//but this won't be called if the process is terminated disgracefully.
+                hubConnection = null;//in case Dispose gets called.
+            };
         }
 
         bool ConnectHub()

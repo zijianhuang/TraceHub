@@ -413,8 +413,7 @@ namespace Fonlow.Logging
                 {
                     if (hubConnection != null)
                     {
-                        hubConnection.Dispose();
-                        Debug.WriteLine("hubConnection disposed at the end.");
+                        DisposeConnection();
                     }
                 }
 
