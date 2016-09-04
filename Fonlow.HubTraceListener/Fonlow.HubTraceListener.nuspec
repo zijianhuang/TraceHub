@@ -10,7 +10,7 @@
     <projectUrl>https://github.com/zijianhuang/TraceHub</projectUrl>
     <requireLicenseAcceptance>true</requireLicenseAcceptance>
     <description>Fonlow.HubTraceListener listens to traces of your application, and upload the traces to TraceHub.</description>
-    <releaseNotes>Initial release.</releaseNotes>
+    <releaseNotes>Graceful handlings of network conditions.</releaseNotes>
     <copyright>Copyright © Zijian Huang 2016</copyright>
     <tags>API Web MVC SignalR webapi restful aspnet aspnetwebapi</tags>
   </metadata>

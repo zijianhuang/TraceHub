@@ -23,11 +23,11 @@
                 <ul class="nav navbar-nav">
                     <li class="bottom"><input type="button" value="Clear" onclick="managementFunctions.clear()" class="btn btn-default navbar-btn" /></li>
                     <li class="checkbox-inline bottom"><label class="navbar-text"><input type="checkbox" id="stayWithLatest" checked="checked" onclick="clientFunctions.scrollToBottomSuspendedToggle(this.checked, this.id)" />Stay with latest</label></li>
-                    <li class="bottom"><input type="button" id="clients" value="Clients" class="btn btn-default navbar-btn " /></li>
+                    <li class="bottom"><input type="button" id="clients" value="Clients" class="btn btn-default navbar-btn advanced"/></li>
                     <li><label class="navbar-text"></label></li>
                     <li class="bottom">
                         <select id="sourceLevels" class="form-control ui-selectable btn-default navbar-btn">
-                            <option value="-1">All</option>
+                            <option value="-1" selected="selected">All</option>
                             <option value="0">Off</option>
                             <option value="1">Critical</option>
                             <option value="3">Error</option>
@@ -79,6 +79,7 @@
 
             // Start the connection. Better with these 2 transports. The others are not too slow for this TraceHub
             $.connection.hub.start({ transport: ['webSockets', 'longPolling'] }).done(function () {
+
                 $('input#clients').click(function () {
                     logging.server.getAllClients().done(function (clientsInfo) {
                         webUiFunctions.renderClientsInfo(clientsInfo);
@@ -92,6 +93,20 @@
 
                     $('input#clients').toggle(clientSettings.advancedMode);
                     clientFunctions.bufferSize = clientSettings.bufferSize;
+                    logging.server.getAllClients().done(function (clientsInfo) {
+                        if (clientsInfo == null) {
+                            $('input#clients').hide();
+                        }
+                        else {
+                            logging.server.getAllClients().done(function (clientsInfo) {
+                                if (clientsInfo == null) {
+                                    $('input#clients').hide();
+                                }
+                            });
+                        }
+                    });
+
+
                 })
 
             });

@@ -35,7 +35,13 @@ module Fonlow_Logging {
     export enum ClientType { Undefined = 0, TraceListener = 1, Browser = 2, Console = 4 }
 
     export class WebUiFunctions {
-        renderClientsInfo(clientsInfo: ClientInfo[]) {
+        renderClientsInfo(clientsInfo: ClientInfo[]): boolean {
+            if (clientsInfo == null)
+                return false;
+
+            if (clientsInfo.length == 0)
+                return true;
+
             var divs = clientsInfo.map(function (m) {
                 var div = $('<div/>', { class: 'hubClientInfo' });
                 div.append($('<span/>', { class: 'hc-type' }).text(Fonlow_Logging.ClientType[m.clientType]));
@@ -56,6 +62,7 @@ module Fonlow_Logging {
             list.append(divs);
             $('#traces').append(list);
             lineCount++;
+            return true;
         }
 
 

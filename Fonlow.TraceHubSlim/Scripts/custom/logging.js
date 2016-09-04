@@ -13,6 +13,10 @@ var Fonlow_Logging;
         function WebUiFunctions() {
         }
         WebUiFunctions.prototype.renderClientsInfo = function (clientsInfo) {
+            if (clientsInfo == null)
+                return false;
+            if (clientsInfo.length == 0)
+                return true;
             var divs = clientsInfo.map(function (m) {
                 var div = $('<div/>', { class: 'hubClientInfo' });
                 div.append($('<span/>', { class: 'hc-type' }).text(Fonlow_Logging.ClientType[m.clientType]));
@@ -30,6 +34,7 @@ var Fonlow_Logging;
             list.append(divs);
             $('#traces').append(list);
             lineCount++;
+            return true;
         };
         return WebUiFunctions;
     }());

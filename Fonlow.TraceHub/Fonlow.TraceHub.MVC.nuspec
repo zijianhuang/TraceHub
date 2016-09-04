@@ -2,14 +2,14 @@
 <package >
   <metadata>
     <id>Fonlow.TraceHub.MVC</id>
-    <version>1.1.0</version>
-    <title>Trace Hub</title>
+    <version>1.2.0</version>
+    <title>TraceHub.MVC</title>
     <authors>Zijian Huang</authors>
     <owners>Zijian Huang</owners>
     <licenseUrl>https://github.com/zijianhuang/TraceHub/blob/master/LICENSE</licenseUrl>
     <projectUrl>https://github.com/zijianhuang/TraceHub</projectUrl>
     <requireLicenseAcceptance>true</requireLicenseAcceptance>
-    <description>TraceHub components that make your existing ASP.NET MVC Web Application have TraceHub functionality.</description>
+    <description>TraceHub components that make your existing ASP.NET MVC Web Application have TraceHub functionality. And you may need to cherry-pick a portion of Site.css to your MVC project.</description>
     <summary>TraceHub components that make your existing ASP.NET MVC Web Application have TraceHub functionality.</summary>
     <releaseNotes>Improvement on the Web UI</releaseNotes>
     <copyright>Copyright © Zijian Huang 2016</copyright>
