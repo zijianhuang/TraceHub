@@ -10,6 +10,12 @@ namespace Fonlow.Logging
             try
             {
                 var init = new LoggingConnection();
+
+                AppDomain.CurrentDomain.ProcessExit += (sender, e) =>
+                {
+                    init.Dispose();//but this won't be called if the process is terminated disgracefully.
+                };
+
                 var ok = init.Execute();
                 if (!ok)
                     return;
@@ -21,6 +27,7 @@ namespace Fonlow.Logging
                     var input = Console.ReadLine();
                     if (input.Equals("Q", StringComparison.CurrentCultureIgnoreCase))
                     {
+                       // init.Dispose();
                         Environment.Exit(0);
                     }
                 }

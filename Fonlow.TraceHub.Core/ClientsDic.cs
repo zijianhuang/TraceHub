@@ -40,16 +40,17 @@ namespace Fonlow.TraceHub
             clientInfo.ClientType = clientType;
         }
 
-        public void UpdateTemplate(string id, string template)
+        public void UpdateClientTypeAndTemplate(string id,  ClientType clientType, string template)
         {
             var clientInfo = dic[id];
             Debug.Assert(clientInfo != null, "OnConnected should have already create the item.");
-            if (clientInfo.ClientType!= ClientType.TraceListener)
+            if (clientType!= ClientType.TraceListener)
             {
-                Trace.TraceWarning($"This silly client {clientInfo.Id} at {clientInfo.IpAddress} with type {clientInfo.ClientType} not a trace listener tries to report the template");
+                Trace.TraceError($"This silly client {clientInfo.Id} at {clientInfo.IpAddress} tred to call UpdateClientTypeAndTemplate with clientType={clientType}.");
                 return;
             }
 
+            clientInfo.ClientType = clientType;
             clientInfo.Template = template;
         }
 
