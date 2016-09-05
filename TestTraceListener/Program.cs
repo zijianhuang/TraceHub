@@ -71,7 +71,14 @@ namespace TestTraceListener
         {
             Trace.TraceInformation("TraceEventType.Information is for informational message.");
             myAppSource.TraceEvent(TraceEventType.Warning, 0, "TraceEvent with TraceEventType.Warning is for writing warning information to the trace listeners in the Listeners collection.");
-            Trace.TraceError("TraceEventType.Error is to identify recoverable error.");
+            try
+            {
+                throw new ArgumentException("This is just to demo exception handling. TraceEventType.Error is to identify recoverable error.");
+            }
+            catch (ArgumentException ex)
+            {
+                Trace.TraceError(ex.ToString());
+            }
             Trace.WriteLine("Trace.WriteLine with TraceEventType.Verbose is for debugging trace.");
             myAppSource.TraceEvent(TraceEventType.Critical, 1234, "TraceEventType.Critical is for fatal error or application crash");
             myAppSource.TraceEvent(TraceEventType.Resume, 123, "TraceEventType.Resume is for resumption ofa logical operation.");

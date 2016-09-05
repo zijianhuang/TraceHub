@@ -58,7 +58,7 @@ namespace Fonlow.TraceHub
             return obj as string;
         }
 
-        bool NotAllowed()
+        bool NotAllowed(bool reportError=true)
         {
             if (HubSettings.Instance.ClientCallRestricted)
             {
@@ -69,7 +69,11 @@ namespace Fonlow.TraceHub
                 if (String.IsNullOrWhiteSpace(ipAddress)
                     || !HubSettings.Instance.AllowedToCallServer(ipAddress))
                 {
-                    Report(TraceEventType.Warning, $"Client calls are restricted, but this address {ipAddress} tries to call.");
+                    if (reportError)
+                    {
+                        Report(TraceEventType.Warning, $"Client calls are restricted, but this address {ipAddress} tries to call.");
+                    }
+
                     return true;
                 }
             }
@@ -120,7 +124,7 @@ namespace Fonlow.TraceHub
 
         public IList<ClientInfo> GetAllClients()
         {
-            if (NotAllowed())
+            if (NotAllowed(false))
                 return null;
 
             var r = ClientsDic.Instance.GetAllClients();
