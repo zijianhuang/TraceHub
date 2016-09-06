@@ -30,31 +30,44 @@ namespace Fonlow.Diagnostics
             pendingQueue.Enqueue(tm);
         }
 
-        public bool SendAll(LoggingConnection loggingConnection)
+        /// <summary>
+        /// True if all sent or nothing to sent
+        /// </summary>
+        /// <param name="loggingConnection"></param>
+        /// <returns></returns>
+        public QueueStatus SendAll(LoggingConnection loggingConnection)
         {
+            if (pendingQueue.IsEmpty && sendingBuffer.Count == 0)
+                return QueueStatus.Empty;
+
             while (!pendingQueue.IsEmpty || sendingBuffer.Count>0)
             {
-                if (!SendSome(loggingConnection))
-                    return false;
+                if (SendSome(loggingConnection) == QueueStatus.Failed)
+                    return QueueStatus.Failed;
             }
 
-            return true;
+            return QueueStatus.Sent;
         }
 
-        bool SendSome(LoggingConnection loggingConnection)
-        {
-            const int max = Fonlow.TraceHub.Constants.ClientBufferSizeMin;  //200 seems like a good max. 50 gets 2250 milliconds, 100 gets 1700, 200 get 1450 for sending total 5000 trace messages
-            // and this also make the client side queue calculation is healthy: var numberOfLineToRemove = lineCount + tms.length - this.bufferSize;
+        int totalEstimatedSize = 0;
 
-            int i = 0;
+        QueueStatus SendSome(LoggingConnection loggingConnection)
+        {
             TraceMessage tm;
-            while ((sendingBuffer.Count<max) &&  pendingQueue.TryDequeue(out tm))
+            while ((totalEstimatedSize < Fonlow.TraceHub.Constants.TransportBufferSize) && pendingQueue.TryPeek(out tm))
             {
+                var estimatedSize = GetTraceMessageSize(tm);
+                if (totalEstimatedSize + estimatedSize >= Fonlow.TraceHub.Constants.TransportBufferSize)
+                {
+                    break;
+                }
+
+                pendingQueue.TryDequeue(out tm);
                 sendingBuffer.Add(tm);
-                i++;
+                totalEstimatedSize += GetTraceMessageSize(tm);
             }
 
-            if (sendingBuffer.Count>0)
+            if (sendingBuffer.Count > 0)
             {
                 try
                 {
@@ -65,19 +78,38 @@ namespace Fonlow.Diagnostics
                     }
                     else
                     {
-                        return false;
+                        return QueueStatus.Failed;
                     }
+#if DEBUG
+                    Console.WriteLine($"{sendingBuffer.Count} traces sent, size: {totalEstimatedSize}");
+#endif
                     sendingBuffer.Clear();
                 }
                 catch (AggregateException ex)
                 {
                     Console.WriteLine(ex.ToString());
-                    return false;
+                    return QueueStatus.Failed;
                 }
 
             }
+            else
+            {
+                return QueueStatus.Empty;
+            }
 
-            return true;
+            totalEstimatedSize = 0;
+            return QueueStatus.Sent;
         }
+
+        int GetTraceMessageSize(TraceMessage tm)
+        {
+            return Newtonsoft.Json.JsonConvert.SerializeObject(tm).Length;//not the most time saving way, but the simplest. And this step yields no sigificant overhead to performance.
+        }
+
+    }
+
+    public enum QueueStatus
+    {
+        Empty, Sent, Failed
     }
 }

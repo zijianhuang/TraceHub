@@ -23,7 +23,7 @@ namespace Fonlow.Diagnostics
 
         public HubTraceListener()
         {
-            _loggingConnection = new Lazy<LoggingConnection>(()=>new LoggingConnection(this), true);
+            _loggingConnection = new Lazy<LoggingConnection>(() => new LoggingConnection(this), true);
             queueBuffer = new QueueBuffer();
             timer = new Timer(TimerCallback, null, 1000, Timeout.Infinite);
         }
@@ -44,14 +44,19 @@ namespace Fonlow.Diagnostics
             Stopwatch watch = new Stopwatch();
             watch.Start();
 #endif
-            queueBuffer.SendAll(loggingConnection);
+            var status = queueBuffer.SendAll(loggingConnection);
 
 #if DEBUG
             watch.Stop();
-            if (watch.ElapsedMilliseconds > 1)
+            if (status== QueueStatus.Sent)
             {
                 Console.WriteLine("Send all in milliseconds: " + watch.ElapsedMilliseconds);
             }
+            else if (status== QueueStatus.Failed)
+            {
+                Console.WriteLine("Traces buffered not sent yet because of network problems.");
+            }
+
 #endif
 
             timer.Change(1000, Timeout.Infinite);// 1 second is a good number, with optimal performance, 0.5 second does not make performance noticablly better.
@@ -221,7 +226,7 @@ namespace Fonlow.Diagnostics
         {
             if (loggingConnection != null)//loggingConnection gets disposed in AppDomain.CurrentDomain.ProcessExit as well.
             {
-                loggingConnection.Dispose(); 
+                loggingConnection.Dispose();
             }
 
             timer.Dispose();//If the host process is not calling Dispose() when shutting down, this won't be a problem.
