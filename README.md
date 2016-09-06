@@ -4,21 +4,21 @@ This project delivers TraceHub, TraceHubSlim, HubTraceListener and TraceHub Cons
 
 ## Products out of the box
 
-### TraceHub 
+### TraceHub MVC
 is an ASP.NET MVC Web application to provide centralized logging for Web and service applications through extending System.Diagnostics of .NET Framework. Traces from service applications could be displayed in TraceHub’s logging page.
 
 A demo Website is available at http://tracehub.fonlow.com
 
-### TraceHubSlim 
+### TraceHub Slim 
 is single page ASP.NET Web application, containing only 1 HTML page, and no built-in authentication. 
 
-A demo Website is available at http://tracehubslim.fonlow.com
+A demo Website is available at http://tracehubslim.fonlow.com with demo traces pushed to your Web browsers.
 
 ### HubTraceListener 
 is a derived class from TraceListenerBase of Essential.Diagnostics, while Essential.Diagnostics is an extension of System.Diagnostics, providing structured tracing and logging. Your .NET applications utilizing System.Diagnostics.Trace or TraceSource can utilize TraceHub through HubTraceListner without you altering one line of application codes, since trace listeners could be injected through app.config.
 
 ### TraceHub Console 
-is a Windows console application that displays traces aggregated in TraceHub which will push traces to the Console when traces arrive. The Console is an alternative to TraceHub’s logging page.
+is a Windows console application that displays traces aggregated in TraceHub which will push traces to the Console when traces arrive. The Console is an alternative to TraceHub’s logging page, and also an interface for persisting traces.
 
 ## NuGet packages
 
