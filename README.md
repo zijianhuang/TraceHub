@@ -40,5 +40,5 @@ TraceHub is fast and consuming very little system resources in all ends. Being i
 
 Currently, the codebase is maintained at https://github.com/zijianhuang/TraceHub , the project management is carried out at https://www.fonlow.com:8443/redmine/projects/tracetoweb/issues . Please feel free to raise issues at the Issues section of Github.
 
-Please check [Wiki](https://github.com/zijianhuang/TraceHub/wiki) for more details.
+Please check [Wiki](https://github.com/zijianhuang/TraceHub/wiki) for more details. And [this article published in CodeProject.com](http://www.codeproject.com/Articles/1118166/TraceHub-a-flexible-solution-for-Web-based-structu) explains some design concepts / contexts behind TraceHub.
 
