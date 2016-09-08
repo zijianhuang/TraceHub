@@ -1,8 +1,14 @@
 # TraceHub
 
-This project delivers TraceHub, TraceHubSlim, HubTraceListener and TraceHub Console out of the box, as well as 3 NuGet packages for you to make your own Trace Hub in one of your existing ASP.NET Websites.
+This project delivers TraceHub, TraceHubSlim, HubTraceListener and TraceHub Console out of the box. 
 
-## Products out of the box
+**Key features**
+
+* Centralized and distributed logging for Web applications and services
+* Extending System.Diagnostics and Essential.Diagnostics
+* Providing structured tracing and logging withou needing to change 1 line of your application codes
+
+## Products
 
 ### TraceHub MVC
 is an ASP.NET MVC Web application to provide centralized logging for Web and service applications through extending System.Diagnostics of .NET Framework. Traces from service applications could be displayed in TraceHub’s logging page.
@@ -19,19 +25,6 @@ is a derived class from TraceListenerBase of Essential.Diagnostics, while Essent
 
 ### TraceHub Console 
 is a Windows console application that displays traces aggregated in TraceHub which will push traces to the Console when traces arrive. The Console is an alternative to TraceHub’s logging page, and also an interface for persisting traces.
-
-## NuGet packages
-
-#### [Fonlow.TraceHub.MVC](https://www.nuget.org/packages/Fonlow.TraceHub.MVC/)
-
-#### [Fonlow.TraceHub.Slim](https://www.nuget.org/packages/Fonlow.TraceHub.Slim/)
-
-#### [Fonlow.TraceHub.Core](https://www.nuget.org/packages/Fonlow.TraceHub.Core/)
-
-#### [Fonlow.HubTraceListener](https://www.nuget.org/packages/Fonlow.HubTraceListener/)
-
-
-And some demo ASP.NET Web projects utilizing these packages are available at https://github.com/tracehub/MyTraceHub
 
 
 ## Summary
