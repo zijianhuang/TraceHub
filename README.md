@@ -35,3 +35,13 @@ Currently, the codebase is maintained at https://github.com/zijianhuang/TraceHub
 
 Please check [Wiki](https://github.com/zijianhuang/TraceHub/wiki) for more details. And [this article published in CodeProject.com](http://www.codeproject.com/Articles/1118166/TraceHub-a-flexible-solution-for-Web-based-structu) explains some design concepts / contexts behind TraceHub.
 
+## Additional Resources that could be used along with TraceHub or Yours ASP.NET Applications
+
+* [RollingFileTraceListener](https://essentialdiagnostics.codeplex.com/wikipage?title=RollingFileTraceListener)
+* [RollingXmlTraceListener](https://essentialdiagnostics.codeplex.com/wikipage?title=RollingXmlTraceListener)
+* [SqlDatabaseTraceListener](https://essentialdiagnostics.codeplex.com/wikipage?title=SqlDatabaseTraceListener)
+* [BufferedEmailTraceListener](https://essentialdiagnostics.codeplex.com/wikipage?title=BufferedEmailTraceListener)
+* [EmailTraceListener](https://essentialdiagnostics.codeplex.com/wikipage?title=EmailTraceListener)
+* [ElasticSearchTraceListener](https://github.com/amccool/ElasticSearch.Diagnostics)
+* [AWS DynamoDB TraceListener](https://github.com/aws/aws-dotnet-trace-listener/)
+* [DiagnosticMonitorTraceListener](https://azure.microsoft.com/en-us/documentation/articles/cloud-services-dotnet-diagnostics-trace-flow/)
