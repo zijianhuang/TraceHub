@@ -44,7 +44,7 @@ namespace Fonlow.Diagnostics
             Stopwatch watch = new Stopwatch();
             watch.Start();
 #endif
-            var status = queueBuffer.SendAll(loggingConnection);
+            var status = queueBuffer.SendAll((ts) => { return loggingConnection.Invoke("UploadTraces", ts); });
 
 #if DEBUG
             watch.Stop();

@@ -11,6 +11,10 @@ using System.Collections.Concurrent;
 
 namespace Fonlow.Diagnostics
 {
+    /// <summary>
+    /// Double buffers for pending and sending traces in batch.
+    /// The sending buffer could ensure the bufferred traces not exceed the 64 KB limit of SignalR. 
+    /// </summary>
     internal class QueueBuffer
     {
         ConcurrentQueue<TraceMessage> pendingQueue;
@@ -22,27 +26,30 @@ namespace Fonlow.Diagnostics
             sendingBuffer = new List<TraceMessage>();
         }
 
+        const int maxBufferedTraces = 100000;
+
         public void Pend(TraceMessage tm)
         {
-            if (pendingQueue.Count >= 100000)
+            if (pendingQueue.Count >= maxBufferedTraces)
                 return;
 
             pendingQueue.Enqueue(tm);
         }
+
 
         /// <summary>
         /// True if all sent or nothing to sent
         /// </summary>
         /// <param name="loggingConnection"></param>
         /// <returns></returns>
-        public QueueStatus SendAll(LoggingConnection loggingConnection)
+        public QueueStatus SendAll(Func<IList<TraceMessage>, Task> sendTraceMessagesTask)
         {
             if (pendingQueue.IsEmpty && sendingBuffer.Count == 0)
                 return QueueStatus.Empty;
 
             while (!pendingQueue.IsEmpty || sendingBuffer.Count>0)
             {
-                if (SendSome(loggingConnection) == QueueStatus.Failed)
+                if (SendSome(sendTraceMessagesTask) == QueueStatus.Failed)
                     return QueueStatus.Failed;
             }
 
@@ -51,7 +58,7 @@ namespace Fonlow.Diagnostics
 
         int totalEstimatedSize = 0;
 
-        QueueStatus SendSome(LoggingConnection loggingConnection)
+        QueueStatus SendSome(Func<IList<TraceMessage>, Task> sendTraceMessagesTask)
         {
             TraceMessage tm;
             while ((totalEstimatedSize < Fonlow.TraceHub.Constants.TransportBufferSize) && pendingQueue.TryPeek(out tm))
@@ -71,7 +78,7 @@ namespace Fonlow.Diagnostics
             {
                 try
                 {
-                    var task = loggingConnection.Invoke("UploadTraces", sendingBuffer);
+                    var task = sendTraceMessagesTask(sendingBuffer);// loggingConnection.Invoke("UploadTraces", sendingBuffer);
                     if (task != null)
                     {
                         task.Wait(10000);
