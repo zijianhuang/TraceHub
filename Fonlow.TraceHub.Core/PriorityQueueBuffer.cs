@@ -2,21 +2,27 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Collections.Concurrent;
+using Fonlow.Diagnostics;
+using Priority_Queue;
 
-namespace Fonlow.Diagnostics
+namespace Fonlow.TraceHub
 {
     /// <summary>
     /// Double buffers for pending and sending traces in batch.
     /// The sending buffer could ensure the bufferred traces not exceed the 64 KB limit of SignalR. 
     /// </summary>
-    internal class QueueBuffer
+    internal class PriorityQueueBuffer
     {
-        ConcurrentQueue<TraceMessage> pendingQueue;
+        SimplePriorityQueue<TraceMessage> pendingQueue;
         List<TraceMessage> sendingBuffer;
 
-        public QueueBuffer()
+        private static readonly Lazy<PriorityQueueBuffer> lazy = new Lazy<PriorityQueueBuffer>(() => new PriorityQueueBuffer());
+
+        public static PriorityQueueBuffer Instance { get { return lazy.Value; } }
+
+        public PriorityQueueBuffer()
         {
-            pendingQueue = new ConcurrentQueue<TraceMessage>();
+            pendingQueue = new SimplePriorityQueue<TraceMessage>();
             sendingBuffer = new List<TraceMessage>();
         }
 
@@ -27,7 +33,7 @@ namespace Fonlow.Diagnostics
             if (pendingQueue.Count >= maxBufferedTraces)
                 return;
 
-            pendingQueue.Enqueue(tm);
+            pendingQueue.Enqueue(tm, tm.TimeUtc.ToOADate());
         }
 
 
@@ -36,12 +42,12 @@ namespace Fonlow.Diagnostics
         /// </summary>
         /// <param name="loggingConnection"></param>
         /// <returns></returns>
-        public QueueStatus SendAll(Func<IList<TraceMessage>, Task> sendTraceMessagesTask)
+        public QueueStatus SendAll(Action<IList<TraceMessage>> sendTraceMessagesTask)
         {
-            if (pendingQueue.IsEmpty && sendingBuffer.Count == 0)
+            if (pendingQueue.Count==0 && sendingBuffer.Count == 0)
                 return QueueStatus.Empty;
 
-            while (!pendingQueue.IsEmpty || sendingBuffer.Count>0)
+            while (pendingQueue.Count>0 || sendingBuffer.Count > 0)
             {
                 if (SendSome(sendTraceMessagesTask) == QueueStatus.Failed)
                     return QueueStatus.Failed;
@@ -52,7 +58,7 @@ namespace Fonlow.Diagnostics
 
         int totalEstimatedSize = 0;
 
-        QueueStatus SendSome(Func<IList<TraceMessage>, Task> sendTraceMessagesTask)
+        QueueStatus SendSome(Action<IList<TraceMessage>> sendTraceMessagesTask)
         {
             TraceMessage tm;
             while ((totalEstimatedSize < Fonlow.TraceHub.Constants.TransportBufferSize) && pendingQueue.TryPeek(out tm))
@@ -72,18 +78,7 @@ namespace Fonlow.Diagnostics
             {
                 try
                 {
-                    var task = sendTraceMessagesTask(sendingBuffer);// loggingConnection.Invoke("UploadTraces", sendingBuffer);
-                    if (task != null)
-                    {
-                        task.Wait(10000);
-                    }
-                    else
-                    {
-                        return QueueStatus.Failed;
-                    }
-#if DEBUG
-                    Console.WriteLine($"{sendingBuffer.Count} traces sent, size: {totalEstimatedSize}");
-#endif
+                    sendTraceMessagesTask(sendingBuffer);
                     sendingBuffer.Clear();
                 }
                 catch (AggregateException ex)
