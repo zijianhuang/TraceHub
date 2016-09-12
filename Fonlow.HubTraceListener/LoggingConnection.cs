@@ -203,7 +203,7 @@ namespace Fonlow.Diagnostics
 
         void ReportClientDetails()
         {
-            Invoke("ReportClientTypeAndTraceTemplate", ClientType.TraceListener, listener.Template);
+            Invoke("ReportClientTypeAndTraceTemplate", ClientType.TraceListener, listener.Template, listener.InstanceId);
         }
 
         void DisposeConnection()

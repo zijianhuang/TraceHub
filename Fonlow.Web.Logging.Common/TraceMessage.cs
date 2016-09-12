@@ -76,8 +76,11 @@ namespace Fonlow.Diagnostics
         public string UserAgent { get; set; }
 
 
-        [DataMember(Name="template")]
+        [DataMember(Name = "template")]
         public string Template { get; set; }
+
+        [DataMember(Name = "origin")]
+        public string Origin { get; set; }
 
         public override string ToString()
         {

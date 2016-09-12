@@ -10,15 +10,13 @@ namespace Fonlow.TraceHub
     /// <summary>
     /// Double buffers for pending and sending traces in batch.
     /// The sending buffer could ensure the bufferred traces not exceed the 64 KB limit of SignalR. 
+    /// Use Priority Queue to ensure traces from different nodes with different latency to TraceHub will be pushed to clients in right order by the time stamp, 
+    /// as long as the latency won't exceed 1 second, presuming the clocks of these nodes are synchronized with a time server.
     /// </summary>
     internal class PriorityQueueBuffer
     {
         SimplePriorityQueue<TraceMessage> pendingQueue;
         List<TraceMessage> sendingBuffer;
-
-        //private static readonly Lazy<PriorityQueueBuffer> lazy = new Lazy<PriorityQueueBuffer>(() => new PriorityQueueBuffer());
-
-        //public static PriorityQueueBuffer Instance { get { return lazy.Value; } }
 
         public PriorityQueueBuffer()
         {

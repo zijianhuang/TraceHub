@@ -37,7 +37,7 @@ namespace Fonlow.Diagnostics
         /// <param name="clientType"></param>
         void ReportClientType(ClientType clientType);
 
-        void ReportClientTypeAndTraceTemplate(ClientType clientType, string template);
+        void ReportClientTypeAndTraceTemplate(ClientType clientType, string template, string origin);
 
         /// <summary>
         /// Retrieve client settings generally stored in Web.config. It is up to the client to hornor the settings.

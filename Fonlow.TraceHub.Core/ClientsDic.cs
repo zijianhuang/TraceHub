@@ -40,7 +40,7 @@ namespace Fonlow.TraceHub
             clientInfo.ClientType = clientType;
         }
 
-        public void UpdateClientTypeAndTemplate(string id,  ClientType clientType, string template)
+        public void UpdateClientTypeAndTemplate(string id,  ClientType clientType, string template, string origin)
         {
             var clientInfo = dic[id];
             Debug.Assert(clientInfo != null, "OnConnected should have already create the item.");
@@ -52,6 +52,7 @@ namespace Fonlow.TraceHub
 
             clientInfo.ClientType = clientType;
             clientInfo.Template = template;
+            clientInfo.Origin = origin;
         }
 
         public IList<ClientInfo> GetAllClients()

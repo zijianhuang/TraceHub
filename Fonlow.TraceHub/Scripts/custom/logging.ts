@@ -30,6 +30,7 @@ module Fonlow_Logging {
         clientType: ClientType;
         userAgent: string;
         template: string;
+        origin: string;
     }
 
     export enum ClientType { Undefined = 0, TraceListener = 1, Browser = 2, Console = 4 }
@@ -51,6 +52,7 @@ module Fonlow_Logging {
 
                 if (m.clientType == Fonlow_Logging.ClientType.TraceListener) {
                     div.append($('<span/>', { class: 'hc-template' }).text(m.template));
+                    div.append($('<span/>', { class: 'origin' }).text(m.origin));
                 }
 
                 div.append($('<span/>', { class: 'hc-user' }).text(m.username));

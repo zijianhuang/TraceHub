@@ -25,6 +25,7 @@ var Fonlow_Logging;
                 div.append($('<span/>', { class: 'time' }).text(m.connectedTimeUtc.toString()));
                 if (m.clientType == Fonlow_Logging.ClientType.TraceListener) {
                     div.append($('<span/>', { class: 'hc-template' }).text(m.template));
+                    div.append($('<span/>', { class: 'origin' }).text(m.origin));
                 }
                 div.append($('<span/>', { class: 'hc-user' }).text(m.username));
                 div.append($('<span/>', { class: 'hc-id' }).text(m.id));
