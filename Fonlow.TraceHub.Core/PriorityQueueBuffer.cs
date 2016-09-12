@@ -16,9 +16,9 @@ namespace Fonlow.TraceHub
         SimplePriorityQueue<TraceMessage> pendingQueue;
         List<TraceMessage> sendingBuffer;
 
-        private static readonly Lazy<PriorityQueueBuffer> lazy = new Lazy<PriorityQueueBuffer>(() => new PriorityQueueBuffer());
+        //private static readonly Lazy<PriorityQueueBuffer> lazy = new Lazy<PriorityQueueBuffer>(() => new PriorityQueueBuffer());
 
-        public static PriorityQueueBuffer Instance { get { return lazy.Value; } }
+        //public static PriorityQueueBuffer Instance { get { return lazy.Value; } }
 
         public PriorityQueueBuffer()
         {
@@ -34,6 +34,17 @@ namespace Fonlow.TraceHub
                 return;
 
             pendingQueue.Enqueue(tm, tm.TimeUtc.ToOADate());
+        }
+
+        public void Pend(IList<TraceMessage> tms)
+        {
+            if (tms == null)
+                return;
+
+            foreach (var item in tms)
+            {
+                Pend(item);
+            }
         }
 
 

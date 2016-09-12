@@ -82,7 +82,7 @@
     <Compile Include="LoggingHub.cs" />
     <Compile Include="LoggingHubContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="QueueBuffer.cs" />
+    <Compile Include="PriorityQueueBuffer.cs" />
     <Compile Include="TraceHubAuthorizeAttribute.cs" />
   </ItemGroup>
   <ItemGroup>

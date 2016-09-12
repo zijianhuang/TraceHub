@@ -22,7 +22,7 @@ namespace Fonlow.TraceHub
         private LoggingHubContext()
         {
             HubContext = GlobalHost.ConnectionManager.GetHubContext<LoggingHub, ILoggingClient>();
-            pendingQueue = new ConcurrentQueue<TraceMessage>();
+            pendingQueue = new PriorityQueueBuffer();
             timer = new Timer(TimerCallback, null, 1000, Timeout.Infinite);
         }
         #endregion
@@ -40,39 +40,21 @@ namespace Fonlow.TraceHub
         [CLSCompliantAttribute(false)]
         public IHubContext<ILoggingClient> HubContext { get; private set; }
 
-        ConcurrentQueue<TraceMessage> pendingQueue;
+        PriorityQueueBuffer pendingQueue;
 
         public void Pend(TraceMessage tm)
         {
-            pendingQueue.Enqueue(tm);
+            pendingQueue.Pend(tm);
         }
 
-        public void Pend(TraceMessage[] tms)
+        public void Pend(IList<TraceMessage> tms)
         {
-            foreach (var tm in tms)
-            {
-                pendingQueue.Enqueue(tm);
-            }
+            pendingQueue.Pend(tms);
         }
 
-        public bool SendAll()
+        public QueueStatus SendAll()
         {
-            TraceMessage tm;
-            while (!pendingQueue.IsEmpty)
-            {
-                pendingQueue.TryPeek(out tm);
-                try
-                {
-                    HubContext.Clients.All.WriteTrace(tm);
-                    pendingQueue.TryDequeue(out tm);
-                }
-                catch (AggregateException)
-                {
-                    return false;
-                }
-            }
-
-            return true;
+            return pendingQueue.SendAll((tms) => HubContext.Clients.All.WriteTraces(tms));
         }
 
         #region IDisposable pattern

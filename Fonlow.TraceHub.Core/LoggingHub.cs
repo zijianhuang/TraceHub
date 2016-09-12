@@ -106,8 +106,8 @@ namespace Fonlow.TraceHub
             if (NotAllowed())
                 return;
 
-            Clients.All.WriteTrace(traceMessage);
-            // LoggingHubContext.Instance.Pend(traceMessage);
+          //  Clients.All.WriteTrace(traceMessage);
+          LoggingHubContext.Instance.Pend(traceMessage);
         }
 
         public void UploadTraces(IList<TraceMessage> traceMessages)//SignalR server functions does not like array, according to https://github.com/SignalR/SignalR/issues/2672
@@ -118,8 +118,8 @@ namespace Fonlow.TraceHub
             if (NotAllowed())
                 return;
 
-            Clients.All.WriteTraces(traceMessages);
-            // LoggingHubContext.Instance.Pend(traceMessages);
+          //  Clients.All.WriteTraces(traceMessages);
+          LoggingHubContext.Instance.Pend(traceMessages);
         }
 
         public IList<ClientInfo> GetAllClients()
