@@ -15,12 +15,12 @@ This project delivers TraceHub MVC, TraceHub Slim, HubTraceListener and TraceHub
 ### TraceHub MVC
 is an ASP.NET MVC Web application to provide centralized logging for Web and service applications through extending System.Diagnostics of .NET Framework. Traces from service applications could be displayed in TraceHub’s logging page.
 
-A demo Website is available at http://tracehub.fonlow.com
+A demo Website is available at http://tracehub.fonlow.com, while you may build and deploy your own TraceHub MVC.
 
 ### TraceHub Slim 
 is single page ASP.NET Web application, containing only 1 HTML page, and no built-in authentication. 
 
-A demo Website is available at http://tracehubslim.fonlow.com with demo traces pushed to your Web browsers.
+A demo Website is available at http://tracehubslim.fonlow.com with demo traces pushed to your Web browsers. And you may build and deploy your own TraceHub Slim.
 
 ### HubTraceListener 
 is a derived class from TraceListenerBase of Essential.Diagnostics, while Essential.Diagnostics is an extension of System.Diagnostics, providing structured tracing and logging. Your .NET applications utilizing System.Diagnostics.Trace or TraceSource can utilize TraceHub through HubTraceListner without you altering one line of application codes, since trace listeners could be injected through app.config.
@@ -31,7 +31,7 @@ is a Windows console application that displays traces aggregated in TraceHub whi
 
 ## Summary
 
-TraceHub requires no change in your application codes, and is fast and consuming very little system resources in all ends. Being injected with HubTraceListener, a service application sitting in the same zone with TraceHub could write 5000 lines of traces in 0.015 second, and it takes 0.36 second to push the traces from TraceHub to the Console or the Web browser. And this could happen when your service applications and TraceHub are located in Oregon, US, while the Console or the Web browser is in Brisbane, Australia.
+TraceHub requires no change in your application codes, and is fast and consuming very little system resources in all ends. Being injected with HubTraceListener, a service application sitting in the same zone with TraceHub Service could write 5000 lines of traces in 0.015 second, and it takes 0.36 second to push the traces from TraceHub to the Console or the Web browser. And this could happen when your service applications and TraceHub are located in Oregon, US, while the Console or the Web browser is in Brisbane, Australia.
 
 Currently, the codebase is maintained at https://github.com/zijianhuang/TraceHub , the project management is carried out at https://www.fonlow.com:8443/redmine/projects/tracetoweb/issues . Please feel free to raise issues at the Issues section of Github.
 
