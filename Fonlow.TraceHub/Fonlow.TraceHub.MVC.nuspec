@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>Fonlow.TraceHub.MVC</id>
-    <version>1.2.0</version>
+    <version>1.2.1</version>
     <title>TraceHub.MVC</title>
     <authors>Zijian Huang</authors>
     <owners>Zijian Huang</owners>
@@ -11,12 +11,12 @@
     <requireLicenseAcceptance>true</requireLicenseAcceptance>
     <description>TraceHub components that make your existing ASP.NET MVC Web Application have TraceHub functionality. And you may need to cherry-pick a portion of Site.css to your MVC project.</description>
     <summary>TraceHub components that make your existing ASP.NET MVC Web Application have TraceHub functionality.</summary>
-    <releaseNotes>Improvement on the Web UI</releaseNotes>
+    <releaseNotes>Use CDN for jQuery, Bootstrap and SignalR JS.</releaseNotes>
     <copyright>Copyright © Zijian Huang 2016</copyright>
     <tags>ASP API Web Client Fonlow.TraceHub rest restful aspnet aspnet SignalR httpclient</tags>
     <dependencies>
       <group>
-        <dependency id="Fonlow.TraceHub.Core" version="1.0.0" />
+        <dependency id="Fonlow.TraceHub.Core" version="1.3.1" />
         <dependency id="Microsoft.AspNet.SignalR.SystemWeb" version="2.2.1" />
         <dependency id="Microsoft.AspNet.SignalR.JS" version="2.2.1" />
       </group>
