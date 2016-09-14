@@ -81,11 +81,59 @@ namespace TestTraceListener
             }
             Trace.WriteLine("Trace.WriteLine with TraceEventType.Verbose is for debugging trace.");
             myAppSource.TraceEvent(TraceEventType.Critical, 1234, "TraceEventType.Critical is for fatal error or application crash");
-            myAppSource.TraceEvent(TraceEventType.Resume, 123, "TraceEventType.Resume is for resumption ofa logical operation.");
+            myAppSource.TraceEvent(TraceEventType.Resume, 123, "TraceEventType.Resume is for resumption of a logical operation.");
             myAppSource.TraceEvent(TraceEventType.Start, 11, "TraceEventType.Start is for starting of a logical operation.");
             myAppSource.TraceEvent(TraceEventType.Stop, 12, "TraceEventType.Stop is for stopping of a logical operation.");
             myAppSource.TraceEvent(TraceEventType.Suspend, 13, "TraceEventType.Suspend is for suspension of a logical oepration.");
             myAppSource.TraceEvent(TraceEventType.Transfer, 14, "TraceEventType.Transfer is for changing of correlation identity.");
+
+        }
+
+        static void TraceSourceTestRandom()
+        {
+            if (random.Next() % 2 == 0)
+            {
+                Trace.TraceInformation("TraceEventType.Information is for informational message.");
+            }
+
+            if (random.Next() % 2 == 1)
+            {
+                myAppSource.TraceEvent(TraceEventType.Warning, 0, "TraceEvent with TraceEventType.Warning is for writing warning information to the trace listeners in the Listeners collection.");
+                try
+                {
+                    throw new ArgumentException("This is just to demo exception handling. TraceEventType.Error is to identify recoverable error.");
+                }
+                catch (ArgumentException ex)
+                {
+                    Trace.TraceError(ex.ToString());
+                }
+            }
+
+            if (random.Next() % 3 == 2)
+            {
+                myAppSource.TraceEvent(TraceEventType.Critical, 1234, "TraceEventType.Critical is for fatal error or application crash");
+                myAppSource.TraceEvent(TraceEventType.Resume, 123, "TraceEventType.Resume is for resumption of a logical operation.");
+            }
+
+            if (random.Next() % 3 == 0)
+            {
+                myAppSource.TraceEvent(TraceEventType.Start, 11, "TraceEventType.Start is for starting of a logical operation.");
+                myAppSource.TraceEvent(TraceEventType.Transfer, 14, "TraceEventType.Transfer is for changing of correlation identity.");
+            }
+
+            if (random.Next() % 3 == 1)
+            {
+                myAppSource.TraceEvent(TraceEventType.Suspend, 13, "TraceEventType.Suspend is for suspension of a logical oepration.");
+                myAppSource.TraceEvent(TraceEventType.Stop, 12, "TraceEventType.Stop is for stopping of a logical operation.");
+            }
+
+            if (random.Next() % 3==2)
+            {
+                Trace.TraceInformation(@"Structured tracing is available since .NET Framework 2 through TraceSource and TraceEventCache etc. Structured logging is done through TraceListener derived classes, including those in Essential Diagnostics.
+
+To add a trace listener, edit the configuration file that corresponds to the name of your application. Within this file, you can add a listener, set its type and set its parameter, remove a listener, or clear all the listeners previously set by the application.");
+
+            }
 
         }
 
@@ -102,7 +150,7 @@ To add a trace listener, edit the configuration file that corresponds to the nam
             Trace.TraceError("TraceEventType.Error is to identify recoverable error.");
             Trace.WriteLine("Trace.WriteLine with TraceEventType.Verbose is for debugging trace.");
             myAppSource.TraceEvent(TraceEventType.Critical, 1234, "TraceEventType.Critical is for fatal error or application crash");
-            myAppSource.TraceEvent(TraceEventType.Resume, 123, "TraceEventType.Resume is for resumption ofa logical operation.");
+            myAppSource.TraceEvent(TraceEventType.Resume, 123, "TraceEventType.Resume is for resumption of a logical operation.");
         }
 
         static void OneLineTest()
@@ -153,11 +201,13 @@ To add a trace listener, edit the configuration file that corresponds to the nam
 
         static Timer timer;
 
+        static Random random = new Random(DateTime.Now.Second);
         static void RandomTestsNeverEnd()
         {
+            
             timer = new Timer((stateInfo) =>
             {
-                TraceSourceTest();
+                TraceSourceTestRandom();
                 timer.Change(1000, Timeout.Infinite);
             },
             null, 1000, Timeout.Infinite);
