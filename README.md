@@ -1,6 +1,8 @@
 # TraceHub
 
-This project delivers TraceHub, TraceHubSlim, HubTraceListener and TraceHub Console out of the box. 
+TraceHub Service optionally accompanied with MVC Web UI or Slim Web UI is to provide centralized logging for Web and service applications through extending System.Diagnostics of .NET Framework. 
+
+This project delivers TraceHub MVC, TraceHub Slim, HubTraceListener and TraceHub Console out of the box. 
 
 **Key features**
 
