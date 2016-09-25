@@ -139,6 +139,7 @@ namespace Fonlow.TraceHub
 
             Report(TraceEventType.Information, $"Connection {Context.ConnectionId} is reporting as {clientType}.");
             ClientsDic.Instance.UpdateClientType(Context.ConnectionId, clientType);
+            Trace.TraceInformation($"Client reported as {clientType} from IP address {GetRemoteIpAddress()}.");
         }
 
         public ClientSettings RetrieveClientSettings()
