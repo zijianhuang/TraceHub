@@ -32,11 +32,14 @@ namespace Fonlow.TraceHub
                 bufferSize = Constants.ClientBufferSizeMin;
             }
 
+            DirectWrite = String.Equals("true", ConfigurationManager.AppSettings["loggingHub_DirectWrite"], StringComparison.CurrentCultureIgnoreCase);
+
             ClientSettings = new ClientSettings
             {
                 AdvancedMode=String.Equals("true", ConfigurationManager.AppSettings["loggingHub_AdvancedMode"], StringComparison.CurrentCultureIgnoreCase),
                 BufferSize=bufferSize,
             };
+
         }
 
         /// <summary>
@@ -46,6 +49,12 @@ namespace Fonlow.TraceHub
         public IPAddressRange[] AllowedIpAddresses { get; private set; }
 
         public ClientSettings ClientSettings { get; private set; }
+
+
+        /// <summary>
+        /// Direct write uploaded trace to clients without pending in a priority queue for up to 1 second.
+        /// </summary>
+        public bool DirectWrite { get; private set; }
 
         public bool ClientCallRestricted
         {
