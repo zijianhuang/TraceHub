@@ -103,18 +103,22 @@ namespace Fonlow.Diagnostics
     }
 
     /// <summary>
-    /// It is up to the client to hornor these settings.
+    /// To transport some settings to client side. It is up to the client to hornor these settings.
     /// </summary>
     [DataContract]
     public class ClientSettings
     {
+        /// <summary>
+        /// Trace lines to buffer
+        /// </summary>
         [DataMember(Name = "bufferSize")]
         public int BufferSize;
 
+        /// <summary>
+        /// Whether to display some client side advanced features
+        /// </summary>
         [DataMember(Name = "advancedMode")]
         public bool AdvancedMode;
-
-
     }
 
 }

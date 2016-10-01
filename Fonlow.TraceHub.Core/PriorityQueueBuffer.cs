@@ -31,7 +31,7 @@ namespace Fonlow.TraceHub
             if (pendingQueue.Count >= maxBufferedTraces)
                 return;
 
-            pendingQueue.Enqueue(tm, tm.TimeUtc.ToOADate());
+            pendingQueue.Enqueue(tm, tm.TimeUtc.Ticks);
         }
 
         public void Pend(IList<TraceMessage> tms)
