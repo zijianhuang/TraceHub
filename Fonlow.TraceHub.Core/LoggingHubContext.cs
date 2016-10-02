@@ -23,7 +23,7 @@ namespace Fonlow.TraceHub
         {
             HubContext = GlobalHost.ConnectionManager.GetHubContext<LoggingHub, ILoggingClient>();
             pendingQueue = new PriorityQueueBuffer();
-            timer = new Timer(TimerCallback, null, 1000, Timeout.Infinite);
+            timer = new Timer(TimerCallback, null, HubSettings.Instance.QueueInterval, Timeout.Infinite);
         }
         #endregion
 
@@ -33,7 +33,7 @@ namespace Fonlow.TraceHub
         void TimerCallback(Object stateInfo)
         {
             SendAll();
-            timer.Change(1000, Timeout.Infinite);
+            timer.Change(HubSettings.Instance.QueueInterval, Timeout.Infinite);
         }
 
 

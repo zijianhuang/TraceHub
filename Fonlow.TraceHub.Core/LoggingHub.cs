@@ -36,7 +36,7 @@ namespace Fonlow.TraceHub
             RegisterClient();
             return base.OnReconnected();
         }
-       
+
         void RegisterClient()
         {
             Debug.WriteLine($"OnConnected:   ConnectionId: {Context.ConnectionId}; UserIdentityName: {Context.User.Identity.Name}; Client IP address: {GetRemoteIpAddress()}; ");
@@ -58,7 +58,7 @@ namespace Fonlow.TraceHub
             return obj as string;
         }
 
-        bool NotAllowed(bool reportError=true)
+        bool NotAllowed(bool reportError = true)
         {
             if (HubSettings.Instance.ClientCallRestricted)
             {
@@ -106,14 +106,8 @@ namespace Fonlow.TraceHub
             if (NotAllowed())
                 return;
 
-            if (HubSettings.Instance.DirectWrite)
-            {
-                Clients.All.WriteTrace(traceMessage);
-            }
-            else
-            {
-                LoggingHubContext.Instance.Pend(traceMessage);
-            }
+           // Clients.All.WriteTrace(traceMessage);
+            LoggingHubContext.Instance.Pend(traceMessage);
         }
 
         public void UploadTraces(IList<TraceMessage> traceMessages)//SignalR server functions does not like array, according to https://github.com/SignalR/SignalR/issues/2672
@@ -123,15 +117,9 @@ namespace Fonlow.TraceHub
 
             if (NotAllowed())
                 return;
-          
-            if (HubSettings.Instance.DirectWrite)
-            {
-                Clients.All.WriteTraces(traceMessages);
-            }
-            else
-            {
-                LoggingHubContext.Instance.Pend(traceMessages);
-            }
+
+            //Clients.All.WriteTraces(traceMessages);
+            LoggingHubContext.Instance.Pend(traceMessages);
         }
 
         public IList<ClientInfo> GetAllClients()
