@@ -62,8 +62,9 @@ module Fonlow_Logging {
 
             var list = $('<li/>', { class: 'hubClients' });
             list.append(divs);
-            $('#traces').append(list);
-            lineCount++;
+            $('#clientList').empty();
+            $('#clientList').append(list);
+
             return true;
         }
 

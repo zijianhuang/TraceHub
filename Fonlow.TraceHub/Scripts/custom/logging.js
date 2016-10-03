@@ -33,8 +33,8 @@ var Fonlow_Logging;
             });
             var list = $('<li/>', { class: 'hubClients' });
             list.append(divs);
-            $('#traces').append(list);
-            lineCount++;
+            $('#clientList').empty();
+            $('#clientList').append(list);
             return true;
         };
         return WebUiFunctions;
@@ -195,4 +195,3 @@ $(document).on("click", "span.origin", function () {
 $(document).on('change', 'select#sourceLevels', function () {
     clientFunctions.sourceLevels = parseInt(this.value);
 });
-//# sourceMappingURL=logging.js.map
