@@ -22,8 +22,11 @@ li.even {
     background-color: lightgray;
 }
 
-ul#traces {
+ul#clientList{
+    margin-left : 15px;
 }
+
+
 
 span.et {
     width: 4em;

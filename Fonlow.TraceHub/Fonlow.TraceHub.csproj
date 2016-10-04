@@ -414,7 +414,6 @@
   <PropertyGroup>
     <PostBuildEvent>xcopy $(ProjectDir)Scripts\custom\logging.js $(SolutionDir)Fonlow.TraceHubSlim\Scripts\custom\logging.js /D /Y
 
-
 xcopy $(ProjectDir)Content\Site.css $(SolutionDir)Fonlow.TraceHubSlim\Content\Site.css /D /Y</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.

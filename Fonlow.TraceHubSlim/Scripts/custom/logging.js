@@ -17,8 +17,10 @@ var Fonlow_Logging;
                 return false;
             if (clientsInfo.length == 0)
                 return true;
+            var evenLine = false;
             var divs = clientsInfo.map(function (m) {
-                var div = $('<div/>', { class: 'hubClientInfo' });
+                var div = $('<li/>', { class: 'hubClientInfo' + (evenLine ? ' even' : ' odd') });
+                evenLine = !evenLine;
                 div.append($('<span/>', { class: 'hc-type' }).text(Fonlow_Logging.ClientType[m.clientType]));
                 div.append($('<span/>', { class: 'hc-userAgent' }).text(m.userAgent));
                 div.append($('<span/>', { class: 'hc-ip' }).text(m.ipAddress));
@@ -31,10 +33,10 @@ var Fonlow_Logging;
                 div.append($('<span/>', { class: 'hc-id' }).text(m.id));
                 return div;
             });
-            var list = $('<li/>', { class: 'hubClients' });
+            var list = $('<div/>', { class: 'hubClients' });
             list.append(divs);
             $('#clientList').empty();
-            $('#clientList').add(list);
+            $('#clientList').append(list);
             return true;
         };
         return WebUiFunctions;
