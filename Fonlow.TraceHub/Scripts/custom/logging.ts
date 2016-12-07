@@ -59,13 +59,38 @@ module Fonlow_Logging {
             client.writeMessage = clientFunctions.writeMessage;
             client.writeMessages = clientFunctions.writeMessages;
             console.debug('LoggingHubStarter created.');
+
+            this.hubConnectionSubscribeEvents(connection);
+        }
+
+        private hubConnectionSubscribeEvents(connection: SignalR.Connection): void {
+            connection.hub.stateChanged((change) => {
+                console.info(`HubConnection state changed from ${change.oldState} to ${change.newState} .`);
+                if (change.oldState == 2 && change.newState == 3) {
+                    console.warn('You may need to refresh the page to reconnect the hub.');
+                }
+
+            }).disconnected(() => {
+                console.warn('HubConnection_Closed: Hub could not connect or get disconnected.');
+            }).reconnected(() => {
+                console.info(connection.url + ' reconnected.');
+                this.server.reportClientType(ClientType.Browser).fail(() => {
+                    console.error('Fail to reportClientType');
+                });
+            }).reconnecting(() => {
+                console.info('Reconnecting ' + connection.url + ' ...');
+            }).connectionSlow(() => {
+                console.warn('HubConnection_ConnectionSlow: Connection is about to timeout.');
+            }).error((error) => {
+                console.error(error.message);
+            });
         }
 
         start(): JQueryPromise<any> {
             return this.connection.hub.start({ transport: ['webSockets', 'longPolling'] }).done(() => { //I have to use arrow function otherwise "this" is not the class object but the DOM element since this is called by jQuery
 
-                $('input#clients').click( () => {
-                    this.server.getAllClients().done( (clientsInfo) => {
+                $('input#clients').click(() => {
+                    this.server.getAllClients().done((clientsInfo) => {
                         webUiFunctions.renderClientsInfo(clientsInfo);
                     });
                 });

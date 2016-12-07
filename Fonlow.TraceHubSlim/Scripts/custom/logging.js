@@ -19,7 +19,30 @@ var Fonlow_Logging;
             client.writeMessage = clientFunctions.writeMessage;
             client.writeMessages = clientFunctions.writeMessages;
             console.debug('LoggingHubStarter created.');
+            this.hubConnectionSubscribeEvents(connection);
         }
+        LoggingHubStarter.prototype.hubConnectionSubscribeEvents = function (connection) {
+            var _this = this;
+            connection.hub.stateChanged(function (change) {
+                console.info("HubConnection state changed from " + change.oldState + " to " + change.newState + " .");
+                if (change.oldState == 2 && change.newState == 3) {
+                    console.warn('You may need to refresh the page to reconnect the hub.');
+                }
+            }).disconnected(function () {
+                console.warn('HubConnection_Closed: Hub could not connect or get disconnected.');
+            }).reconnected(function () {
+                console.info(connection.url + ' reconnected.');
+                _this.server.reportClientType(ClientType.Browser).fail(function () {
+                    console.error('Fail to reportClientType');
+                });
+            }).reconnecting(function () {
+                console.info('Reconnecting ' + connection.url + ' ...');
+            }).connectionSlow(function () {
+                console.warn('HubConnection_ConnectionSlow: Connection is about to timeout.');
+            }).error(function (error) {
+                console.error(error.message);
+            });
+        };
         LoggingHubStarter.prototype.start = function () {
             var _this = this;
             return this.connection.hub.start({ transport: ['webSockets', 'longPolling'] }).done(function () {
