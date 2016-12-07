@@ -9,6 +9,48 @@ var Fonlow_Logging;
         ClientType[ClientType["Console"] = 4] = "Console";
     })(Fonlow_Logging.ClientType || (Fonlow_Logging.ClientType = {}));
     var ClientType = Fonlow_Logging.ClientType;
+    var LoggingHubStarter = (function () {
+        function LoggingHubStarter(connection, client, server) {
+            this.connection = connection;
+            this.client = client;
+            this.server = server;
+            client.writeTrace = clientFunctions.writeTrace;
+            client.writeTraces = clientFunctions.writeTraces;
+            client.writeMessage = clientFunctions.writeMessage;
+            client.writeMessages = clientFunctions.writeMessages;
+            console.debug('LoggingHubStarter created.');
+        }
+        LoggingHubStarter.prototype.start = function () {
+            var _this = this;
+            return this.connection.hub.start({ transport: ['webSockets', 'longPolling'] }).done(function () {
+                $('input#clients').click(function () {
+                    this.server.getAllClients().done(function (clientsInfo) {
+                        webUiFunctions.renderClientsInfo(clientsInfo);
+                    });
+                });
+                _this.server.reportClientType(ClientType.Browser);
+                _this.server.retrieveClientSettings().done(function (result) {
+                    clientSettings = result;
+                    $('input#clients').toggle(clientSettings.advancedMode);
+                    clientFunctions.bufferSize = clientSettings.bufferSize;
+                    this.server.getAllClients().done(function (clientsInfo) {
+                        if (clientsInfo == null) {
+                            $('input#clients').hide();
+                        }
+                        else {
+                            this.server.getAllClients().done(function (clientsInfo) {
+                                if (clientsInfo == null) {
+                                    $('input#clients').hide();
+                                }
+                            });
+                        }
+                    });
+                });
+            });
+        };
+        return LoggingHubStarter;
+    }());
+    Fonlow_Logging.LoggingHubStarter = LoggingHubStarter;
     var WebUiFunctions = (function () {
         function WebUiFunctions() {
         }

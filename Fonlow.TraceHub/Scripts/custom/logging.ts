@@ -35,6 +35,68 @@ module Fonlow_Logging {
 
     export enum ClientType { Undefined = 0, TraceListener = 1, Browser = 2, Console = 4 }
 
+    export interface LoggingHubClient {
+        writeMessage(m: string);
+        writeMessages(ms: string[]);
+        writeTrace(tm: TraceMessage);
+        writeTraces(tms: TraceMessage[]);
+    }
+
+    export interface LoggingHubServer {
+        uploadTrace(traceMessage: TraceMessage): JQueryPromise<any>;
+        uploadTraces(traceMessages: TraceMessage[]);
+        getAllClients(): JQueryPromise<ClientInfo[]>;
+        reportClientType(clientType: ClientType): JQueryPromise<any>;
+        reportClientTypeAndTraceTemplate(clientType: ClientType, template: string, origin: string): JQueryPromise<any>;
+        retrieveClientSettings(): JQueryPromise<ClientSettings>;
+    }
+
+
+    export class LoggingHubStarter {
+        constructor(private connection: SignalR.Connection, private client: LoggingHubClient, private server: LoggingHubServer) {
+            client.writeTrace = clientFunctions.writeTrace;
+            client.writeTraces = clientFunctions.writeTraces;
+            client.writeMessage = clientFunctions.writeMessage;
+            client.writeMessages = clientFunctions.writeMessages;
+            console.debug('LoggingHubStarter created.');
+        }
+
+        start(): JQueryPromise<any> {
+            return this.connection.hub.start({ transport: ['webSockets', 'longPolling'] }).done( () =>{
+
+                $('input#clients').click(function () {
+                    this.server.getAllClients().done(function (clientsInfo) {
+                        webUiFunctions.renderClientsInfo(clientsInfo);
+                    });
+                });
+
+                this.server.reportClientType(ClientType.Browser);
+
+                this.server.retrieveClientSettings().done(function (result) {
+                    clientSettings = result;
+
+                    $('input#clients').toggle(clientSettings.advancedMode);
+                    clientFunctions.bufferSize = clientSettings.bufferSize;
+                    this.server.getAllClients().done(function (clientsInfo) {
+                        if (clientsInfo == null) {
+                            $('input#clients').hide();
+                        }
+                        else {
+                            this.server.getAllClients().done(function (clientsInfo) {
+                                if (clientsInfo == null) {
+                                    $('input#clients').hide();
+                                }
+                            });
+                        }
+                    });
+
+
+                })
+
+            });
+        }
+    }
+
     export class WebUiFunctions {
         renderClientsInfo(clientsInfo: ClientInfo[]): boolean {
             if (clientsInfo == null)
