@@ -62,15 +62,17 @@ module Fonlow_Logging {
         }
 
         start(): JQueryPromise<any> {
-            return this.connection.hub.start({ transport: ['webSockets', 'longPolling'] }).done( () =>{
+            return this.connection.hub.start({ transport: ['webSockets', 'longPolling'] }).done(() => { //I have to use arrow function otherwise "this" is not the class object but the DOM element since this is called by jQuery
 
-                $('input#clients').click(function () {
-                    this.server.getAllClients().done(function (clientsInfo) {
+                $('input#clients').click( () => {
+                    this.server.getAllClients().done( (clientsInfo) => {
                         webUiFunctions.renderClientsInfo(clientsInfo);
                     });
                 });
 
-                this.server.reportClientType(ClientType.Browser);
+                this.server.reportClientType(ClientType.Browser).fail(() => {
+                    console.error('Fail to reportClientType');
+                });
 
                 this.server.retrieveClientSettings().done(function (result) {
                     clientSettings = result;
@@ -91,8 +93,12 @@ module Fonlow_Logging {
                     });
 
 
-                })
+                }).fail(() => {
+                    console.error("Fail to retrieveClientSettings.");
+                });
 
+            }).fail(() => {
+                console.error('Couldnot start loggingHub connection.');
             });
         }
     }

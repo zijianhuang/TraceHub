@@ -95,45 +95,6 @@
                 });
             }
 
-            //logging.client.writeTrace = clientFunctions.writeTrace;
-            //logging.client.writeTraces = clientFunctions.writeTraces;
-            //logging.client.writeMessage = clientFunctions.writeMessage;
-            //logging.client.writeMessages = clientFunctions.writeMessages;
-
-
-            //// Start the connection. Better with these 2 transports. The others are not too slow for this TraceHub
-            //$.connection.hub.start({ transport: ['webSockets', 'longPolling'] }).done(function () {
-
-            //    $('input#clients').click(function () {
-            //        logging.server.getAllClients().done(function (clientsInfo) {
-            //            webUiFunctions.renderClientsInfo(clientsInfo);
-            //        });
-            //    });
-
-            //    logging.server.reportClientType(2);
-
-            //    logging.server.retrieveClientSettings().done(function (result) {
-            //        clientSettings = result;
-
-            //        $('input#clients').toggle(clientSettings.advancedMode);
-            //        clientFunctions.bufferSize = clientSettings.bufferSize;
-            //        logging.server.getAllClients().done(function (clientsInfo) {
-            //            if (clientsInfo == null) {
-            //                $('input#clients').hide();
-            //            }
-            //            else {
-            //                logging.server.getAllClients().done(function (clientsInfo) {
-            //                    if (clientsInfo == null) {
-            //                        $('input#clients').hide();
-            //                    }
-            //                });
-            //            }
-            //        });
-
-
-            //    })
-
-            //});
 
         });
     </script>

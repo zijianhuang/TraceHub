@@ -24,11 +24,13 @@ var Fonlow_Logging;
             var _this = this;
             return this.connection.hub.start({ transport: ['webSockets', 'longPolling'] }).done(function () {
                 $('input#clients').click(function () {
-                    this.server.getAllClients().done(function (clientsInfo) {
+                    _this.server.getAllClients().done(function (clientsInfo) {
                         webUiFunctions.renderClientsInfo(clientsInfo);
                     });
                 });
-                _this.server.reportClientType(ClientType.Browser);
+                _this.server.reportClientType(ClientType.Browser).fail(function () {
+                    console.error('Fail to reportClientType');
+                });
                 _this.server.retrieveClientSettings().done(function (result) {
                     clientSettings = result;
                     $('input#clients').toggle(clientSettings.advancedMode);
@@ -45,7 +47,11 @@ var Fonlow_Logging;
                             });
                         }
                     });
+                }).fail(function () {
+                    console.error("Fail to retrieveClientSettings.");
                 });
+            }).fail(function () {
+                console.error('Couldnot start loggingHub connection.');
             });
         };
         return LoggingHubStarter;
