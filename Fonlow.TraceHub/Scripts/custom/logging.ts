@@ -54,13 +54,17 @@ module Fonlow_Logging {
 
     export class LoggingHubStarter {
         constructor(private connection: SignalR.Connection, private client: LoggingHubClient, private server: LoggingHubServer) {
+            console.debug('LoggingHubStarter created.');
+
+            this.clientSubscribe(this.client);
+            this.hubConnectionSubscribeEvents(connection);
+        }
+
+        private clientSubscribe(client: LoggingHubClient) {
             client.writeTrace = clientFunctions.writeTrace;
             client.writeTraces = clientFunctions.writeTraces;
             client.writeMessage = clientFunctions.writeMessage;
             client.writeMessages = clientFunctions.writeMessages;
-            console.debug('LoggingHubStarter created.');
-
-            this.hubConnectionSubscribeEvents(connection);
         }
 
         private hubConnectionSubscribeEvents(connection: SignalR.Connection): void {

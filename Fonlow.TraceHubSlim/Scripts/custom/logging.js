@@ -14,13 +14,16 @@ var Fonlow_Logging;
             this.connection = connection;
             this.client = client;
             this.server = server;
+            console.debug('LoggingHubStarter created.');
+            this.clientSubscribe(this.client);
+            this.hubConnectionSubscribeEvents(connection);
+        }
+        LoggingHubStarter.prototype.clientSubscribe = function (client) {
             client.writeTrace = clientFunctions.writeTrace;
             client.writeTraces = clientFunctions.writeTraces;
             client.writeMessage = clientFunctions.writeMessage;
             client.writeMessages = clientFunctions.writeMessages;
-            console.debug('LoggingHubStarter created.');
-            this.hubConnectionSubscribeEvents(connection);
-        }
+        };
         LoggingHubStarter.prototype.hubConnectionSubscribeEvents = function (connection) {
             var _this = this;
             connection.hub.stateChanged(function (change) {
