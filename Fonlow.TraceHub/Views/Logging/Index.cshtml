@@ -89,7 +89,8 @@
             // Reference the auto-generated proxy for the hub.
             var logging = $.connection.loggingHub;
             if (logging) {
-                var starter = new Fonlow_Logging.LoggingHubStarter($.connection, logging.client, logging.server);
+    //            var starter = new Fonlow_Logging.LoggingHubStarter($.connection, logging.client, logging.server);
+                var starter = new Fonlow_Logging.LoggingHubStarter($.connection);
                 starter.start().done(function () {
                     console.info('loggingHub started successfully.');
                 });

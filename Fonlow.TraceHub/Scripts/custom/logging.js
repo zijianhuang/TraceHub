@@ -10,20 +10,25 @@ var Fonlow_Logging;
     })(Fonlow_Logging.ClientType || (Fonlow_Logging.ClientType = {}));
     var ClientType = Fonlow_Logging.ClientType;
     var LoggingHubStarter = (function () {
-        function LoggingHubStarter(connection, client, server) {
+        function LoggingHubStarter(connection) {
+            var _this = this;
             this.connection = connection;
-            this.client = client;
-            this.server = server;
             console.debug('LoggingHubStarter created.');
-            this.clientSubscribe(this.client);
+            this.proxy = connection.hub.createHubProxy('loggingHub');
+            this.proxy.on('writeTrace', clientFunctions.writeTrace);
+            this.proxy.on('writeTraces', clientFunctions.writeTraces);
+            this.proxy.on('writeMessage', clientFunctions.writeMessage);
+            this.proxy.on('writeMessages', clientFunctions.writeMessages);
+            this.server = {
+                uploadTrace: function (traceMessage) { return _this.invoke('uploadTrace', traceMessage); },
+                uploadTraces: function (traceMessages) { return _this.invoke('uploadTraces', traceMessages); },
+                getAllClients: function () { return _this.invoke('getAllClients'); },
+                reportClientType: function (clientType) { return _this.invoke('reportClienttype', clientType); },
+                reportClientTypeAndTraceTemplate: function (clientType, template, origin) { return _this.invoke('reportClientTypeAndTraceTemplate', clientType, template, origin); },
+                retrieveClientSettings: function () { return _this.invoke('retrieveClientSettings'); },
+            };
             this.hubConnectionSubscribeEvents(connection);
         }
-        LoggingHubStarter.prototype.clientSubscribe = function (client) {
-            client.writeTrace = clientFunctions.writeTrace;
-            client.writeTraces = clientFunctions.writeTraces;
-            client.writeMessage = clientFunctions.writeMessage;
-            client.writeMessages = clientFunctions.writeMessages;
-        };
         LoggingHubStarter.prototype.hubConnectionSubscribeEvents = function (connection) {
             var _this = this;
             connection.hub.stateChanged(function (change) {
@@ -46,6 +51,17 @@ var Fonlow_Logging;
                 console.error(error.message);
             });
         };
+        LoggingHubStarter.prototype.invoke = function (method) {
+            var msg = [];
+            for (var _i = 1; _i < arguments.length; _i++) {
+                msg[_i - 1] = arguments[_i];
+            }
+            if (!this.connection || this.connection.hub.state != 1) {
+                return $.when(null);
+            }
+            return (_a = this.proxy).invoke.apply(_a, [method].concat(msg));
+            var _a;
+        };
         LoggingHubStarter.prototype.start = function () {
             var _this = this;
             return this.connection.hub.start({ transport: ['webSockets', 'longPolling'] }).done(function () {
@@ -57,6 +73,7 @@ var Fonlow_Logging;
                 _this.server.reportClientType(ClientType.Browser).fail(function () {
                     console.error('Fail to reportClientType');
                 });
+                ;
                 _this.server.retrieveClientSettings().done(function (result) {
                     clientSettings = result;
                     $('input#clients').toggle(clientSettings.advancedMode);

@@ -35,12 +35,12 @@ module Fonlow_Logging {
 
     export enum ClientType { Undefined = 0, TraceListener = 1, Browser = 2, Console = 4 }
 
-    export interface LoggingHubClient {
-        writeMessage(m: string);
-        writeMessages(ms: string[]);
-        writeTrace(tm: TraceMessage);
-        writeTraces(tms: TraceMessage[]);
-    }
+    //export interface LoggingHubClient {
+    //    writeMessage(m: string);
+    //    writeMessages(ms: string[]);
+    //    writeTrace(tm: TraceMessage);
+    //    writeTraces(tms: TraceMessage[]);
+    //}
 
     export interface LoggingHubServer {
         uploadTrace(traceMessage: TraceMessage): JQueryPromise<any>;
@@ -53,18 +53,31 @@ module Fonlow_Logging {
 
 
     export class LoggingHubStarter {
-        constructor(private connection: SignalR.Connection, private client: LoggingHubClient, private server: LoggingHubServer) {
+        private proxy: SignalR.Hub.Proxy;
+        private server: LoggingHubServer;
+
+        constructor(private connection: SignalR.Connection) {
             console.debug('LoggingHubStarter created.');
 
-            this.clientSubscribe(this.client);
-            this.hubConnectionSubscribeEvents(connection);
-        }
+            this.proxy = connection.hub.createHubProxy('loggingHub');
 
-        private clientSubscribe(client: LoggingHubClient) {
-            client.writeTrace = clientFunctions.writeTrace;
-            client.writeTraces = clientFunctions.writeTraces;
-            client.writeMessage = clientFunctions.writeMessage;
-            client.writeMessages = clientFunctions.writeMessages;
+            this.proxy.on('writeTrace', clientFunctions.writeTrace);
+            this.proxy.on('writeTraces', clientFunctions.writeTraces);
+            this.proxy.on('writeMessage', clientFunctions.writeMessage);
+            this.proxy.on('writeMessages', clientFunctions.writeMessages);
+
+            this.server = {
+                uploadTrace: (traceMessage: TraceMessage) => { return this.invoke('uploadTrace', traceMessage); },
+                uploadTraces: (traceMessages: TraceMessage[]) => this.invoke('uploadTraces', traceMessages),
+                getAllClients: () => this.invoke('getAllClients'),
+                reportClientType: (clientType: ClientType) => { return this.invoke('reportClienttype', clientType); },
+                reportClientTypeAndTraceTemplate: (clientType: ClientType, template: string, origin: string) => this.invoke('reportClientTypeAndTraceTemplate', clientType, template, origin),
+                retrieveClientSettings: () => this.invoke('retrieveClientSettings'),
+            };
+
+
+
+            this.hubConnectionSubscribeEvents(connection);
         }
 
         private hubConnectionSubscribeEvents(connection: SignalR.Connection): void {
@@ -90,9 +103,16 @@ module Fonlow_Logging {
             });
         }
 
+        private invoke(method: string, ...msg: any[]): JQueryPromise<any> {
+            if (!this.connection || this.connection.hub.state != 1) {//1 is connected
+                return $.when(null);
+            }
+
+            return this.proxy.invoke(method, ...msg);
+        }
+
         start(): JQueryPromise<any> {
             return this.connection.hub.start({ transport: ['webSockets', 'longPolling'] }).done(() => { //I have to use arrow function otherwise "this" is not the class object but the DOM element since this is called by jQuery
-
                 $('input#clients').click(() => {
                     this.server.getAllClients().done((clientsInfo) => {
                         webUiFunctions.renderClientsInfo(clientsInfo);
@@ -101,7 +121,7 @@ module Fonlow_Logging {
 
                 this.server.reportClientType(ClientType.Browser).fail(() => {
                     console.error('Fail to reportClientType');
-                });
+                });;
 
                 this.server.retrieveClientSettings().done(function (result) {
                     clientSettings = result;
