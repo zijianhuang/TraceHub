@@ -14,7 +14,7 @@ var Fonlow_Logging;
             var _this = this;
             this.connection = connection;
             console.debug('LoggingHubStarter created.');
-            this.proxy = connection.hub.createHubProxy('loggingHub');
+            this.proxy = connection.hub.createHubProxy('loggingHub'); //connection.hub class is a derived class of connection
             this.proxy.on('writeTrace', clientFunctions.writeTrace);
             this.proxy.on('writeTraces', clientFunctions.writeTraces);
             this.proxy.on('writeMessage', clientFunctions.writeMessage);
@@ -57,6 +57,7 @@ var Fonlow_Logging;
                 msg[_i - 1] = arguments[_i];
             }
             if (!this.connection || this.connection.hub.state != 1) {
+                console.debug("Invoking " + method + " when connection or hub state is not good.");
                 return $.when(null);
             }
             return (_a = this.proxy).invoke.apply(_a, [method].concat(msg));
@@ -288,4 +289,3 @@ $(document).on("click", "span.origin", function () {
 $(document).on('change', 'select#sourceLevels', function () {
     clientFunctions.sourceLevels = parseInt(this.value);
 });
-//# sourceMappingURL=logging.js.map

@@ -59,7 +59,7 @@ module Fonlow_Logging {
         constructor(private connection: SignalR.Connection) {
             console.debug('LoggingHubStarter created.');
 
-            this.proxy = connection.hub.createHubProxy('loggingHub');
+            this.proxy = connection.hub.createHubProxy('loggingHub');//connection.hub class is a derived class of connection
 
             this.proxy.on('writeTrace', clientFunctions.writeTrace);
             this.proxy.on('writeTraces', clientFunctions.writeTraces);
@@ -104,7 +104,8 @@ module Fonlow_Logging {
         }
 
         private invoke(method: string, ...msg: any[]): JQueryPromise<any> {
-            if (!this.connection || this.connection.hub.state != 1) {//1 is connected
+            if (!this.connection || this.connection.hub.state != 1) {//1 is connected. It has to be connection.hub.state while connection.state is not working.
+                console.debug(`Invoking ${method} when connection or hub state is not good.`);
                 return $.when(null);
             }
 
