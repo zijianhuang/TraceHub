@@ -10,11 +10,17 @@ var Fonlow_Logging;
     })(Fonlow_Logging.ClientType || (Fonlow_Logging.ClientType = {}));
     var ClientType = Fonlow_Logging.ClientType;
     var LoggingHubStarter = (function () {
-        function LoggingHubStarter(connection) {
-            var _this = this;
-            this.connection = connection;
+        function LoggingHubStarter() {
             console.debug('LoggingHubStarter created.');
-            this.proxy = connection.hub.createHubProxy('loggingHub'); //connection.hub class is a derived class of connection
+        }
+        LoggingHubStarter.prototype.init = function () {
+            var _this = this;
+            this.connection = $.hubConnection(); //get the hub connection object from SignalR jQuery lib.
+            if (!this.connection) {
+                console.error('Cannot obtain $.hubconnection.');
+                return false;
+            }
+            this.proxy = this.connection.createHubProxy('loggingHub'); //connection.hub class is a derived class of connection
             this.proxy.on('writeTrace', clientFunctions.writeTrace);
             this.proxy.on('writeTraces', clientFunctions.writeTraces);
             this.proxy.on('writeMessage', clientFunctions.writeMessage);
@@ -27,11 +33,12 @@ var Fonlow_Logging;
                 reportClientTypeAndTraceTemplate: function (clientType, template, origin) { return _this.invoke('reportClientTypeAndTraceTemplate', clientType, template, origin); },
                 retrieveClientSettings: function () { return _this.invoke('retrieveClientSettings'); },
             };
-            this.hubConnectionSubscribeEvents(connection);
-        }
+            this.hubConnectionSubscribeEvents(this.connection);
+            return true;
+        };
         LoggingHubStarter.prototype.hubConnectionSubscribeEvents = function (connection) {
             var _this = this;
-            connection.hub.stateChanged(function (change) {
+            connection.stateChanged(function (change) {
                 console.info("HubConnection state changed from " + change.oldState + " to " + change.newState + " .");
                 if (change.oldState == 2 && change.newState == 3) {
                     console.warn('You may need to refresh the page to reconnect the hub.');
@@ -56,7 +63,7 @@ var Fonlow_Logging;
             for (var _i = 1; _i < arguments.length; _i++) {
                 msg[_i - 1] = arguments[_i];
             }
-            if (!this.connection || this.connection.hub.state != 1) {
+            if (!this.connection || this.connection.state != 1) {
                 console.debug("Invoking " + method + " when connection or hub state is not good.");
                 return $.when(null);
             }
@@ -65,7 +72,13 @@ var Fonlow_Logging;
         };
         LoggingHubStarter.prototype.start = function () {
             var _this = this;
-            return this.connection.hub.start({ transport: ['webSockets', 'longPolling'] }).done(function () {
+            if (!this.connection) {
+                console.error('Cannot obtain $.hubconnection. so LoggingHubStarter was not really created.');
+                if (!this.init()) {
+                    return $.when(null);
+                }
+            }
+            return this.connection.start({ transport: ['webSockets', 'longPolling'] }).done(function () {
                 $('input#clients').click(function () {
                     _this.server.getAllClients().done(function (clientsInfo) {
                         webUiFunctions.renderClientsInfo(clientsInfo);
@@ -79,12 +92,12 @@ var Fonlow_Logging;
                     clientSettings = result;
                     $('input#clients').toggle(clientSettings.advancedMode);
                     clientFunctions.bufferSize = clientSettings.bufferSize;
-                    this.server.getAllClients().done(function (clientsInfo) {
+                    _this.server.getAllClients().done(function (clientsInfo) {
                         if (clientsInfo == null) {
                             $('input#clients').hide();
                         }
                         else {
-                            this.server.getAllClients().done(function (clientsInfo) {
+                            _this.server.getAllClients().done(function (clientsInfo) {
                                 if (clientsInfo == null) {
                                     $('input#clients').hide();
                                 }
@@ -289,3 +302,4 @@ $(document).on("click", "span.origin", function () {
 $(document).on('change', 'select#sourceLevels', function () {
     clientFunctions.sourceLevels = parseInt(this.value);
 });
+//# sourceMappingURL=logging.js.map

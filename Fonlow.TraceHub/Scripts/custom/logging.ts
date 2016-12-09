@@ -35,13 +35,6 @@ module Fonlow_Logging {
 
     export enum ClientType { Undefined = 0, TraceListener = 1, Browser = 2, Console = 4 }
 
-    //export interface LoggingHubClient {
-    //    writeMessage(m: string);
-    //    writeMessages(ms: string[]);
-    //    writeTrace(tm: TraceMessage);
-    //    writeTraces(tms: TraceMessage[]);
-    //}
-
     export interface LoggingHubServer {
         uploadTrace(traceMessage: TraceMessage): JQueryPromise<any>;
         uploadTraces(traceMessages: TraceMessage[]);
@@ -55,11 +48,19 @@ module Fonlow_Logging {
     export class LoggingHubStarter {
         private proxy: SignalR.Hub.Proxy;
         private server: LoggingHubServer;
-
-        constructor(private connection: SignalR.Connection) {
+        private connection: SignalR.Hub.Connection;
+        constructor() {
             console.debug('LoggingHubStarter created.');
+        }
 
-            this.proxy = connection.hub.createHubProxy('loggingHub');//connection.hub class is a derived class of connection
+        private init(): boolean {
+            this.connection = $.hubConnection();//get the hub connection object from SignalR jQuery lib.
+            if (!this.connection) {
+                console.error('Cannot obtain $.hubconnection.');
+                return false;
+            }
+
+            this.proxy = this.connection.createHubProxy('loggingHub');//connection.hub class is a derived class of connection
 
             this.proxy.on('writeTrace', clientFunctions.writeTrace);
             this.proxy.on('writeTraces', clientFunctions.writeTraces);
@@ -75,13 +76,12 @@ module Fonlow_Logging {
                 retrieveClientSettings: () => this.invoke('retrieveClientSettings'),
             };
 
-
-
-            this.hubConnectionSubscribeEvents(connection);
+            this.hubConnectionSubscribeEvents(this.connection);
+            return true;
         }
 
         private hubConnectionSubscribeEvents(connection: SignalR.Connection): void {
-            connection.hub.stateChanged((change) => {
+            connection.stateChanged((change) => {
                 console.info(`HubConnection state changed from ${change.oldState} to ${change.newState} .`);
                 if (change.oldState == 2 && change.newState == 3) {
                     console.warn('You may need to refresh the page to reconnect the hub.');
@@ -104,7 +104,7 @@ module Fonlow_Logging {
         }
 
         private invoke(method: string, ...msg: any[]): JQueryPromise<any> {
-            if (!this.connection || this.connection.hub.state != 1) {//1 is connected. It has to be connection.hub.state while connection.state is not working.
+            if (!this.connection || this.connection.state != 1) {//1 is connected. It has to be connection.hub.state while connection.state is not working.
                 console.debug(`Invoking ${method} when connection or hub state is not good.`);
                 return $.when(null);
             }
@@ -113,7 +113,14 @@ module Fonlow_Logging {
         }
 
         start(): JQueryPromise<any> {
-            return this.connection.hub.start({ transport: ['webSockets', 'longPolling'] }).done(() => { //I have to use arrow function otherwise "this" is not the class object but the DOM element since this is called by jQuery
+            if (!this.connection) {
+                console.error('Cannot obtain $.hubconnection. so LoggingHubStarter was not really created.');
+                if (!this.init()) {
+                    return $.when(null);
+                }
+            }
+
+            return this.connection.start({ transport: ['webSockets', 'longPolling'] }).done(() => { //I have to use arrow function otherwise "this" is not the class object but the DOM element since this is called by jQuery
                 $('input#clients').click(() => {
                     this.server.getAllClients().done((clientsInfo) => {
                         webUiFunctions.renderClientsInfo(clientsInfo);
@@ -124,17 +131,17 @@ module Fonlow_Logging {
                     console.error('Fail to reportClientType');
                 });;
 
-                this.server.retrieveClientSettings().done(function (result) {
+                this.server.retrieveClientSettings().done((result) => {
                     clientSettings = result;
 
                     $('input#clients').toggle(clientSettings.advancedMode);
                     clientFunctions.bufferSize = clientSettings.bufferSize;
-                    this.server.getAllClients().done(function (clientsInfo) {
+                    this.server.getAllClients().done((clientsInfo) => {
                         if (clientsInfo == null) {
                             $('input#clients').hide();
                         }
                         else {
-                            this.server.getAllClients().done(function (clientsInfo) {
+                            this.server.getAllClients().done((clientsInfo) => {
                                 if (clientsInfo == null) {
                                     $('input#clients').hide();
                                 }
@@ -152,6 +159,7 @@ module Fonlow_Logging {
             });
         }
     }
+
 
     export class WebUiFunctions {
         renderClientsInfo(clientsInfo: ClientInfo[]): boolean {

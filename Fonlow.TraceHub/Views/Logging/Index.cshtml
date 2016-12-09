@@ -36,7 +36,7 @@
                         </select>
                     </li>
                     <li><label class="navbar-text"></label></li>
-                    <li class="bottom"><input type="button" id="clients" value="Clients" class="btn btn-default navbar-btn advanced" data-toggle="modal" data-target="#myModal"/></li>
+                    <li class="bottom"><input type="button" id="clients" value="Clients" class="btn btn-default navbar-btn advanced" data-toggle="modal" data-target="#myModal" /></li>
                 </ul>
                 @Html.Partial("_LoginPartial")
             </div>
@@ -87,16 +87,11 @@
     <script>
         $(function () {
             // Reference the auto-generated proxy for the hub.
-            var logging = $.connection.loggingHub;
-            if (logging) {
-    //            var starter = new Fonlow_Logging.LoggingHubStarter($.connection, logging.client, logging.server);
-                var starter = new Fonlow_Logging.LoggingHubStarter($.connection);
-                starter.start().done(function () {
-                    console.info('loggingHub started successfully.');
-                });
-            }
-
-
+            //            var starter = new Fonlow_Logging.LoggingHubStarter($.connection, logging.client, logging.server);
+            var starter = new Fonlow_Logging.LoggingHubStarter();
+            starter.start().done(function () {
+                console.info('loggingHub started successfully.');
+            });
         });
     </script>
 </body>
