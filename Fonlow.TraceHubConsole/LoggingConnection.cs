@@ -198,7 +198,7 @@ namespace Fonlow.Logging
                     var tokenModel = GetBearerToken();
                     if (tokenModel == null)
                     {
-                        Console.WriteLine("Auth failed");
+                        Trace.TraceWarning("Auth failed");
                         return false;
                     }
                     hubConnection.Headers.Add("Authorization", $"{tokenModel.TokenType} {tokenModel.AccessToken}");
@@ -211,6 +211,7 @@ namespace Fonlow.Logging
             }
             catch (AggregateException ex)
             {
+                bool withCriticalEndpointProblem = false;
                 ex.Handle((innerException) =>
                 {
                     Debug.Assert(innerException != null);
@@ -222,6 +223,17 @@ namespace Fonlow.Logging
                         Trace.TraceWarning(innerException.InnerException.Message);
                     }
 
+                    var httpClientException = innerException as HttpClientException;
+                    if (httpClientException!= null)
+                    {
+                        if (httpClientException.Response.StatusCode== System.Net.HttpStatusCode.NotFound)
+                        {
+                            Trace.TraceError("Even though the host exists however, the url for auth or signalR does not exist. The program will abort.");
+                            withCriticalEndpointProblem = true;
+                            return true;
+                        }
+                    }
+
                     return (innerException is System.Net.Http.HttpRequestException)//Likely the server is unavailable
                     || (innerException is System.Net.Sockets.SocketException)//Likely something wrong with the server
                     || (innerException is Microsoft.AspNet.SignalR.Client.HttpClientException)//likely auth error
@@ -230,6 +242,11 @@ namespace Fonlow.Logging
 
                 });
 
+                if (withCriticalEndpointProblem)
+                {
+                    throw new AbortException("Abort.");
+                }
+
                 return false;
             }
             catch (FormatException ex)
@@ -237,14 +254,17 @@ namespace Fonlow.Logging
                 Trace.TraceError(ex.ToString());
                 return false;
             }
-#if DEBUG
+            catch (HttpClientException ex)
+            {
+                Trace.TraceError(ex.ToString());
+                throw;
+            }
             catch (Exception ex)
             {
                 Trace.TraceError("Some new exception: " + ex);
                 throw;
 
             }
-#endif
         }
 
         /// <summary>

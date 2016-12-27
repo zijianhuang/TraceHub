@@ -27,7 +27,7 @@ namespace Fonlow.Web.Logging
             var serializer = JsonSerializer.Create(settings);
             GlobalHost.DependencyResolver.Register(typeof(JsonSerializer), () => serializer);
 
-            app.MapSignalR();
+          //  app.MapSignalR();
 
         }
     }

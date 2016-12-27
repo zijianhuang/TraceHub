@@ -67,7 +67,7 @@ module Fonlow_Logging {
             this.proxy.on('writeMessage', clientFunctions.writeMessage);
             this.proxy.on('writeMessages', clientFunctions.writeMessages);
 
-            this.server = {
+            this.server = {//give the interface some implementations.
                 uploadTrace: (traceMessage: TraceMessage) => { return this.invoke('uploadTrace', traceMessage); },
                 uploadTraces: (traceMessages: TraceMessage[]) => this.invoke('uploadTraces', traceMessages),
                 getAllClients: () => this.invoke('getAllClients'),
