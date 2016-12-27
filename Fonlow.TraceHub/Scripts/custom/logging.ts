@@ -35,6 +35,9 @@ module Fonlow_Logging {
 
     export enum ClientType { Undefined = 0, TraceListener = 1, Browser = 2, Console = 4 }
 
+    /**
+     * Server functions
+     */
     export interface LoggingHubServer {
         uploadTrace(traceMessage: TraceMessage): JQueryPromise<any>;
         uploadTraces(traceMessages: TraceMessage[]);
@@ -45,13 +48,61 @@ module Fonlow_Logging {
     }
 
 
+    /**
+     * Manage SignalR connection
+     */
     export class LoggingHubStarter {
         private proxy: SignalR.Hub.Proxy;
         private server: LoggingHubServer;
         private connection: SignalR.Hub.Connection;
+
+        private listeningStoped: boolean = true;
+
         constructor() {
             console.debug('LoggingHubStarter created.');
         }
+
+        reconnect(): void {
+            this.init();
+            this.start();
+        }
+
+
+        /**
+         * If the connection is not stopped intentionally, will reconnect later.
+         * @param ms milliseconds to wait.
+         */
+        reconnectWithDelay(ms: number): void {
+            if (this.listeningStoped)
+                return;
+
+            this.delay(ms).then(() => {
+                this.reconnect();
+            })
+        }
+
+        private delay(ms: number) {
+            let dfd = jQuery.Deferred();
+            return dfd.promise(resolve => setTimeout(resolve, ms));
+        }
+
+        /**
+         * This should be placed before logout.
+         */
+        stopListening(): void {
+            console.debug('ready to stopListening');
+            this.listeningStoped = true;
+
+            try {
+                this.connection.stop(false, true);
+            }
+            catch (ex) {
+                console.error(ex);
+            }
+
+            console.debug('Stopped listening signalR.');
+        }
+
 
         private init(): boolean {
             this.connection = $.hubConnection();//get the hub connection object from SignalR jQuery lib.
@@ -62,11 +113,17 @@ module Fonlow_Logging {
 
             this.proxy = this.connection.createHubProxy('loggingHub');//connection.hub class is a derived class of connection
 
-            this.proxy.on('writeTrace', clientFunctions.writeTrace);
-            this.proxy.on('writeTraces', clientFunctions.writeTraces);
-            this.proxy.on('writeMessage', clientFunctions.writeMessage);
-            this.proxy.on('writeMessages', clientFunctions.writeMessages);
+            this.wrapServerFunctions();
+            this.subscribeServerPusheEvents();
 
+            this.hubConnectionSubscribeEvents();
+            return true;
+        }
+
+        /**
+         * Just provide strongly typed client calls to signalR server.
+         */
+        private wrapServerFunctions(): void {
             this.server = {//give the interface some implementations.
                 uploadTrace: (traceMessage: TraceMessage) => { return this.invoke('uploadTrace', traceMessage); },
                 uploadTraces: (traceMessages: TraceMessage[]) => this.invoke('uploadTraces', traceMessages),
@@ -75,32 +132,58 @@ module Fonlow_Logging {
                 reportClientTypeAndTraceTemplate: (clientType: ClientType, template: string, origin: string) => this.invoke('reportClientTypeAndTraceTemplate', clientType, template, origin),
                 retrieveClientSettings: () => this.invoke('retrieveClientSettings'),
             };
-
-            this.hubConnectionSubscribeEvents(this.connection);
-            return true;
         }
 
-        private hubConnectionSubscribeEvents(connection: SignalR.Connection): void {
-            connection.stateChanged((change) => {
-                console.info(`HubConnection state changed from ${change.oldState} to ${change.newState} .`);
-                if (change.oldState == 2 && change.newState == 3) {
-                    console.warn('You may need to refresh the page to reconnect the hub.');
-                }
+        /**
+         * Subscribe some server push events.
+         */
+        private subscribeServerPusheEvents(): void {
+            this.proxy.on('writeTrace', clientFunctions.writeTrace);
+            this.proxy.on('writeTraces', clientFunctions.writeTraces);
+            this.proxy.on('writeMessage', clientFunctions.writeMessage);
+            this.proxy.on('writeMessages', clientFunctions.writeMessages);
+        }
 
-            }).disconnected(() => {
-                console.warn('HubConnection_Closed: Hub could not connect or get disconnected.');
-            }).reconnected(() => {
-                console.info(connection.url + ' reconnected.');
-                this.server.reportClientType(ClientType.Browser).fail(() => {
-                    console.error('Fail to reportClientType');
+
+        /**
+         * Basic house keeping of signalR connection
+         * @param connection
+         */
+        private hubConnectionSubscribeEvents(): void {
+            this.connection
+                .stateChanged((change) => {
+                    console.info(`HubConnection state changed from ${change.oldState} to ${change.newState} .`);
+                    if (change.newState == SignalR.ConnectionState.Disconnected) {  //similar to (obj.OldState == ConnectionState.Reconnecting) && (obj.NewState == ConnectionState.Disconnected)
+                        console.warn('Now try to re-establish signalR connection by the component.');
+                    }
+
+                })
+                .disconnected(() => {
+                    console.warn('HubConnection_Closed: Hub could not connect or get disconnected.');
+                })
+                .reconnected(() => {
+                    console.info(this.connection.url + ' reconnected.');
+                    this.server.reportClientType(ClientType.Browser).fail(() => {
+                        console.error('Fail to reportClientType');
+                    });
+                })
+                .reconnecting(() => {
+                    console.info('Reconnecting ' + this.connection.url + ' ...');
+                })
+                .connectionSlow(() => {
+                    console.warn('HubConnection_ConnectionSlow: Connection is about to timeout.');
+                })
+                .error((error) => {
+                    var context = error.context;
+                    if (context && context.status != 0) {
+                        if (context.status === 401) {
+                            console.warn('Due to 401, the connection wont be resumed.' + context.statusText);
+                            this.stopListening();
+                        }
+                    }
+
+                    console.error(error.message);
                 });
-            }).reconnecting(() => {
-                console.info('Reconnecting ' + connection.url + ' ...');
-            }).connectionSlow(() => {
-                console.warn('HubConnection_ConnectionSlow: Connection is about to timeout.');
-            }).error((error) => {
-                console.error(error.message);
-            });
         }
 
         private invoke(method: string, ...msg: any[]): JQueryPromise<any> {
@@ -120,43 +203,49 @@ module Fonlow_Logging {
                 }
             }
 
-            return this.connection.start({ transport: ['webSockets', 'longPolling'] }).done(() => { //I have to use arrow function otherwise "this" is not the class object but the DOM element since this is called by jQuery
-                $('input#clients').click(() => {
-                    this.server.getAllClients().done((clientsInfo) => {
-                        webUiFunctions.renderClientsInfo(clientsInfo);
+            return this.connection.start({ transport: ['webSockets', 'longPolling'] })
+                .done(() => { //I have to use arrow function otherwise "this" is not the class object but the DOM element since this is called by jQuery
+                    this.listeningStoped = false;
+
+                    $('input#clients').click(() => {
+                        this.server.getAllClients().done((clientsInfo) => {
+                            webUiFunctions.renderClientsInfo(clientsInfo);
+                        });
                     });
-                });
 
-                this.server.reportClientType(ClientType.Browser).fail(() => {
-                    console.error('Fail to reportClientType');
-                });;
+                    this.server.reportClientType(ClientType.Browser).fail(() => {
+                        console.error('Fail to reportClientType');
+                    });;
 
-                this.server.retrieveClientSettings().done((result) => {
-                    clientSettings = result;
+                    this.server.retrieveClientSettings()
+                        .done((result) => {
+                            clientSettings = result;
 
-                    $('input#clients').toggle(clientSettings.advancedMode);
-                    clientFunctions.bufferSize = clientSettings.bufferSize;
-                    this.server.getAllClients().done((clientsInfo) => {
-                        if (clientsInfo == null) {
-                            $('input#clients').hide();
-                        }
-                        else {
+                            $('input#clients').toggle(clientSettings.advancedMode);
+                            clientFunctions.bufferSize = clientSettings.bufferSize;
                             this.server.getAllClients().done((clientsInfo) => {
                                 if (clientsInfo == null) {
                                     $('input#clients').hide();
                                 }
+                                else {
+                                    this.server.getAllClients().done((clientsInfo) => {
+                                        if (clientsInfo == null) {
+                                            $('input#clients').hide();
+                                        }
+                                    });
+                                }
                             });
-                        }
-                    });
 
 
-                }).fail(() => {
-                    console.error("Fail to retrieveClientSettings.");
+                        })
+                        .fail(() => {
+                            console.error("Fail to retrieveClientSettings.");
+                        });
+
+                })
+                .fail(() => {
+                    console.error('Couldnot start loggingHub connection.');
                 });
-
-            }).fail(() => {
-                console.error('Couldnot start loggingHub connection.');
-            });
         }
     }
 

@@ -9,22 +9,65 @@ var Fonlow_Logging;
         ClientType[ClientType["Console"] = 4] = "Console";
     })(Fonlow_Logging.ClientType || (Fonlow_Logging.ClientType = {}));
     var ClientType = Fonlow_Logging.ClientType;
+    /**
+     * Manage SignalR connection
+     */
     var LoggingHubStarter = (function () {
         function LoggingHubStarter() {
+            this.listeningStoped = true;
             console.debug('LoggingHubStarter created.');
         }
-        LoggingHubStarter.prototype.init = function () {
+        LoggingHubStarter.prototype.reconnect = function () {
+            this.init();
+            this.start();
+        };
+        /**
+         * If the connection is not stopped intentionally, will reconnect later.
+         * @param ms milliseconds to wait.
+         */
+        LoggingHubStarter.prototype.reconnectWithDelay = function (ms) {
             var _this = this;
+            if (this.listeningStoped)
+                return;
+            this.delay(ms).then(function () {
+                _this.reconnect();
+            });
+        };
+        LoggingHubStarter.prototype.delay = function (ms) {
+            var dfd = jQuery.Deferred();
+            return dfd.promise(function (resolve) { return setTimeout(resolve, ms); });
+        };
+        /**
+         * This should be placed before logout.
+         */
+        LoggingHubStarter.prototype.stopListening = function () {
+            console.debug('ready to stopListening');
+            this.listeningStoped = true;
+            try {
+                this.connection.stop(false, true);
+            }
+            catch (ex) {
+                console.error(ex);
+            }
+            console.debug('Stopped listening signalR.');
+        };
+        LoggingHubStarter.prototype.init = function () {
             this.connection = $.hubConnection(); //get the hub connection object from SignalR jQuery lib.
             if (!this.connection) {
                 console.error('Cannot obtain $.hubconnection.');
                 return false;
             }
             this.proxy = this.connection.createHubProxy('loggingHub'); //connection.hub class is a derived class of connection
-            this.proxy.on('writeTrace', clientFunctions.writeTrace);
-            this.proxy.on('writeTraces', clientFunctions.writeTraces);
-            this.proxy.on('writeMessage', clientFunctions.writeMessage);
-            this.proxy.on('writeMessages', clientFunctions.writeMessages);
+            this.wrapServerFunctions();
+            this.subscribeServerPusheEvents();
+            this.hubConnectionSubscribeEvents();
+            return true;
+        };
+        /**
+         * Just provide strongly typed client calls to signalR server.
+         */
+        LoggingHubStarter.prototype.wrapServerFunctions = function () {
+            var _this = this;
             this.server = {
                 uploadTrace: function (traceMessage) { return _this.invoke('uploadTrace', traceMessage); },
                 uploadTraces: function (traceMessages) { return _this.invoke('uploadTraces', traceMessages); },
@@ -33,28 +76,52 @@ var Fonlow_Logging;
                 reportClientTypeAndTraceTemplate: function (clientType, template, origin) { return _this.invoke('reportClientTypeAndTraceTemplate', clientType, template, origin); },
                 retrieveClientSettings: function () { return _this.invoke('retrieveClientSettings'); },
             };
-            this.hubConnectionSubscribeEvents(this.connection);
-            return true;
         };
-        LoggingHubStarter.prototype.hubConnectionSubscribeEvents = function (connection) {
+        /**
+         * Subscribe some server push events.
+         */
+        LoggingHubStarter.prototype.subscribeServerPusheEvents = function () {
+            this.proxy.on('writeTrace', clientFunctions.writeTrace);
+            this.proxy.on('writeTraces', clientFunctions.writeTraces);
+            this.proxy.on('writeMessage', clientFunctions.writeMessage);
+            this.proxy.on('writeMessages', clientFunctions.writeMessages);
+        };
+        /**
+         * Basic house keeping of signalR connection
+         * @param connection
+         */
+        LoggingHubStarter.prototype.hubConnectionSubscribeEvents = function () {
             var _this = this;
-            connection.stateChanged(function (change) {
+            this.connection
+                .stateChanged(function (change) {
                 console.info("HubConnection state changed from " + change.oldState + " to " + change.newState + " .");
-                if (change.oldState == 2 && change.newState == 3) {
-                    console.warn('You may need to refresh the page to reconnect the hub.');
+                if (change.newState == 4 /* Disconnected */) {
+                    console.warn('Now try to re-establish signalR connection by the component.');
                 }
-            }).disconnected(function () {
+            })
+                .disconnected(function () {
                 console.warn('HubConnection_Closed: Hub could not connect or get disconnected.');
-            }).reconnected(function () {
-                console.info(connection.url + ' reconnected.');
+            })
+                .reconnected(function () {
+                console.info(_this.connection.url + ' reconnected.');
                 _this.server.reportClientType(ClientType.Browser).fail(function () {
                     console.error('Fail to reportClientType');
                 });
-            }).reconnecting(function () {
-                console.info('Reconnecting ' + connection.url + ' ...');
-            }).connectionSlow(function () {
+            })
+                .reconnecting(function () {
+                console.info('Reconnecting ' + _this.connection.url + ' ...');
+            })
+                .connectionSlow(function () {
                 console.warn('HubConnection_ConnectionSlow: Connection is about to timeout.');
-            }).error(function (error) {
+            })
+                .error(function (error) {
+                var context = error.context;
+                if (context && context.status != 0) {
+                    if (context.status === 401) {
+                        console.warn('Due to 401, the connection wont be resumed.' + context.statusText);
+                        _this.stopListening();
+                    }
+                }
                 console.error(error.message);
             });
         };
@@ -78,7 +145,9 @@ var Fonlow_Logging;
                     return $.when(null);
                 }
             }
-            return this.connection.start({ transport: ['webSockets', 'longPolling'] }).done(function () {
+            return this.connection.start({ transport: ['webSockets', 'longPolling'] })
+                .done(function () {
+                _this.listeningStoped = false;
                 $('input#clients').click(function () {
                     _this.server.getAllClients().done(function (clientsInfo) {
                         webUiFunctions.renderClientsInfo(clientsInfo);
@@ -88,7 +157,8 @@ var Fonlow_Logging;
                     console.error('Fail to reportClientType');
                 });
                 ;
-                _this.server.retrieveClientSettings().done(function (result) {
+                _this.server.retrieveClientSettings()
+                    .done(function (result) {
                     clientSettings = result;
                     $('input#clients').toggle(clientSettings.advancedMode);
                     clientFunctions.bufferSize = clientSettings.bufferSize;
@@ -104,10 +174,12 @@ var Fonlow_Logging;
                             });
                         }
                     });
-                }).fail(function () {
+                })
+                    .fail(function () {
                     console.error("Fail to retrieveClientSettings.");
                 });
-            }).fail(function () {
+            })
+                .fail(function () {
                 console.error('Couldnot start loggingHub connection.');
             });
         };
