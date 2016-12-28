@@ -58,11 +58,22 @@ module Fonlow_Logging {
 
         private listeningStoped: boolean = true;
 
+        private hubConnectionStateChanged: JQueryDeferred<SignalR.ConnectionState>;
+
         constructor() {
             console.debug('LoggingHubStarter created.');
+
+            //this.hubConnectionStateChanged = jQuery.Deferred<number>();
+            //this.hubConnectionStateChanged.done((state) => {
+            //    console.debug('hubConnectionStateChanged.done state ' + state);
+            //    if (state === 4) {
+            //        this.reconnectWithDelay(20000);
+            //    }
+            //});
         }
 
         reconnect(): void {
+            console.debug('reconnect...');
             this.init();
             this.start();
         }
@@ -76,6 +87,7 @@ module Fonlow_Logging {
             if (this.listeningStoped)
                 return;
 
+            console.info(`SignalR client wil try to connect with server in ${ms} milliseconds.`);
             setTimeout(() => {
                 this.reconnect();
             }, ms);
@@ -142,16 +154,12 @@ module Fonlow_Logging {
 
         /**
          * Basic house keeping of signalR connection
-         * @param connection
          */
         private hubConnectionSubscribeEvents(): void {
             this.connection
                 .stateChanged((change) => {
                     console.info(`HubConnection state changed from ${change.oldState} to ${change.newState} .`);
-                    if (change.newState == SignalR.ConnectionState.Disconnected) {  //similar to (obj.OldState == ConnectionState.Reconnecting) && (obj.NewState == ConnectionState.Disconnected)
-                        console.warn('Now try to re-establish signalR connection by the component.');
-                    }
-
+                    this.DeferredStateChangedAction(change.newState);
                 })
                 .disconnected(() => {
                     console.warn('HubConnection_Closed: Hub could not connect or get disconnected.');
@@ -179,6 +187,18 @@ module Fonlow_Logging {
 
                     console.error(error.message);
                 });
+        }
+
+        private DeferredStateChangedAction(state: SignalR.ConnectionState): void {
+            this.hubConnectionStateChanged = jQuery.Deferred<SignalR.ConnectionState>();
+            this.hubConnectionStateChanged.done((state) => {
+                console.debug('hubConnectionStateChanged.done state ' + state);
+                if (state === SignalR.ConnectionState.Disconnected) {//similar to (obj.OldState == ConnectionState.Reconnecting) && (obj.NewState == ConnectionState.Disconnected)
+                    this.reconnectWithDelay(20000);
+                }
+            });
+
+            this.hubConnectionStateChanged.resolve(state);//resolve is effective only once, so I have to declare a new deferred object everytime here.
         }
 
         private invoke(method: string, ...msg: any[]): JQueryPromise<any> {

@@ -16,8 +16,16 @@ var Fonlow_Logging;
         function LoggingHubStarter() {
             this.listeningStoped = true;
             console.debug('LoggingHubStarter created.');
+            //this.hubConnectionStateChanged = jQuery.Deferred<number>();
+            //this.hubConnectionStateChanged.done((state) => {
+            //    console.debug('hubConnectionStateChanged.done state ' + state);
+            //    if (state === 4) {
+            //        this.reconnectWithDelay(20000);
+            //    }
+            //});
         }
         LoggingHubStarter.prototype.reconnect = function () {
+            console.debug('reconnect...');
             this.init();
             this.start();
         };
@@ -29,6 +37,7 @@ var Fonlow_Logging;
             var _this = this;
             if (this.listeningStoped)
                 return;
+            console.info("SignalR client wil try to connect with server in " + ms + " milliseconds.");
             setTimeout(function () {
                 _this.reconnect();
             }, ms);
@@ -84,16 +93,13 @@ var Fonlow_Logging;
         };
         /**
          * Basic house keeping of signalR connection
-         * @param connection
          */
         LoggingHubStarter.prototype.hubConnectionSubscribeEvents = function () {
             var _this = this;
             this.connection
                 .stateChanged(function (change) {
                 console.info("HubConnection state changed from " + change.oldState + " to " + change.newState + " .");
-                if (change.newState == 4 /* Disconnected */) {
-                    console.warn('Now try to re-establish signalR connection by the component.');
-                }
+                _this.DeferredStateChangedAction(change.newState);
             })
                 .disconnected(function () {
                 console.warn('HubConnection_Closed: Hub could not connect or get disconnected.');
@@ -120,6 +126,17 @@ var Fonlow_Logging;
                 }
                 console.error(error.message);
             });
+        };
+        LoggingHubStarter.prototype.DeferredStateChangedAction = function (state) {
+            var _this = this;
+            this.hubConnectionStateChanged = jQuery.Deferred();
+            this.hubConnectionStateChanged.done(function (state) {
+                console.debug('hubConnectionStateChanged.done state ' + state);
+                if (state === 4 /* Disconnected */) {
+                    _this.reconnectWithDelay(20000);
+                }
+            });
+            this.hubConnectionStateChanged.resolve(state); //resolve is effective only once, so I have to declare a new deferred object everytime here.
         };
         LoggingHubStarter.prototype.invoke = function (method) {
             var msg = [];
