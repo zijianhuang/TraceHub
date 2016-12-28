@@ -76,14 +76,9 @@ module Fonlow_Logging {
             if (this.listeningStoped)
                 return;
 
-            this.delay(ms).then(() => {
+            setTimeout(() => {
                 this.reconnect();
-            })
-        }
-
-        private delay(ms: number) {
-            let dfd = jQuery.Deferred();
-            return dfd.promise(resolve => setTimeout(resolve, ms));
+            }, ms);
         }
 
         /**

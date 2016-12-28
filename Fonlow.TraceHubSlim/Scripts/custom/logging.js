@@ -29,13 +29,9 @@ var Fonlow_Logging;
             var _this = this;
             if (this.listeningStoped)
                 return;
-            this.delay(ms).then(function () {
+            setTimeout(function () {
                 _this.reconnect();
-            });
-        };
-        LoggingHubStarter.prototype.delay = function (ms) {
-            var dfd = jQuery.Deferred();
-            return dfd.promise(function (resolve) { return setTimeout(resolve, ms); });
+            }, ms);
         };
         /**
          * This should be placed before logout.
