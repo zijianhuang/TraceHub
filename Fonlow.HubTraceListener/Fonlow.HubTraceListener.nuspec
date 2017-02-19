@@ -10,12 +10,11 @@
     <projectUrl>https://github.com/zijianhuang/TraceHub</projectUrl>
     <requireLicenseAcceptance>true</requireLicenseAcceptance>
     <description>Fonlow.HubTraceListener listens to traces of your application, and upload the traces to TraceHub.</description>
-    <releaseNotes>Report to TraceHub about its InstanceId so TraceHub MVC or Slim could display the InstanceId in Clients info.</releaseNotes>
-    <copyright>Copyright © Zijian Huang 2016</copyright>
+    <releaseNotes>Update with Essential.Diagnostics 2.0.</releaseNotes>
+    <copyright>Copyright © Zijian Huang 2016-2017</copyright>
     <tags>API Web MVC SignalR webapi restful aspnet aspnetwebapi</tags>
   </metadata>
   <files>
     <file src="bin\Release\Fonlow.TraceHub.Common.dll" target="lib\net45" />
-    <file src="bin\Release\Essential.Diagnostics.dll" target="lib\net45" />
   </files>
 </package>

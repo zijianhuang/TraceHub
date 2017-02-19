@@ -10,6 +10,7 @@ using System.Threading;
 
 namespace Fonlow.Diagnostics
 {
+    [System.CLSCompliant(false)]
     public class HubTraceListener : TraceListenerBase
     {
         TraceFormatter traceFormatter = new TraceFormatter();
