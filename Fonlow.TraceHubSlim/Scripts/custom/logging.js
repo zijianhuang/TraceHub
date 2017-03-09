@@ -2,13 +2,13 @@
 ///<reference path="../typings/signalr/signalr.d.ts" />
 var Fonlow_Logging;
 (function (Fonlow_Logging) {
+    var ClientType;
     (function (ClientType) {
         ClientType[ClientType["Undefined"] = 0] = "Undefined";
         ClientType[ClientType["TraceListener"] = 1] = "TraceListener";
         ClientType[ClientType["Browser"] = 2] = "Browser";
         ClientType[ClientType["Console"] = 4] = "Console";
-    })(Fonlow_Logging.ClientType || (Fonlow_Logging.ClientType = {}));
-    var ClientType = Fonlow_Logging.ClientType;
+    })(ClientType = Fonlow_Logging.ClientType || (Fonlow_Logging.ClientType = {}));
     /**
      * Manage SignalR connection
      */

@@ -47,6 +47,8 @@ namespace Fonlow.TraceHub
                 Username = Context.User.Identity.Name,
                 IpAddress = GetRemoteIpAddress(),
                 UserAgent = Context.Request.Headers["User-Agent"],
+                Write = !NotAllowed(true),
+                Read=!NotAllowedToPush(true),
             });
         }
 
@@ -58,6 +60,11 @@ namespace Fonlow.TraceHub
             return obj as string;
         }
 
+        /// <summary>
+        /// Not allow to call server function, so the client could not write.
+        /// </summary>
+        /// <param name="reportError"></param>
+        /// <returns></returns>
         bool NotAllowed(bool reportError = true)
         {
             if (HubSettings.Instance.ClientCallRestricted)
@@ -72,6 +79,35 @@ namespace Fonlow.TraceHub
                     if (reportError)
                     {
                         Report(TraceEventType.Warning, $"Client calls are restricted, but this address {ipAddress} tries to call.");
+                    }
+
+                    return true;
+                }
+            }
+
+
+            return false;
+        }
+
+        /// <summary>
+        /// Not allow to push to the client, so the client could not read traces.
+        /// </summary>
+        /// <param name="reportError"></param>
+        /// <returns></returns>
+        bool NotAllowedToPush(bool reportError = true)
+        {
+            if (HubSettings.Instance.ClientPushRestricted)
+            {
+                var ipAddress = GetRemoteIpAddress();
+                if (ipAddress == "::1")  //Reasonable to always allow local call, regardless of the setting
+                    return false;
+
+                if (String.IsNullOrWhiteSpace(ipAddress)
+                    || !HubSettings.Instance.AllowedToPush(ipAddress))
+                {
+                    if (reportError)
+                    {
+                        Report(TraceEventType.Warning, $"View are restricted, but this address {ipAddress} tries to view.");
                     }
 
                     return true;
@@ -144,6 +180,14 @@ namespace Fonlow.TraceHub
 
         public ClientSettings RetrieveClientSettings()
         {
+            if (NotAllowedToPush(false))
+            {
+                return new ClientSettings
+                {
+                    AdvancedMode = false,
+                    BufferSize = 200,
+                };
+            }
             return HubSettings.Instance.ClientSettings;
         }
 

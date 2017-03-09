@@ -18,8 +18,11 @@ namespace Fonlow.TraceHub
 
         private HubSettings()
         {
-            var rangesText= ConfigurationManager.AppSettings["loggingHub_AllowedIpAddresses"];
+            var rangesText = ConfigurationManager.AppSettings["loggingHub_AllowedIpAddresses"];
             AllowedIpAddresses = IPAddressRangesHelper.ParseIPAddressRanges(rangesText);
+
+            var rangesTextForView = ConfigurationManager.AppSettings["loggingHub_AllowedIpAddressesForView"];
+            AllowedIpAddressesForView = IPAddressRangesHelper.ParseIPAddressRanges(rangesTextForView);
 
             int bufferSize = 2000;
             int.TryParse(ConfigurationManager.AppSettings["loggingHub_ClientBufferSize"], out bufferSize);
@@ -57,6 +60,8 @@ namespace Fonlow.TraceHub
         /// <remarks>To restrict client connections like Web browsers, you have better to do the restrictions on the Web server like IIS.</remarks>
         public IPAddressRange[] AllowedIpAddresses { get; private set; }
 
+        public IPAddressRange[] AllowedIpAddressesForView { get; private set; }
+
         public ClientSettings ClientSettings { get; private set; }
 
 
@@ -75,9 +80,17 @@ namespace Fonlow.TraceHub
             }
         }
 
+        public bool ClientPushRestricted
+        {
+            get
+            {
+                return AllowedIpAddressesForView != null;
+            }
+        }
+
         public bool AllowedToCallServer(string ipAddress)
         {
-            if (AllowedIpAddresses==null)
+            if (AllowedIpAddresses == null)
             {
                 return true;
             }
@@ -85,6 +98,16 @@ namespace Fonlow.TraceHub
             return AllowedIpAddresses.IsInRanges(ipAddress);
         }
 
-  
+        public bool AllowedToPush(string ipAddress)
+        {
+            if (AllowedIpAddressesForView == null)
+            {
+                return true;
+            }
+
+            return AllowedIpAddressesForView.IsInRanges(ipAddress);
+        }
+
+
     }
 }

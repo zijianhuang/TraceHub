@@ -59,6 +59,11 @@ namespace Fonlow.TraceHub
         {
             return dic.Values.ToList();
         }
+
+        public IList<string> GetConnectionsAllowedToRead()
+        {
+            return dic.Values.Where(d => d.Read).Select(c => c.Id).ToList();
+        }
     }
 
 }

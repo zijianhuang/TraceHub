@@ -82,9 +82,17 @@ namespace Fonlow.Diagnostics
         [DataMember(Name = "origin")]
         public string Origin { get; set; }
 
+        [DataMember(Name = "read")]
+        public bool Read { get; set; }
+
+        [DataMember(Name = "write")]
+        public bool Write { get; set; }
+
+
+
         public override string ToString()
         {
-            return $"HubClient  Id: {Id}; IP Address: {IpAddress}; Connected UTC: {ConnectedTimeUtc}; User: {Username}; Type: {ClientType}; UserAgent: {UserAgent}";
+            return $"HubClient  Id: {Id}; IP Address: {IpAddress}; Connected UTC: {ConnectedTimeUtc}; User: {Username}; Type: {ClientType}; UserAgent: {UserAgent}; R/W:{Read}/{Write}";
         }
     }
 

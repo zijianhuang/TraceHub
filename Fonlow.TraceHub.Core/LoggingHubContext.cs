@@ -6,6 +6,7 @@ using Fonlow.Diagnostics;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Threading;
+using System.Linq;
 
 namespace Fonlow.TraceHub
 {
@@ -54,7 +55,8 @@ namespace Fonlow.TraceHub
 
         public QueueStatus SendAll()
         {
-            return pendingQueue.SendAll((tms) => HubContext.Clients.All.WriteTraces(tms));
+            var allowedToRead = ClientsDic.Instance.GetConnectionsAllowedToRead();
+            return pendingQueue.SendAll((tms) => HubContext.Clients.Clients(allowedToRead).WriteTraces(tms));
         }
 
         #region IDisposable pattern
