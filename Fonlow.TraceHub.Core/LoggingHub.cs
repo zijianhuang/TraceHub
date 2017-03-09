@@ -40,6 +40,14 @@ namespace Fonlow.TraceHub
         void RegisterClient()
         {
             Debug.WriteLine($"OnConnected:   ConnectionId: {Context.ConnectionId}; UserIdentityName: {Context.User.Identity.Name}; Client IP address: {GetRemoteIpAddress()}; ");
+            var notAllowedToWrite = NotAllowed(true);
+            var notAllowedToRead = NotAllowedToPush(true);
+            //if (notAllowedToRead && notAllowedToWrite) Apparently 2.2.1 does not support that server disconnects a client if AuthorizeAttribute is not used.
+            //{
+            //    this.Dispose(); I hoped this is a workaround, however apparently Dispose does not disconnect. :(
+            //    return; Another workaround is to have a push function to ask the client to disconnect.
+            //}
+
             ClientsDic.Instance.Add(Context.ConnectionId, new ClientInfo
             {
                 Id = Context.ConnectionId,
@@ -47,8 +55,8 @@ namespace Fonlow.TraceHub
                 Username = Context.User.Identity.Name,
                 IpAddress = GetRemoteIpAddress(),
                 UserAgent = Context.Request.Headers["User-Agent"],
-                Write = !NotAllowed(true),
-                Read=!NotAllowedToPush(true),
+                Write = !notAllowedToWrite,
+                Read=!notAllowedToRead,
             });
         }
 
