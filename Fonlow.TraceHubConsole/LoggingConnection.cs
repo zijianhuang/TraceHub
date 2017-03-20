@@ -303,7 +303,7 @@ namespace Fonlow.Logging
         {
             Trace.TraceInformation($"HubConnection state changed from {obj.OldState} to {obj.NewState} .");
 
-            if ((obj.OldState == ConnectionState.Reconnecting) && (obj.NewState == ConnectionState.Disconnected))
+            if  (obj.NewState == ConnectionState.Disconnected)
             {
                 DisposeAndReconnectAsync();
             }
