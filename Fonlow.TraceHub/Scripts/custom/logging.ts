@@ -62,14 +62,6 @@ module Fonlow_Logging {
 
         constructor() {
             console.debug('LoggingHubStarter created.');
-
-            //this.hubConnectionStateChanged = jQuery.Deferred<number>();
-            //this.hubConnectionStateChanged.done((state) => {
-            //    console.debug('hubConnectionStateChanged.done state ' + state);
-            //    if (state === 4) {
-            //        this.reconnectWithDelay(20000);
-            //    }
-            //});
         }
 
         reconnect(): void {
@@ -88,9 +80,11 @@ module Fonlow_Logging {
                 return;
 
             console.info(`SignalR client wil try to connect with server in ${ms} milliseconds.`);
-            setTimeout(() => {
-                this.reconnect();
-            }, ms);
+            setTimeout(
+                () => {
+                    this.reconnect();
+                },
+                ms);
         }
 
         /**
@@ -128,7 +122,7 @@ module Fonlow_Logging {
         }
 
         /**
-         * Just provide strongly typed client calls to signalR server.
+         * Wrap strongly typed client calls to signalR server into this.server.
          */
         private wrapServerFunctions(): void {
             this.server = {//give the interface some implementations.
@@ -201,6 +195,11 @@ module Fonlow_Logging {
             this.hubConnectionStateChanged.resolve(state);//resolve is effective only once, so I have to declare a new deferred object everytime here.
         }
 
+        /**
+         * Generic helper function to wrap server functions.
+         * @param method server function name
+         * @param msg server function parameters
+         */
         private invoke(method: string, ...msg: any[]): JQueryPromise<any> {
             if (!this.connection || this.connection.state != 1) {//1 is connected. It has to be connection.hub.state while connection.state is not working.
                 console.debug(`Invoking ${method} when connection or hub state is not good.`);
@@ -228,6 +227,13 @@ module Fonlow_Logging {
                         });
                     });
 
+                    $('input#listeners').click(() => {
+                        this.server.getAllClients().done((clientsInfo) => {
+                            let listenersInfo = clientsInfo.filter(d => d.clientType === ClientType.TraceListener);
+                            webUiFunctions.renderListenersInfo(listenersInfo);
+                        });
+                    });
+
                     this.server.reportClientType(ClientType.Browser).fail(() => {
                         console.error('Fail to reportClientType');
                     });;
@@ -237,15 +243,18 @@ module Fonlow_Logging {
                             clientSettings = result;
 
                             $('input#clients').toggle(clientSettings.advancedMode);
+                            $('input#listeners').toggle(clientSettings.advancedMode);
                             clientFunctions.bufferSize = clientSettings.bufferSize;
                             this.server.getAllClients().done((clientsInfo) => {
                                 if (clientsInfo == null) {
                                     $('input#clients').hide();
+                                    $('input#listeners').hide();
                                 }
                                 else {
                                     this.server.getAllClients().done((clientsInfo) => {
                                         if (clientsInfo == null) {
                                             $('input#clients').hide();
+                                            $('input#listeners').hide();
                                         }
                                     });
                                 }
@@ -296,6 +305,36 @@ module Fonlow_Logging {
             list.append(divs);
             $('#clientList').empty();
             $('#clientList').append(list);
+
+            return true;
+        }
+
+        renderListenersInfo(listenersInfo: ClientInfo[]): boolean {
+            if (listenersInfo == null)
+                return false;
+
+            if (listenersInfo.length == 0)
+                return true;
+
+            var evenLine = false;
+            var divs = listenersInfo.map(function (m) {
+                var div = $('<li/>', { class: 'hubClientInfo' + (evenLine ? ' even' : ' odd') });
+                evenLine = !evenLine;
+                div.append($('<input/>', { type: 'checkbox', id: m.id, checked: 'checked', onclick: 'selectListener(this.checked, this.id)' }));
+                div.append($('<span/>', { class: 'hc-ip' }).text(m.ipAddress));
+                div.append($('<span/>', { class: 'time' }).text(m.connectedTimeUtc.toString()));
+
+                div.append($('<span/>', { class: 'hc-template' }).text(m.template));
+                div.append($('<span/>', { class: 'origin' }).text(m.origin));
+
+                div.append($('<span/>', { class: 'hc-id' }).text(m.id));
+                return div;
+            });
+
+            var list = $('<div/>', { class: 'hubClients' });
+            list.append(divs);
+            $('#listenerList').empty();
+            $('#listenerList').append(list);
 
             return true;
         }

@@ -16,13 +16,6 @@ var Fonlow_Logging;
         function LoggingHubStarter() {
             this.listeningStoped = true;
             console.debug('LoggingHubStarter created.');
-            //this.hubConnectionStateChanged = jQuery.Deferred<number>();
-            //this.hubConnectionStateChanged.done((state) => {
-            //    console.debug('hubConnectionStateChanged.done state ' + state);
-            //    if (state === 4) {
-            //        this.reconnectWithDelay(20000);
-            //    }
-            //});
         }
         LoggingHubStarter.prototype.reconnect = function () {
             console.debug('reconnect...');
@@ -69,7 +62,7 @@ var Fonlow_Logging;
             return true;
         };
         /**
-         * Just provide strongly typed client calls to signalR server.
+         * Wrap strongly typed client calls to signalR server into this.server.
          */
         LoggingHubStarter.prototype.wrapServerFunctions = function () {
             var _this = this;
@@ -138,6 +131,11 @@ var Fonlow_Logging;
             });
             this.hubConnectionStateChanged.resolve(state); //resolve is effective only once, so I have to declare a new deferred object everytime here.
         };
+        /**
+         * Generic helper function to wrap server functions.
+         * @param method server function name
+         * @param msg server function parameters
+         */
         LoggingHubStarter.prototype.invoke = function (method) {
             var msg = [];
             for (var _i = 1; _i < arguments.length; _i++) {
@@ -166,6 +164,12 @@ var Fonlow_Logging;
                         webUiFunctions.renderClientsInfo(clientsInfo);
                     });
                 });
+                $('input#listeners').click(function () {
+                    _this.server.getAllClients().done(function (clientsInfo) {
+                        var listenersInfo = clientsInfo.filter(function (d) { return d.clientType === ClientType.TraceListener; });
+                        webUiFunctions.renderListenersInfo(listenersInfo);
+                    });
+                });
                 _this.server.reportClientType(ClientType.Browser).fail(function () {
                     console.error('Fail to reportClientType');
                 });
@@ -174,15 +178,18 @@ var Fonlow_Logging;
                     .done(function (result) {
                     clientSettings = result;
                     $('input#clients').toggle(clientSettings.advancedMode);
+                    $('input#listeners').toggle(clientSettings.advancedMode);
                     clientFunctions.bufferSize = clientSettings.bufferSize;
                     _this.server.getAllClients().done(function (clientsInfo) {
                         if (clientsInfo == null) {
                             $('input#clients').hide();
+                            $('input#listeners').hide();
                         }
                         else {
                             _this.server.getAllClients().done(function (clientsInfo) {
                                 if (clientsInfo == null) {
                                     $('input#clients').hide();
+                                    $('input#listeners').hide();
                                 }
                             });
                         }
@@ -227,6 +234,29 @@ var Fonlow_Logging;
             list.append(divs);
             $('#clientList').empty();
             $('#clientList').append(list);
+            return true;
+        };
+        WebUiFunctions.prototype.renderListenersInfo = function (listenersInfo) {
+            if (listenersInfo == null)
+                return false;
+            if (listenersInfo.length == 0)
+                return true;
+            var evenLine = false;
+            var divs = listenersInfo.map(function (m) {
+                var div = $('<li/>', { class: 'hubClientInfo' + (evenLine ? ' even' : ' odd') });
+                evenLine = !evenLine;
+                div.append($('<input/>', { type: 'checkbox', id: m.id, checked: 'checked', onclick: 'selectListener(this.checked, this.id)' }));
+                div.append($('<span/>', { class: 'hc-ip' }).text(m.ipAddress));
+                div.append($('<span/>', { class: 'time' }).text(m.connectedTimeUtc.toString()));
+                div.append($('<span/>', { class: 'hc-template' }).text(m.template));
+                div.append($('<span/>', { class: 'origin' }).text(m.origin));
+                div.append($('<span/>', { class: 'hc-id' }).text(m.id));
+                return div;
+            });
+            var list = $('<div/>', { class: 'hubClients' });
+            list.append(divs);
+            $('#listenerList').empty();
+            $('#listenerList').append(list);
             return true;
         };
         return WebUiFunctions;

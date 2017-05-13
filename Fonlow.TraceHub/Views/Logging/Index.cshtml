@@ -39,6 +39,7 @@
                     </li>
                     <li><label class="navbar-text"></label></li>
                     <li class="bottom"><input type="button" id="clients" value="Clients" class="btn btn-default navbar-btn advanced" data-toggle="modal" data-target="#myModal" /></li>
+                    <li class="bottom ml-1"><input type="button" id="listeners" value="Listeners" class="btn btn-default navbar-btn advanced" data-toggle="modal" data-target="#listenersModal" /></li>
                 </ul>
                 @Html.Partial("_LoginPartial")
             </div>
@@ -55,7 +56,7 @@
         <hr />
 
 
-        <!-- Modal -->
+        <!-- Clients Modal -->
         <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-lg" role="document">
                 <div class="modal-content">
@@ -74,6 +75,26 @@
                 </div>
             </div>
         </div>
+        <!-- Listeners Modal -->
+        <div class="modal fade" id="listenersModal" tabindex="-1" role="dialog" aria-labelledby="listenersModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        <h4 class="modal-title" id="listenersModalLabel">Listeners</h4>
+                    </div>
+                    <ul id="listenerList" class="modal-body">
+                        ...
+                    </ul>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <footer></footer>
     </div>
 
