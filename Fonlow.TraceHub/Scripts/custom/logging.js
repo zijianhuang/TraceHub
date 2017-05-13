@@ -166,8 +166,9 @@ var Fonlow_Logging;
                 });
                 $('input#listeners').click(function () {
                     _this.server.getAllClients().done(function (clientsInfo) {
+                        checkedListenersTemp = checkedListeners.slice(0); //copy
                         var listenersInfo = clientsInfo.filter(function (d) { return d.clientType === ClientType.TraceListener; });
-                        webUiFunctions.renderListenersInfo(listenersInfo);
+                        webUiFunctions.renderListenersInfo(listenersInfo, checkedListenersTemp);
                     });
                 });
                 _this.server.reportClientType(ClientType.Browser).fail(function () {
@@ -236,16 +237,17 @@ var Fonlow_Logging;
             $('#clientList').append(list);
             return true;
         };
-        WebUiFunctions.prototype.renderListenersInfo = function (listenersInfo) {
+        WebUiFunctions.prototype.renderListenersInfo = function (listenersInfo, origins) {
             if (listenersInfo == null)
                 return false;
             if (listenersInfo.length == 0)
                 return true;
             var evenLine = false;
             var divs = listenersInfo.map(function (m) {
-                var div = $('<li/>', { class: 'hubClientInfo' + (evenLine ? ' even' : ' odd') });
+                var div = $('<div/>', { class: 'hubClientInfo' + (evenLine ? ' even' : ' odd') });
                 evenLine = !evenLine;
-                div.append($('<input/>', { type: 'checkbox', id: m.id, checked: 'checked', onclick: 'selectListener(this.checked, this.id)' }));
+                var shouldBeChecked = (origins.length > 0 && origins.indexOf(m.origin) >= 0);
+                div.append($('<input/>', { type: 'checkbox', id: m.origin, checked: shouldBeChecked, onclick: 'webUiFunctions.selectListener(this.checked, this.id)' }));
                 div.append($('<span/>', { class: 'hc-ip' }).text(m.ipAddress));
                 div.append($('<span/>', { class: 'time' }).text(m.connectedTimeUtc.toString()));
                 div.append($('<span/>', { class: 'hc-template' }).text(m.template));
@@ -259,6 +261,20 @@ var Fonlow_Logging;
             $('#listenerList').append(list);
             return true;
         };
+        WebUiFunctions.prototype.selectListener = function (checked, origin) {
+            if (checked) {
+                checkedListenersTemp.push(origin);
+            }
+            else {
+                var index = checkedListenersTemp.indexOf(origin);
+                if (index >= 0) {
+                    checkedListenersTemp.splice(index, 1);
+                }
+            }
+        };
+        WebUiFunctions.prototype.confirmSelectionOfListeners = function () {
+            checkedListeners = checkedListenersTemp.slice(0);
+        };
         return WebUiFunctions;
     }());
     Fonlow_Logging.WebUiFunctions = WebUiFunctions;
@@ -271,16 +287,19 @@ var Fonlow_Logging;
             this.writeTrace = function (tm) {
                 if ((tm.eventType & _this.sourceLevels) == 0)
                     return;
-                _this.addLine(tm);
+                if (checkedListeners.length === 0 || (checkedListeners.length > 0 && checkedListeners.indexOf(tm.origin) >= 0)) {
+                    _this.addLine(tm);
+                }
             };
             //Write traces in fixed size queue defined by this.bufferSize 
             this.writeTraces = function (tms) {
-                if (_this.sourceLevels > 0) {
-                    tms = tms.filter(function (m) { return (m.eventType & _this.sourceLevels) != 0; });
-                }
-                else if (_this.sourceLevels === 0) {
+                if (_this.sourceLevels === 0) {
                     return;
                 }
+                tms = tms.filter(function (m) {
+                    return (m.eventType & _this.sourceLevels) != 0 &&
+                        (checkedListeners.length == 0 || (checkedListeners.length > 0 && checkedListeners.indexOf(m.origin) >= 0));
+                });
                 //Clean up some space first
                 if (lineCount + tms.length > _this.bufferSize) {
                     var numberOfLineToRemove = lineCount + tms.length - _this.bufferSize;
@@ -393,6 +412,8 @@ var webUiFunctions = new Fonlow_Logging.WebUiFunctions();
 var managementFunctions = new Fonlow_Logging.ManagementFunctions();
 var originalText = "saveTime";
 var clientSettings;
+var checkedListeners = [];
+var checkedListenersTemp = [];
 $(document).on("mouseenter", "span.time", function () {
     originalText = $(this).text();
     $(this).text($(this).attr("value"));
