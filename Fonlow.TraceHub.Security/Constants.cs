@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Fonlow.TraceHub.Security
+﻿namespace Fonlow.TraceHub.Security
 {
     /// <summary>
     /// Roles used in operation contracts and the RoleProvider in ASP .NET
