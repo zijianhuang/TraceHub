@@ -324,12 +324,8 @@ module Fonlow_Logging {
                 let shouldBeChecked = (origins.length > 0 && origins.indexOf(m.origin) >= 0);
                 div.append($('<input/>', { type: 'checkbox', id: m.origin, checked: shouldBeChecked, onclick: 'webUiFunctions.selectListener(this.checked, this.id)' }));
                 div.append($('<span/>', { class: 'hc-ip' }).text(m.ipAddress));
-                div.append($('<span/>', { class: 'time' }).text(m.connectedTimeUtc.toString()));
-
-                div.append($('<span/>', { class: 'hc-template' }).text(m.template));
                 div.append($('<span/>', { class: 'origin' }).text(m.origin));
 
-                div.append($('<span/>', { class: 'hc-id' }).text(m.id));
                 return div;
             });
 

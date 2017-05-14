@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>Fonlow.TraceHub.Slim</id>
-    <version>1.3.0</version>
+    <version>1.4.0</version>
     <title>TraceHub.Slim</title>
     <authors>Zijian Huang</authors>
     <owners>Zijian Huang</owners>
@@ -11,7 +11,7 @@
     <requireLicenseAcceptance>true</requireLicenseAcceptance>
     <description>Trace Hub components that make your existing ASP.NET Web Application have TraceHub functionality. And you may need to cherry-pick a portion of Site.css to your Web project.</description>
     <summary>Trace Hub components that make your existing ASP.NET Web Application have TraceHub functionality.</summary>
-    <releaseNotes>Restriction on what clients could read traces through white listed IP addresses.</releaseNotes>
+    <releaseNotes>Allow to select trace listeners of origins.</releaseNotes>
     <copyright>Copyright © Zijian Huang 2016-2017</copyright>
     <tags>ASP API Web Client Fonlow.TraceHub rest restful aspnet aspnet SignalR httpclient</tags>
     <dependencies>

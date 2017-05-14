@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>Fonlow.TraceHub.MVC</id>
-    <version>1.2.2</version>
+    <version>1.3.0</version>
     <title>TraceHub.MVC</title>
     <authors>Zijian Huang</authors>
     <owners>Zijian Huang</owners>
@@ -11,8 +11,8 @@
     <requireLicenseAcceptance>true</requireLicenseAcceptance>
     <description>TraceHub components that make your existing ASP.NET MVC Web Application have TraceHub functionality. And you may need to cherry-pick a portion of Site.css to your MVC project.</description>
     <summary>TraceHub components that make your existing ASP.NET MVC Web Application have TraceHub functionality.</summary>
-    <releaseNotes>If the TraceHub server outage exceeds the 8 attempts reconnection by SignalR JS lib, TraceHub JS client will try to reconnect every 20 seconds.</releaseNotes>
-    <copyright>Copyright © Zijian Huang 2016</copyright>
+    <releaseNotes>Allow to select trace listeners of origins.</releaseNotes>
+    <copyright>Copyright © Zijian Huang 2016-2017</copyright>
     <tags>ASP API Web Client Fonlow.TraceHub rest restful aspnet aspnet SignalR httpclient</tags>
     <dependencies>
       <group>

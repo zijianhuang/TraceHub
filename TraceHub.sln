@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.25123.0
+VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fonlow.TraceHub.Common", "Fonlow.Web.Logging.Common\Fonlow.TraceHub.Common.csproj", "{ED8EFF5F-1EF8-4FD1-AF11-85DF81CC1CDC}"
 EndProject
@@ -9,7 +9,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestTraceListener", "TestTr
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fonlow.HubTraceListener", "Fonlow.HubTraceListener\Fonlow.HubTraceListener.csproj", "{1D268C59-F0A1-4FC5-8A40-FBD91818C208}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fonlow.TraceHub", "Fonlow.TraceHub\Fonlow.TraceHub.csproj", "{4C66A58A-983D-4051-9F9A-5148E906012D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fonlow.TraceHub.MVC", "Fonlow.TraceHub\Fonlow.TraceHub.MVC.csproj", "{4C66A58A-983D-4051-9F9A-5148E906012D}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fonlow.TraceHubConsole", "Fonlow.TraceHubConsole\Fonlow.TraceHubConsole.csproj", "{F456E813-1551-44E0-BD16-EA6D35DA1A61}"
 EndProject
@@ -26,7 +26,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fonlow.TraceHub.Core", "Fonlow.TraceHub.Core\Fonlow.TraceHub.Core.csproj", "{69C595A5-887A-429C-B226-DD03BF85DD6B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fonlow.TraceHubSlim", "Fonlow.TraceHubSlim\Fonlow.TraceHubSlim.csproj", "{A11B36B1-9513-40D2-A349-99AE6C6B8DAB}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fonlow.TraceHub.Slim", "Fonlow.TraceHubSlim\Fonlow.TraceHub.Slim.csproj", "{A11B36B1-9513-40D2-A349-99AE6C6B8DAB}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CoreTests", "Tests\CoreTests\CoreTests.csproj", "{E1EE5653-677A-4171-B49F-B2C43B5B5705}"
 EndProject

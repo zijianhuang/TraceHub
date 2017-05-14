@@ -41,6 +41,8 @@
                     </li>
                     <li><label class="navbar-text"></label></li>
                     <li class="bottom"><input type="button" id="clients" value="Clients" class="btn btn-default navbar-btn advanced" data-toggle="modal" data-target="#myModal" /></li>
+                    <li><label class="navbar-text"></label></li>
+                    <li class="bottom"><input type="button" id="listeners" value="Listeners" class="btn btn-default navbar-btn advanced" data-toggle="modal" data-target="#listenersModal" /></li>
                 </ul>
             </div>
         </div>
@@ -75,6 +77,30 @@
                 </div>
             </div>
         </div>
+
+        <!-- Listeners Modal -->
+        <div class="modal fade" id="listenersModal" tabindex="-1" role="dialog" aria-labelledby="listenersModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        <h4 class="modal-title" id="listenersModalLabel">Listeners of Origins</h4>
+                    </div>
+                    <ul id="listenerList" class="modal-body">
+                        ...
+                    </ul>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="webUiFunctions.confirmSelectionOfListeners()"
+                                data-toggle="tooltip" data-placement="bottom" title="Show traces of all checked listeners. If all is unchecked, show traces of all listeners.">
+                            Close
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <footer></footer>
     </div>
 
