@@ -17,7 +17,7 @@
     <dependencies>
       <group>
         <dependency id="Fonlow.TraceHub.Core" version="1.4.0" />
-        <dependency id="Microsoft.AspNet.SignalR.SystemWeb" version="2.2.1" />
+        <dependency id="Microsoft.AspNet.SignalR.SystemWeb" version="2.2.2" />
       </group>
     </dependencies>
   </metadata>

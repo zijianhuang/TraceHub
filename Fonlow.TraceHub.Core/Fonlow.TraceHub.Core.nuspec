@@ -12,10 +12,7 @@
     <description>The core component of Trace Hub</description>
     <summary>The core component of Trace Hub</summary>
     <releaseNotes>Handle InstanceId of TraceHubListener for displaying Clients info. Use Priority Queue to ensure traces from different nodes with different latency to TraceHub will be pushed to clients in right order by the time stamp, as long as the latency won't exceed 1 second, presuming the clocks of these nodes are synchronized with a time server.</releaseNotes>
-    <copyright>Copyright © Zijian Huang 2016</copyright>
+    <copyright>Copyright © Zijian Huang 2016-2017</copyright>
     <tags>ASP API Web Client Fonlow.TraceHub rest restful aspnet aspnet httpclient</tags>
   </metadata>
-  <files>
-    <file src="bin\Release\Fonlow.TraceHub.Common.dll" target="lib\net45" />
-  </files>
 </package>
