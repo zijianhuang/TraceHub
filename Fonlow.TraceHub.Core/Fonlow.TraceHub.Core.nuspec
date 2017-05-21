@@ -15,4 +15,7 @@
     <copyright>Copyright © Zijian Huang 2016-2017</copyright>
     <tags>ASP API Web Client Fonlow.TraceHub rest restful aspnet aspnet httpclient</tags>
   </metadata>
+  <files>
+    <file src="bin\Release\Fonlow.TraceHub.Common.dll" target="lib\net452" />
+  </files>
 </package>
