@@ -262,6 +262,7 @@
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\Site.css" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Areas\HelpPage\Views\Web.config" />
@@ -317,6 +318,7 @@
     <Content Include="Scripts\respond.matchmedia.addListener.js" />
     <Content Include="Scripts\respond.matchmedia.addListener.min.js" />
     <Content Include="Scripts\respond.min.js" />
+    <Content Include="Views\Logging\Index.html" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -325,14 +327,13 @@
       <DependentUpon>Web.config</DependentUpon>
     </Content>
     <Content Include="Areas\HelpPage\Views\_ViewStart.cshtml" />
-    <Content Include="Content\Site.css" />
+    <Content Include="Content\TraceHub.css" />
     <Content Include="Scripts\_references.js" />
     <Content Include="Views\Web.config" />
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\Logging\Index.cshtml" />
     <Content Include="Views\AccountWeb\ConfirmEmail.cshtml" />
     <Content Include="Views\AccountWeb\ExternalLoginConfirmation.cshtml" />
     <Content Include="Views\AccountWeb\ExternalLoginFailure.cshtml" />
@@ -416,7 +417,7 @@
   <PropertyGroup>
     <PostBuildEvent>xcopy $(ProjectDir)Scripts\custom\logging.js $(SolutionDir)Fonlow.TraceHubSlim\Scripts\custom\logging.js /D /Y
 
-xcopy $(ProjectDir)Content\Site.css $(SolutionDir)Fonlow.TraceHubSlim\Content\Site.css /D /Y</PostBuildEvent>
+xcopy $(ProjectDir)Content\TraceHub.css $(SolutionDir)Fonlow.TraceHubSlim\Content\TraceHub.css /D /Y</PostBuildEvent>
   </PropertyGroup>
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>

@@ -1,0 +1,104 @@
+﻿/*About TraceHub*/
+li.even {
+    background-color: lightgray;
+}
+
+ul#clientList{
+    margin-left : 15px;
+}
+
+
+
+span.et {
+    width: 4em;
+    display: inline-block;
+    margin-right: 10px;
+}
+
+span.Critical {
+    color: #800000;
+}
+
+span.Error {
+    color: #FF0000;
+}
+
+span.Warning {
+    color: #FFA500;
+}
+
+span.Info {
+    color: #0000FF;
+}
+
+span.Verbose {
+    color: #808080;
+}
+
+span.Misc {
+    color: #2F4F4F;
+}
+
+span.time {
+    background-color: #66a9a9;
+    min-width: 4em;
+    display: inline-block;
+    margin-right: 6px;
+}
+
+span.origin {
+    background-color: burlywood;
+    min-width: 4em;
+    display: inline-block;
+    margin-right: 6px;
+}
+
+
+.navbar{
+    background-color : darkblue;
+}
+
+
+.hc-type{
+    background-color: lightblue;
+    display: inline-block;
+    margin-right: 6px;
+}
+
+.hc-userAgent{
+    background-color: lightgreen;
+    display: inline-block;
+    margin-right: 6px;
+} 
+
+.hc-ip{
+    background-color: lightgoldenrodyellow;
+    display: inline-block;
+    margin-right: 6px;
+}
+
+.hc-template{
+    background-color: lightsalmon;
+    display: inline-block;
+    margin-right: 6px;
+}
+
+.hc-user{
+    background-color: lightskyblue;
+    display: inline-block;
+    margin-right: 6px;
+}
+
+.hc-id{
+    background-color: lightcyan;
+    display: inline-block;
+    margin-right: 6px;
+}
+
+/*Advanced features are invisible by default*/
+.advanced{
+    display : none;
+}
+
+/*TraceHub*/
+

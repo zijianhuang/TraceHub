@@ -18,14 +18,14 @@
       <group>
         <dependency id="Fonlow.TraceHub.Core" version="1.4.0" />
         <dependency id="Microsoft.AspNet.SignalR.SystemWeb" version="2.2.2" />
-        <dependency id="Microsoft.AspNet.SignalR.JS" version="2.2.2" />
+        <!--<dependency id="Microsoft.AspNet.SignalR.JS" version="2.2.2" />-->
       </group>
     </dependencies>
   </metadata>
 
   <files>
     <file src="Controllers\LoggingController.cs" target="content\Controllers\LoggingController.cs"/>
-    <file src="Views\Logging\Index.cshtml" target="content\Views\Logging\Index.cshtml"/>
+    <file src="Views\Logging\Index.cshtml" target="content\Views\Logging\Index.html"/>
     <file src="Scripts\custom\logging.js" target="content\Scripts\custom\logging.js"/>
   </files>
 </package>

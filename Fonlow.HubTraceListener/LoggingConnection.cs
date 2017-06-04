@@ -63,8 +63,6 @@ namespace Fonlow.Diagnostics
 
             isAnonymous = String.Equals(hubInfo.User, "anonymous", StringComparison.CurrentCultureIgnoreCase);
 
-            CreateHubConnection();
-
             var ok = DoFunctionRepeatedly(20, ConnectHub);
             return ok;
         }
@@ -105,9 +103,11 @@ namespace Fonlow.Diagnostics
 
         IHubProxy loggingHubProxy;
 
+        IDictionary<string, string> queryString = new Dictionary<string, string>();
+
         void CreateHubConnection()
         {
-            HubConnection = new HubConnection(hubInfo.Url);
+            HubConnection = new HubConnection(hubInfo.Url, queryString);
             //#if DEBUG
             //            hubConnection.TraceLevel = TraceLevels.All;
             //            hubConnection.TraceWriter = Console.Out;
@@ -141,8 +141,11 @@ namespace Fonlow.Diagnostics
 #endif
                         return false;
                     }
-                    hubConnection.Headers.Add("Authorization", $"{tokenModel.TokenType} {tokenModel.AccessToken}");
+                    //hubConnection.Headers.Add("Authorization", $"{tokenModel.TokenType} {tokenModel.AccessToken}");
+                    queryString["token"] = tokenModel.AccessToken;
                 }
+
+                CreateHubConnection();
 
                 hubConnection.Start().Wait();
 #if DEBUG
@@ -286,7 +289,7 @@ namespace Fonlow.Diagnostics
 #if DEBUG
             Console.WriteLine("Now need to create a new HubConnection object");
 #endif
-            CreateHubConnection();
+
             var ok = DoFunctionRepeatedly(20, ConnectHub);
             if (!ok)
             {

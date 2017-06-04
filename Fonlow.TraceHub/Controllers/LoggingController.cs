@@ -1,18 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
 
 namespace Fonlow.Web.Logging.Controllers
 {
-    [Authorize(Roles = "API")]
+    // [Authorize]
+    [Authorize(Roles = "API")]//It is recommended to set a special role authorized to view traces which may contain sensitive info.
     public class LoggingController : Controller
     {
-        // GET: LoggingView
         public ActionResult Index()
         {
-            return View();
+            return new FilePathResult("~/Views/logging/index.html", "text/html");
         }
     }
 }

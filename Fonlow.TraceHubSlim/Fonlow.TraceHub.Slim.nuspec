@@ -25,6 +25,6 @@
   <files>
     <file src="Index.html" target="content\Logging.html"/>
     <file src="Scripts\custom\logging.js" target="content\Scripts\custom\logging.js"/>
-    <file src="Content\Site.css" target="content\Content\Site.css"/>
+    <file src="Content\TraceHub.css" target="content\Content\TraceHub.css"/>
   </files>
 </package>

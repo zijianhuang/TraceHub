@@ -106,7 +106,7 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Content\Site.css" />
+    <Content Include="Content\TraceHub.css" />
     <Content Include="Index.html" />
     <Content Include="packages.config" />
     <Content Include="Scripts\custom\logging.js" />

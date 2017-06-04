@@ -73,12 +73,12 @@ namespace Fonlow.Logging
                 }
             }
 
-            CreateHubConnection();
-
             var ok = DoFunctionRepeatedly(20, ConnectHub);
             return ok;
         }
         IHubProxy loggingHubProxy;
+
+        IDictionary<string, string> queryString = new Dictionary<string, string>();
 
         IDisposable writeMessageHandler;
         IDisposable writeMessagesHandler;
@@ -87,7 +87,7 @@ namespace Fonlow.Logging
 
         void CreateHubConnection()
         {
-            hubConnection = new HubConnection(Url);
+            hubConnection = new HubConnection(Url, queryString);
             //#if DEBUG
             //            hubConnection.TraceLevel = TraceLevels.All;
             //            hubConnection.TraceWriter = Console.Out;
@@ -201,8 +201,11 @@ namespace Fonlow.Logging
                         Trace.TraceWarning("Auth failed");
                         return false;
                     }
-                    hubConnection.Headers.Add("Authorization", $"{tokenModel.TokenType} {tokenModel.AccessToken}");
+//                    hubConnection.Headers.Add("Authorization", $"{tokenModel.TokenType} {tokenModel.AccessToken}");
+                    queryString["token"] = tokenModel.AccessToken;
                 }
+
+                CreateHubConnection();
 
                 hubConnection.Start().Wait();
                 Debug.WriteLine("HubConnection state: " + hubConnection.State);
@@ -321,7 +324,6 @@ namespace Fonlow.Logging
         void Reconnect()
         {
             Debug.WriteLine("Now need to create a new HubConnection object");
-            CreateHubConnection();
             var ok = DoFunctionRepeatedly(20, ConnectHub);
             if (!ok)
             {
