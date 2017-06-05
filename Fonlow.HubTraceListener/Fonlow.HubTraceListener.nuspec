@@ -10,11 +10,11 @@
     <projectUrl>https://github.com/zijianhuang/TraceHub</projectUrl>
     <requireLicenseAcceptance>true</requireLicenseAcceptance>
     <description>Fonlow.HubTraceListener listens to traces of your application, and upload the traces to TraceHub.</description>
-    <releaseNotes>Update with Essential.Diagnostics 2.0.</releaseNotes>
+    <releaseNotes>Token in query string.</releaseNotes>
     <copyright>Copyright © Zijian Huang 2016-2017</copyright>
     <tags>API Web MVC SignalR webapi restful aspnet aspnetwebapi</tags>
   </metadata>
   <files>
-    <file src="bin\Release\Fonlow.TraceHub.Common.dll" target="lib\net45" />
+    <file src="bin\Release\Fonlow.TraceHub.Common.dll" target="lib\net452" />
   </files>
 </package>
