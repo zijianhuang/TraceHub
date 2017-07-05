@@ -19,9 +19,12 @@ namespace Fonlow.Logging
         /// </summary>
         TraceSource loggingSource;
 
+        /// <summary>
+        /// This must match the hub name in the Hub server.
+        /// </summary>
         const string sourceName = "loggingHub";
 
-        public string Url { get; private set; }
+        public string Url { get; private set; }//SignalR client library likes text
 
         public string UserName { get; set; }
 
@@ -29,6 +32,10 @@ namespace Fonlow.Logging
 
         bool isAnonymous = false;
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public bool Execute()
         {
             loggingSource = new TraceSource(sourceName); //However, the source value won't be "loggingHub" but the source value from the original traces emitted by the source applications.
@@ -101,6 +108,9 @@ namespace Fonlow.Logging
             Debug.WriteLine("HubProxy created.");
         }
 
+        /// <summary>
+        /// So delegates wired here will be executed by SignalR pushes
+        /// </summary>
         void HubConnectionProxySubscribeServerEvents()
         {
             loggingHubProxy = hubConnection.CreateHubProxy(sourceName);
@@ -115,7 +125,6 @@ namespace Fonlow.Logging
                 }
             });
 
-
             writeTraceHandler = loggingHubProxy.On<TraceMessage>("WriteTrace", tm => ReproduceTrace(tm));
 
             writeTracesHandler = loggingHubProxy.On<TraceMessage[]>("WriteTraces", tms =>
@@ -127,46 +136,35 @@ namespace Fonlow.Logging
             });
         }
 
-        string FormatTraceMessage(TraceMessage tm)
-        {
-
-            StringBuilder builder = new StringBuilder();
-            builder.Append(tm.TimeUtc.ToString("yy-MM-ddTHH:mm:ss.fffZ") + "  ");//To use the timestamp sent from the source.
-
-            if (!String.IsNullOrEmpty(tm.Origin))
-            {
-                builder.Append("[" + tm.Origin + "]: ");
-            }
-
-            builder.Append(tm.Message);
-            return builder.ToString();
-        }
-
-        void ReproduceTrace(TraceMessage tm)
-        {
-            if (loggingSource.Listeners.Count == 0)
-                return;
-
-            foreach (var listener in loggingSource.Listeners.OfType<TraceListener>())
-            {
-                listener.TraceEvent(new TraceEventCache(), tm.Source, tm.EventType, tm.Id, FormatTraceMessage(tm));
-            }
-        }
-
+        /// <summary>
+        /// Gracefully dispose hub push connections
+        /// </summary>
         void DisposeConnection()
         {
-            Debug.Assert(hubConnection != null);
-            hubConnection.Dispose();
-            HubConnectionUnubscribeEvents();
+            try
+            {
+                Debug.Assert(hubConnection != null);
+                HubConnectionUnubscribeEvents();
 
-            writeMessageHandler.Dispose();
-            writeMessagesHandler.Dispose();
-            writeTraceHandler.Dispose();
-            writeTracesHandler.Dispose();
+                writeMessageHandler.Dispose();
+                writeMessagesHandler.Dispose();
+                writeTraceHandler.Dispose();
+                writeTracesHandler.Dispose();
 
-            hubConnection = null;
+                hubConnection.Dispose();
+                hubConnection = null;
+
+            }
+            catch (Exception ex)
+            {
+                Trace.TraceError(ex.ToString());
+                throw;
+            }
         }
 
+        /// <summary>
+        /// Subscribe house-keeping events
+        /// </summary>
         void HubConnectionSubscribeEvents()
         {
             hubConnection.Closed += HubConnection_Closed;
@@ -201,7 +199,7 @@ namespace Fonlow.Logging
                         Trace.TraceWarning("Auth failed");
                         return false;
                     }
-//                    hubConnection.Headers.Add("Authorization", $"{tokenModel.TokenType} {tokenModel.AccessToken}");
+//                    hubConnection.Headers.Add("Authorization", $"{tokenModel.TokenType} {tokenModel.AccessToken}"); Websockets not support http header
                     queryString["token"] = tokenModel.AccessToken;
                 }
 
@@ -306,7 +304,7 @@ namespace Fonlow.Logging
         {
             Trace.TraceInformation($"HubConnection state changed from {obj.OldState} to {obj.NewState} .");
 
-            if ((obj.OldState == ConnectionState.Reconnecting) && (obj.NewState == ConnectionState.Disconnected))
+            if ((obj.OldState == ConnectionState.Reconnecting) && (obj.NewState == ConnectionState.Disconnected))//Must be checking both. While the JS client may just check only the 2nd condition.
             {
                 DisposeAndReconnectAsync();
             }
@@ -374,7 +372,6 @@ namespace Fonlow.Logging
             }
 
         }
-
 
         TokenResponseModel GetBearerToken()
         {
@@ -448,6 +445,32 @@ namespace Fonlow.Logging
             Dispose(true);
         }
         #endregion
+
+        static string FormatTraceMessage(TraceMessage tm)
+        {
+
+            StringBuilder builder = new StringBuilder();
+            builder.Append(tm.TimeUtc.ToString("yy-MM-ddTHH:mm:ss.fffZ") + "  ");//To use the timestamp sent from the source.
+
+            if (!String.IsNullOrEmpty(tm.Origin))
+            {
+                builder.Append("[" + tm.Origin + "]: ");
+            }
+
+            builder.Append(tm.Message);
+            return builder.ToString();
+        }
+
+        void ReproduceTrace(TraceMessage tm)
+        {
+            if (loggingSource.Listeners.Count == 0)
+                return;
+
+            foreach (var listener in loggingSource.Listeners.OfType<TraceListener>())
+            {
+                listener.TraceEvent(new TraceEventCache(), tm.Source, tm.EventType, tm.Id, FormatTraceMessage(tm));
+            }
+        }
 
     }
 
