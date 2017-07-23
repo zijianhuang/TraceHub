@@ -19,8 +19,6 @@ namespace Fonlow.Logging
         /// </summary>
         TraceSource loggingSource;
 
-        const string sourceName = "loggingHub";
-
         public string Url { get; private set; }
 
         public string UserName { get; set; }
@@ -29,12 +27,16 @@ namespace Fonlow.Logging
 
         bool isAnonymous = false;
 
-        public bool Execute()
+        const string sourceName = "loggingHub";
+        const string hubPasswordField = sourceName + "_Password";
+        const string hubUsernameField = sourceName + "_Username";
+
+        public async Task<bool> Execute()
         {
             loggingSource = new TraceSource(sourceName); //However, the source value won't be "loggingHub" but the source value from the original traces emitted by the source applications.
             Url = System.Configuration.ConfigurationManager.AppSettings[sourceName];
-            Password = System.Configuration.ConfigurationManager.AppSettings["loggingHub_Password"];
-            UserName = System.Configuration.ConfigurationManager.AppSettings["loggingHub_Username"];
+            Password = System.Configuration.ConfigurationManager.AppSettings[hubPasswordField];
+            UserName = System.Configuration.ConfigurationManager.AppSettings[hubUsernameField];
 
             if (String.IsNullOrEmpty(Url))
             {
@@ -73,7 +75,7 @@ namespace Fonlow.Logging
                 }
             }
 
-            var ok = DoFunctionRepeatedly(20, ConnectHub);
+            var ok = await DoFunctionRepeatedly(20, ConnectHub);
             return ok;
         }
         IHubProxy loggingHubProxy;
@@ -156,7 +158,6 @@ namespace Fonlow.Logging
         void DisposeConnection()
         {
             Debug.Assert(hubConnection != null);
-            hubConnection.Dispose();
             HubConnectionUnubscribeEvents();
 
             writeMessageHandler.Dispose();
@@ -164,6 +165,12 @@ namespace Fonlow.Logging
             writeTraceHandler.Dispose();
             writeTracesHandler.Dispose();
 
+            Trace.TraceInformation("Stop Hubconnection... If you see Trace Error about WebSocketException, NOT to worry, since this is written by the SignalR client lib.");
+            hubConnection.Stop();
+            Trace.TraceInformation("Hubconnection stopped. If you see Trace Error about WebSocketException above, NOT to worry, since this is written by the SignalR client lib.");
+
+            Debug.WriteLine("Now hubConnection.Dispose");
+            hubConnection.Dispose();
             hubConnection = null;
         }
 
@@ -187,7 +194,7 @@ namespace Fonlow.Logging
             hubConnection.Error -= HubConnection_Error;
         }
 
-        bool ConnectHub()
+        async Task<bool> ConnectHub()
         {
             try
             {
@@ -207,43 +214,38 @@ namespace Fonlow.Logging
 
                 CreateHubConnection();
 
-                hubConnection.Start().Wait();
+                await hubConnection.Start();
                 Debug.WriteLine("HubConnection state: " + hubConnection.State);
-                Invoke("ReportClientType", ClientType.Console);
+                await Invoke("ReportClientType", ClientType.Console);
                 return hubConnection.State == ConnectionState.Connected;
             }
-            catch (AggregateException ex)
+            catch (Exception ex) when ((ex is System.Net.Http.HttpRequestException)//Likely the server is unavailable
+                    || (ex is System.Net.Sockets.SocketException)//Likely something wrong with the server
+                    || (ex is System.Net.WebSockets.WebSocketException)
+                    || (ex is Microsoft.AspNet.SignalR.Client.HttpClientException)//likely auth error
+                    || (ex is Newtonsoft.Json.JsonReaderException))
             {
                 bool withCriticalEndpointProblem = false;
-                ex.Handle((innerException) =>
+
+                Debug.Assert(ex != null);
+                var exceptionName = ex.GetType().Name;
+                Trace.TraceWarning(exceptionName + ": " + ex.Message);
+                if (ex.InnerException != null)
                 {
-                    Debug.Assert(innerException != null);
-                    var exceptionName = innerException.GetType().Name;
-                    Trace.TraceWarning(exceptionName + ": " + innerException.Message);
-                    if (innerException.InnerException != null)
+                    exceptionName = ex.InnerException.GetType().Name;
+                    Trace.TraceWarning(ex.InnerException.Message);
+                }
+
+                var httpClientException = ex as HttpClientException;
+                if (httpClientException != null)
+                {
+                    if (httpClientException.Response.StatusCode == System.Net.HttpStatusCode.NotFound)
                     {
-                        exceptionName = innerException.InnerException.GetType().Name;
-                        Trace.TraceWarning(innerException.InnerException.Message);
+                        Trace.TraceError("Even though the host exists however, the url for auth or signalR does not exist. The program will abort.");
+                        withCriticalEndpointProblem = true;
+                        return true;
                     }
-
-                    var httpClientException = innerException as HttpClientException;
-                    if (httpClientException!= null)
-                    {
-                        if (httpClientException.Response.StatusCode== System.Net.HttpStatusCode.NotFound)
-                        {
-                            Trace.TraceError("Even though the host exists however, the url for auth or signalR does not exist. The program will abort.");
-                            withCriticalEndpointProblem = true;
-                            return true;
-                        }
-                    }
-
-                    return (innerException is System.Net.Http.HttpRequestException)//Likely the server is unavailable
-                    || (innerException is System.Net.Sockets.SocketException)//Likely something wrong with the server
-                    || (innerException is Microsoft.AspNet.SignalR.Client.HttpClientException)//likely auth error
-                    || (innerException is Newtonsoft.Json.JsonReaderException)
-                    ;
-
-                });
+                }
 
                 if (withCriticalEndpointProblem)
                 {
@@ -317,14 +319,18 @@ namespace Fonlow.Logging
             DisposeConnection();
             Debug.WriteLine("hubConnection disposed.");
 
-            Action d = () => Reconnect();//Need to fire it asynchronously in another thread in order not to hold up this event handling function StateChanged, so hubConnection could be really disposed.
-            d.BeginInvoke(null, null);//And Console seems to be thread safe with such asynchronous call.
+            Reconnect().ContinueWith(t =>
+            {
+                Trace.TraceInformation("Reconnect() done.");
+            });
+
+            Trace.TraceInformation("Reconnect() called.");
         }
 
-        void Reconnect()
+        async Task Reconnect()
         {
             Debug.WriteLine("Now need to create a new HubConnection object");
-            var ok = DoFunctionRepeatedly(20, ConnectHub);
+            var ok = await DoFunctionRepeatedly(20, ConnectHub);
             if (!ok)
             {
                 throw new AbortException();
@@ -345,11 +351,11 @@ namespace Fonlow.Logging
         }
 
 
-        static bool DoFunctionRepeatedly(int seconds, Func<bool> func)
+        static async Task<bool> DoFunctionRepeatedly(int seconds, Func<Task<bool>> func)
         {
             while (true)
             {
-                var r = func();
+                var r = await func();
                 if (r)
                     return true;
 

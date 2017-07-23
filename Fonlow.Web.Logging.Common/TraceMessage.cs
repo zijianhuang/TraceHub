@@ -48,6 +48,9 @@ namespace Fonlow.Diagnostics
 
     }
 
+    /// <summary>
+    /// SignalR client info for TraceHub
+    /// </summary>
     [DataContract]
     public class ClientInfo
     {

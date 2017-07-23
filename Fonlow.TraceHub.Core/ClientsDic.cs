@@ -10,8 +10,14 @@ using System.Diagnostics;
 
 namespace Fonlow.TraceHub
 {
+    /// <summary>
+    /// Dictionary fo clientinfo. Singleton.
+    /// </summary>
     internal class ClientsDic
     {
+        /// <summary>
+        /// Key is the ClientInfo.Id
+        /// </summary>
         ConcurrentDictionary<string, ClientInfo> dic;
 
         private static readonly Lazy<ClientsDic> lazy =  new Lazy<ClientsDic>(() => new ClientsDic());

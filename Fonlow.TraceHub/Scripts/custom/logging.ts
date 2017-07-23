@@ -36,7 +36,7 @@ module Fonlow_Logging {
     export enum ClientType { Undefined = 0, TraceListener = 1, Browser = 2, Console = 4 }
 
     /**
-     * Server functions
+     * Server functions to be called through SignalR channel
      */
     export interface LoggingHubServer {
         uploadTrace(traceMessage: TraceMessage): JQueryPromise<any>;
@@ -53,8 +53,9 @@ module Fonlow_Logging {
      */
     export class LoggingHubStarter {
         private proxy: SignalR.Hub.Proxy;
-        private server: LoggingHubServer;
         private connection: SignalR.Hub.Connection;
+
+        private server: LoggingHubServer;
 
         private listeningStoped: boolean = true;
 
@@ -153,7 +154,7 @@ module Fonlow_Logging {
             this.connection
                 .stateChanged((change) => {
                     console.info(`HubConnection state changed from ${change.oldState} to ${change.newState} .`);
-                    this.DeferredStateChangedAction(change.newState);
+                    this.DeferredStateChangedAction(change.newState);//it is not good to reconnect within the event handling, so I use Deferred to trigger needed action outside the event handling.
                 })
                 .disconnected(() => {
                     console.warn('HubConnection_Closed: Hub could not connect or get disconnected.');
@@ -187,7 +188,7 @@ module Fonlow_Logging {
             this.hubConnectionStateChanged = jQuery.Deferred<SignalR.ConnectionState>();
             this.hubConnectionStateChanged.done((state) => {
                 console.debug('hubConnectionStateChanged.done state ' + state);
-                if (state === SignalR.ConnectionState.Disconnected) {//similar to (obj.OldState == ConnectionState.Reconnecting) && (obj.NewState == ConnectionState.Disconnected)
+                if (state === SignalR.ConnectionState.Disconnected) {//similar to (obj.OldState == ConnectionState.Reconnecting) && (obj.NewState == ConnectionState.Disconnected) but signalR JS client is using different algorithm
                     this.reconnectWithDelay(20000);
                 }
             });
@@ -209,6 +210,9 @@ module Fonlow_Logging {
             return this.proxy.invoke(method, ...msg);
         }
 
+        /**
+         * Start signalR Hub connection.
+         */
         start(): JQueryPromise<any> {
             if (!this.connection) {
                 console.error('Cannot obtain $.hubconnection. so LoggingHubStarter was not really created.');
@@ -355,6 +359,9 @@ module Fonlow_Logging {
 
     }
 
+    /**
+     * Helper functions used by pushes.
+     */
     export class ClientFunctions {
         private eventTypeToString(t: number): string {
             switch (t) {

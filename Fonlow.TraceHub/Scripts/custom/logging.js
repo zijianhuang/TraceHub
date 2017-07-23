@@ -92,7 +92,7 @@ var Fonlow_Logging;
             this.connection
                 .stateChanged(function (change) {
                 console.info("HubConnection state changed from " + change.oldState + " to " + change.newState + " .");
-                _this.DeferredStateChangedAction(change.newState);
+                _this.DeferredStateChangedAction(change.newState); //it is not good to reconnect within the event handling, so I use Deferred to trigger needed action outside the event handling.
             })
                 .disconnected(function () {
                 console.warn('HubConnection_Closed: Hub could not connect or get disconnected.');
@@ -148,6 +148,9 @@ var Fonlow_Logging;
             return (_a = this.proxy).invoke.apply(_a, [method].concat(msg));
             var _a;
         };
+        /**
+         * Start signalR Hub connection.
+         */
         LoggingHubStarter.prototype.start = function () {
             var _this = this;
             if (!this.connection) {
@@ -275,6 +278,9 @@ var Fonlow_Logging;
         return WebUiFunctions;
     }());
     Fonlow_Logging.WebUiFunctions = WebUiFunctions;
+    /**
+     * Helper functions used by pushes.
+     */
     var ClientFunctions = (function () {
         function ClientFunctions() {
             var _this = this;
@@ -435,4 +441,3 @@ $(document).on("click", "span.origin", function () {
 $(document).on('change', 'select#sourceLevels', function () {
     clientFunctions.sourceLevels = parseInt(this.value);
 });
-//# sourceMappingURL=logging.js.map

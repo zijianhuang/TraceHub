@@ -26,16 +26,17 @@ namespace Fonlow.TraceHub
 
             int bufferSize = 2000;
             int.TryParse(ConfigurationManager.AppSettings["loggingHub_ClientBufferSize"], out bufferSize);
-            if (bufferSize>Constants.ClientBufferSizeMax)
+            if (bufferSize > Constants.ClientBufferSizeMax)
             {
                 bufferSize = Constants.ClientBufferSizeMax;
             }
-            else if (bufferSize< Constants.ClientBufferSizeMin)
+            else if (bufferSize < Constants.ClientBufferSizeMin)
             {
                 bufferSize = Constants.ClientBufferSizeMin;
             }
 
             QueueInterval = 200;
+
             var s = ConfigurationManager.AppSettings["loggingHub_QueueInterval"];
             int si;
             if (int.TryParse(s, out si))
@@ -48,8 +49,8 @@ namespace Fonlow.TraceHub
 
             ClientSettings = new ClientSettings
             {
-                AdvancedMode=String.Equals("true", ConfigurationManager.AppSettings["loggingHub_AdvancedMode"], StringComparison.CurrentCultureIgnoreCase),
-                BufferSize=bufferSize,
+                AdvancedMode = String.Equals("true", ConfigurationManager.AppSettings["loggingHub_AdvancedMode"], StringComparison.CurrentCultureIgnoreCase),
+                BufferSize = bufferSize,
             };
 
         }
@@ -65,11 +66,9 @@ namespace Fonlow.TraceHub
         public ClientSettings ClientSettings { get; private set; }
 
 
-        ///// <summary>
-        ///// Direct write uploaded trace to clients without pending in a priority queue for up to 1 second.
-        ///// </summary>
-        //public bool DirectWrite { get; private set; }
-
+        /// <summary>
+        /// Default value is 200 ms
+        /// </summary>
         public int QueueInterval { get; private set; }
 
         public bool ClientCallRestricted

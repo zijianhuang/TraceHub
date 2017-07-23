@@ -1,6 +1,7 @@
 ﻿using System;
 using Fonlow.Diagnostics;
 using System.Diagnostics;
+using System.Threading.Tasks;
 
 namespace Fonlow.Logging
 {
@@ -15,7 +16,7 @@ namespace Fonlow.Logging
             {
                 init = new LoggingConnection();
 
-                var ok = init.Execute();
+                var ok = init.Execute().Result;
                 if (!ok)
                     return 1;
 

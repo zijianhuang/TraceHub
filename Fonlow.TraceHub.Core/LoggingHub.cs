@@ -16,7 +16,7 @@ namespace Fonlow.TraceHub
     [CLSCompliantAttribute(false)]
     public class LoggingHub : Hub<ILoggingClient>, ILogging  //multiple instances expected each time it needs to handle a Hub operation
     {
-        #region Hub housekeeping
+        #region Hub housekeeping override
 
         public override Task OnConnected()
         {
@@ -36,6 +36,77 @@ namespace Fonlow.TraceHub
             RegisterClient();
             return base.OnReconnected();
         }
+
+        #endregion
+
+        #region ILogging
+
+        public void UploadTrace(TraceMessage traceMessage)
+        {
+            if (traceMessage == null)
+                return;
+
+            if (NotAllowed())
+                return;
+
+            // Clients.All.WriteTrace(traceMessage);
+            LoggingHubContext.Instance.Pend(traceMessage);
+        }
+
+        public void UploadTraces(IList<TraceMessage> traceMessages)//SignalR server functions does not like array, according to https://github.com/SignalR/SignalR/issues/2672
+        {
+            if (traceMessages == null)
+                return;
+
+            if (NotAllowed())
+                return;
+
+            //Clients.All.WriteTraces(traceMessages);
+            LoggingHubContext.Instance.Pend(traceMessages);
+        }
+
+        public IList<ClientInfo> GetAllClients()
+        {
+            if (NotAllowed(false))
+                return null;
+
+            var r = ClientsDic.Instance.GetAllClients();
+            //Report(TraceEventType.Information, String.Join(Environment.NewLine, r.Select(d => d.ToString())));
+            return r;
+        }
+
+        public void ReportClientType(ClientType clientType)
+        {
+            if (NotAllowed())
+                return;
+
+            Report(TraceEventType.Information, $"Connection {Context.ConnectionId} is reporting as {clientType}.");
+            ClientsDic.Instance.UpdateClientType(Context.ConnectionId, clientType);
+            Trace.TraceInformation($"Client reported as {clientType} from IP address {GetRemoteIpAddress()}.");
+        }
+
+        public ClientSettings RetrieveClientSettings()
+        {
+            if (NotAllowedToPush(false))
+            {
+                return new ClientSettings
+                {
+                    AdvancedMode = false,
+                    BufferSize = 200,
+                };
+            }
+            return HubSettings.Instance.ClientSettings;
+        }
+
+        public void ReportClientTypeAndTraceTemplate(ClientType clientType, string template, string origin)
+        {
+            if (NotAllowed())
+                return;
+
+            ClientsDic.Instance.UpdateClientTypeAndTemplate(Context.ConnectionId, clientType, template, origin);
+        }
+
+        #endregion
 
         void RegisterClient()
         {
@@ -59,8 +130,6 @@ namespace Fonlow.TraceHub
                 Read=!notAllowedToRead,
             });
         }
-
-        #endregion
 
         string GetRemoteIpAddress()
         {
@@ -140,74 +209,6 @@ namespace Fonlow.TraceHub
             Clients.All.WriteTrace(traceMessage);
         }
 
-        #region ILogging
-
-        public void UploadTrace(TraceMessage traceMessage)
-        {
-            if (traceMessage == null)
-                return;
-
-            if (NotAllowed())
-                return;
-
-           // Clients.All.WriteTrace(traceMessage);
-            LoggingHubContext.Instance.Pend(traceMessage);
-        }
-
-        public void UploadTraces(IList<TraceMessage> traceMessages)//SignalR server functions does not like array, according to https://github.com/SignalR/SignalR/issues/2672
-        {
-            if (traceMessages == null)
-                return;
-
-            if (NotAllowed())
-                return;
-
-            //Clients.All.WriteTraces(traceMessages);
-            LoggingHubContext.Instance.Pend(traceMessages);
-        }
-
-        public IList<ClientInfo> GetAllClients()
-        {
-            if (NotAllowed(false))
-                return null;
-
-            var r = ClientsDic.Instance.GetAllClients();
-            //Report(TraceEventType.Information, String.Join(Environment.NewLine, r.Select(d => d.ToString())));
-            return r;
-        }
-
-        public void ReportClientType(ClientType clientType)
-        {
-            if (NotAllowed())
-                return;
-
-            Report(TraceEventType.Information, $"Connection {Context.ConnectionId} is reporting as {clientType}.");
-            ClientsDic.Instance.UpdateClientType(Context.ConnectionId, clientType);
-            Trace.TraceInformation($"Client reported as {clientType} from IP address {GetRemoteIpAddress()}.");
-        }
-
-        public ClientSettings RetrieveClientSettings()
-        {
-            if (NotAllowedToPush(false))
-            {
-                return new ClientSettings
-                {
-                    AdvancedMode = false,
-                    BufferSize = 200,
-                };
-            }
-            return HubSettings.Instance.ClientSettings;
-        }
-
-        public void ReportClientTypeAndTraceTemplate(ClientType clientType, string template, string origin)
-        {
-            if (NotAllowed())
-                return;
-
-            ClientsDic.Instance.UpdateClientTypeAndTemplate(Context.ConnectionId, clientType, template, origin);
-        }
-
-        #endregion
     }
 
 
