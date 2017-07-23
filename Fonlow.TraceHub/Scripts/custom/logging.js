@@ -441,3 +441,4 @@ $(document).on("click", "span.origin", function () {
 $(document).on('change', 'select#sourceLevels', function () {
     clientFunctions.sourceLevels = parseInt(this.value);
 });
+//# sourceMappingURL=logging.js.map

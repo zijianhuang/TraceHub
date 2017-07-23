@@ -16,7 +16,7 @@ namespace Fonlow.Logging
             {
                 init = new LoggingConnection();
 
-                var ok = init.Execute().Result;
+                var ok = init.Execute();
                 if (!ok)
                     return 1;
 
