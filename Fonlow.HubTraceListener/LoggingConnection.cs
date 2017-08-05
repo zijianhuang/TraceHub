@@ -12,6 +12,11 @@ namespace Fonlow.Diagnostics
     {
         HubConnection hubConnection;
 
+        /// <summary>
+        /// This must match the hub name in the Hub server.
+        /// </summary>
+        const string sourceName = "loggingHub";
+
         public HubConnection HubConnection
         {
             get
@@ -43,14 +48,15 @@ namespace Fonlow.Diagnostics
 
         HubInfo hubInfo;
 
-        const string sourceName = "loggingHub";
+        bool isAnonymous = false;
 
-        HubTraceListener listener;
+        string templateName;
+        string instanceId;
 
-
-        public LoggingConnection(HubTraceListener listener)
+        public LoggingConnection(string templateName, string instanceId)
         {
-            this.listener = listener;
+            this.templateName = templateName;
+            this.instanceId = instanceId;
         }
 
         bool Execute(HubInfo hubInfo)
@@ -206,7 +212,7 @@ namespace Fonlow.Diagnostics
 
         void ReportClientDetails()
         {
-            Invoke("ReportClientTypeAndTraceTemplate", ClientType.TraceListener, listener.Template, listener.InstanceId);
+            Invoke("ReportClientTypeAndTraceTemplate", ClientType.TraceListener, templateName, instanceId);
         }
 
         void DisposeConnection()
@@ -356,8 +362,6 @@ namespace Fonlow.Diagnostics
 
             return loggingHubProxy.Invoke(method, args);
         }
-
-        bool isAnonymous = false;
 
         TokenResponseModel GetBearerToken()
         {
