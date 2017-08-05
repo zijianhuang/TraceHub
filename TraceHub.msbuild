@@ -4,7 +4,7 @@
     <Configuration>Release</Configuration>
     <Platform>Any CPU</Platform>
 
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
 
 
     <TPath>C:\Program Files (x86)\MSBuild\ExtensionPack\4.0\MSBuild.ExtensionPack.tasks</TPath>
