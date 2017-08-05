@@ -358,7 +358,7 @@ namespace Fonlow.Diagnostics
         public Task Invoke(string method, params object[] args)
         {
             if ((HubConnection == null) || (HubConnection.State != ConnectionState.Connected))
-                return Task.FromResult(0);
+                return null;
 
             return loggingHubProxy.Invoke(method, args);
         }

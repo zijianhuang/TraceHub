@@ -44,7 +44,9 @@ namespace Fonlow.Diagnostics
             while (!pendingQueue.IsEmpty || sendingBuffer.Count>0)
             {
                 if (SendSome(sendTraceMessagesTask) == QueueStatus.Failed)
+                {
                     return QueueStatus.Failed;
+                }
             }
 
             return QueueStatus.Sent;

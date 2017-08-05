@@ -15,9 +15,11 @@ namespace Fonlow.Diagnostics
     {
         TraceFormatter traceFormatter = new TraceFormatter();
 
-
         Lazy<LoggingConnection> _loggingConnection;
 
+        /// <summary>
+        /// Timer will send message in the buffer every 1 second
+        /// </summary>
         Timer timer;
 
         QueueBuffer queueBuffer;
@@ -49,11 +51,11 @@ namespace Fonlow.Diagnostics
 
 #if DEBUG
             watch.Stop();
-            if (status== QueueStatus.Sent)
+            if (status == QueueStatus.Sent)
             {
                 Console.WriteLine("Send all in milliseconds: " + watch.ElapsedMilliseconds);
             }
-            else if (status== QueueStatus.Failed)
+            else if (status == QueueStatus.Failed)
             {
                 Console.WriteLine("Traces buffered not sent yet because of network problems.");
             }
