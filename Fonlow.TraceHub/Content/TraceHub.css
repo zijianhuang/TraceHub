@@ -1,10 +1,14 @@
-﻿/*About TraceHub*/
+﻿.body-content {
+    padding-top: 70px;
+}
+
+/*About TraceHub*/
 li.even {
     background-color: lightgray;
 }
 
-ul#clientList{
-    margin-left : 15px;
+ul#clientList {
+    margin-left: 15px;
 }
 
 
@@ -54,50 +58,50 @@ span.origin {
 }
 
 
-.navbar{
-    background-color : darkblue;
+.navbar {
+    background-color: darkblue;
 }
 
 
-.hc-type{
+.hc-type {
     background-color: lightblue;
     display: inline-block;
     margin-right: 6px;
 }
 
-.hc-userAgent{
+.hc-userAgent {
     background-color: lightgreen;
     display: inline-block;
     margin-right: 6px;
-} 
+}
 
-.hc-ip{
+.hc-ip {
     background-color: lightgoldenrodyellow;
     display: inline-block;
     margin-right: 6px;
 }
 
-.hc-template{
+.hc-template {
     background-color: lightsalmon;
     display: inline-block;
     margin-right: 6px;
 }
 
-.hc-user{
+.hc-user {
     background-color: lightskyblue;
     display: inline-block;
     margin-right: 6px;
 }
 
-.hc-id{
+.hc-id {
     background-color: lightcyan;
     display: inline-block;
     margin-right: 6px;
 }
 
 /*Advanced features are invisible by default*/
-.advanced{
-    display : none;
+.advanced {
+    display: none;
 }
 
 /*TraceHub*/
