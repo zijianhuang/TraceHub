@@ -162,12 +162,12 @@ var Fonlow_Logging;
             return this.connection.start({ transport: ['webSockets', 'longPolling'] })
                 .done(function () {
                 _this.listeningStoped = false;
-                $('input#clients').click(function () {
+                $('button#clients').click(function () {
                     _this.server.getAllClients().done(function (clientsInfo) {
                         webUiFunctions.renderClientsInfo(clientsInfo);
                     });
                 });
-                $('input#listeners').click(function () {
+                $('button#listeners').click(function () {
                     _this.server.getAllClients().done(function (clientsInfo) {
                         checkedListenersTemp = checkedListeners.slice(0); //copy
                         var listenersInfo = clientsInfo.filter(function (d) { return d.clientType === ClientType.TraceListener; });
@@ -181,19 +181,19 @@ var Fonlow_Logging;
                 _this.server.retrieveClientSettings()
                     .done(function (result) {
                     clientSettings = result;
-                    $('input#clients').toggle(clientSettings.advancedMode);
-                    $('input#listeners').toggle(clientSettings.advancedMode);
+                    $('button#clients').toggle(clientSettings.advancedMode);
+                    $('button#listeners').toggle(clientSettings.advancedMode);
                     clientFunctions.bufferSize = clientSettings.bufferSize;
                     _this.server.getAllClients().done(function (clientsInfo) {
                         if (clientsInfo == null) {
-                            $('input#clients').hide();
-                            $('input#listeners').hide();
+                            $('button#clients').hide();
+                            $('button#listeners').hide();
                         }
                         else {
                             _this.server.getAllClients().done(function (clientsInfo) {
                                 if (clientsInfo == null) {
-                                    $('input#clients').hide();
-                                    $('input#listeners').hide();
+                                    $('button#clients').hide();
+                                    $('button#listeners').hide();
                                 }
                             });
                         }

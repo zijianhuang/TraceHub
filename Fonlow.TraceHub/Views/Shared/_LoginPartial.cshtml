@@ -10,10 +10,10 @@
             {
                 <li>@Html.ActionLink("Register API User", "Register", "AccountWeb", routeValues: null, htmlAttributes: new { id = "registerLink" })</li>
             }
-            <li>
+            <li class="ml-2">
                 @Html.ActionLink("Hello " + User.Identity.GetUserName() + "!", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })
             </li>
-            <li><a href="javascript:document.getElementById('logoutForm').submit()">Log off</a></li>
+            <li class="ml-2"><a href="javascript:document.getElementById('logoutForm').submit()">Log off</a></li>
         </ul>
     }
 }

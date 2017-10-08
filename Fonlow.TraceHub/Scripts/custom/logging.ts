@@ -225,13 +225,13 @@ module Fonlow_Logging {
                 .done(() => { //I have to use arrow function otherwise "this" is not the class object but the DOM element since this is called by jQuery
                     this.listeningStoped = false;
 
-                    $('input#clients').click(() => {
+                    $('button#clients').click(() => {
                         this.server.getAllClients().done((clientsInfo) => {
                             webUiFunctions.renderClientsInfo(clientsInfo);
                         });
                     });
 
-                    $('input#listeners').click(() => {
+                    $('button#listeners').click(() => {
                         this.server.getAllClients().done((clientsInfo) => {
                             checkedListenersTemp = checkedListeners.slice(0);//copy
                             let listenersInfo = clientsInfo.filter(d => d.clientType === ClientType.TraceListener);
@@ -247,19 +247,19 @@ module Fonlow_Logging {
                         .done((result) => {
                             clientSettings = result;
 
-                            $('input#clients').toggle(clientSettings.advancedMode);
-                            $('input#listeners').toggle(clientSettings.advancedMode);
+                            $('button#clients').toggle(clientSettings.advancedMode);
+                            $('button#listeners').toggle(clientSettings.advancedMode);
                             clientFunctions.bufferSize = clientSettings.bufferSize;
                             this.server.getAllClients().done((clientsInfo) => {
                                 if (clientsInfo == null) {
-                                    $('input#clients').hide();
-                                    $('input#listeners').hide();
+                                    $('button#clients').hide();
+                                    $('button#listeners').hide();
                                 }
                                 else {
                                     this.server.getAllClients().done((clientsInfo) => {
                                         if (clientsInfo == null) {
-                                            $('input#clients').hide();
-                                            $('input#listeners').hide();
+                                            $('button#clients').hide();
+                                            $('button#listeners').hide();
                                         }
                                     });
                                 }

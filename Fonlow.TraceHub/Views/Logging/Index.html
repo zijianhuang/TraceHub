@@ -2,30 +2,25 @@
 <html>
 <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title></title>
     <link rel="icon" href="data:;base64,iVBORw0KGgo=">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
     <link href="/Content/TraceHub.css" rel="stylesheet" />
-
 </head>
 <body>
-    <div class="navbar navbar-inverse navbar-fixed-top">
+    <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
         <div class="container-fluid">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <a class="navbar-brand" href="https://github.com/zijianhuang/TraceHub/wiki" target="_blank">TraceHub</a>
-            </div>
-            <div class="navbar-collapse collapse">
+            <a class="navbar-brand" href="https://github.com/zijianhuang/TraceHub/wiki" target="_blank">TraceHub</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
 
-                <ul class="nav navbar-nav">
-                    <li class="bottom"><input type="button" value="Clear" onclick="managementFunctions.clear()" class="btn btn-default navbar-btn" /></li>
-                    <li class="checkbox-inline bottom"><label class="navbar-text"><input type="checkbox" id="stayWithLatest" checked="checked" onclick="clientFunctions.scrollToBottomSuspendedToggle(this.checked, this.id)" />Stay with latest</label></li>
-                    <li class="bottom">
+                <ul class="navbar-nav">
+                    <li class="nav-item active ml-2"><button type="button" onclick="managementFunctions.clear()" class="btn btn-default navbar-btn" >Clear</button></li>
+                    <li class="checkbox-inline nav-item active ml-2"><label class="navbar-text"><input type="checkbox" id="stayWithLatest" checked="checked" onclick="clientFunctions.scrollToBottomSuspendedToggle(this.checked, this.id)" />Stay with latest</label></li>
+                    <li class="nav-item active ml-2">
                         <select id="sourceLevels" class="form-control ui-selectable btn-default navbar-btn">
                             <option value="-1" selected="selected">All</option>
                             <option value="0">Off</option>
@@ -37,14 +32,16 @@
                             <option value="65280">ActivityTracing</option>
                         </select>
                     </li>
-                    <li><label class="navbar-text"></label></li>
-                    <li class="bottom"><input type="button" id="clients" value="Clients" class="btn btn-default navbar-btn advanced" data-toggle="modal" data-target="#myModal" /></li>
-                    <li><label class="navbar-text"></label></li>
-                    <li class="bottom"><input type="button" id="listeners" value="Listeners" class="btn btn-default navbar-btn advanced" data-toggle="modal" data-target="#listenersModal" /></li>
+                    <li class="nav-item active ml-2">
+                        <button type="button" id="clients" class="btn btn-default navbar-btn advanced" data-toggle="modal" data-target="#myModal">Clients</button>
+                    </li>
+                    <li class="nav-item active ml-2">
+                        <button type="button" id="listeners" class="btn btn-default navbar-btn advanced" data-toggle="modal" data-target="#listenersModal">Listeners</button>
+                    </li>
                 </ul>
             </div>
         </div>
-    </div>
+    </nav>
     <div class="container-fluid body-content">
 
         <h3>Traces from Origins and Sources</h3>
@@ -61,11 +58,11 @@
             <div class="modal-dialog modal-lg" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
+                         <h4 class="modal-title" id="myModalLabel">Clients</h4>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
-                        <h4 class="modal-title" id="myModalLabel">Clients</h4>
-                    </div>
+                   </div>
                     <ul id="clientList" class="modal-body">
                         ...
                     </ul>
@@ -81,10 +78,10 @@
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
+                        <h4 class="modal-title" id="listenersModalLabel">Listeners of Origins</h4>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
-                        <h4 class="modal-title" id="listenersModalLabel">Listeners of Origins</h4>
                     </div>
                     <ul id="listenerList" class="modal-body">
                         ...
@@ -102,11 +99,10 @@
         <footer></footer>
     </div>
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1" crossorigin="anonymous"></script>
     <script src="https://ajax.aspnetcdn.com/ajax/signalr/jquery.signalr-2.2.2.min.js"></script>
-    <!--Reference the autogenerated SignalR hub script. -->
-    <!--<script src="/signalr/hubs"></script>-->
 
     <script src="/Scripts/custom/logging.js"></script>
 
