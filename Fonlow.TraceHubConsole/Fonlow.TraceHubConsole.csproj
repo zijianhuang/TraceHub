@@ -38,8 +38,8 @@
       <HintPath>..\packages\Essential.Diagnostics.ColoredConsoleTraceListener.2.0.206\lib\Essential.Diagnostics.ColoredConsoleTraceListener.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Essential.Diagnostics.Core, Version=2.1.0.0, Culture=neutral, PublicKeyToken=9d041bca93991466, processorArchitecture=MSIL">
-      <HintPath>..\packages\Essential.Diagnostics.Core.2.1.728\lib\Essential.Diagnostics.Core.dll</HintPath>
+    <Reference Include="Essential.Diagnostics.Core, Version=2.2.0.0, Culture=neutral, PublicKeyToken=9d041bca93991466, processorArchitecture=MSIL">
+      <HintPath>..\packages\Essential.Diagnostics.Core.2.2.0\lib\net20\Essential.Diagnostics.Core.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.AspNet.SignalR.Client, Version=2.2.2.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.SignalR.Client.2.2.2\lib\net45\Microsoft.AspNet.SignalR.Client.dll</HintPath>

@@ -210,7 +210,7 @@ To add a trace listener, edit the configuration file that corresponds to the nam
                 TraceSourceTestRandom();
                 timer.Change(1000, Timeout.Infinite);
             },
-            null, 1000, Timeout.Infinite);
+            null, 3000, Timeout.Infinite);
 
         }
 
