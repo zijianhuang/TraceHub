@@ -2,6 +2,10 @@
     padding-top: 70px;
 }
 
+select{
+    text-align : right;
+}
+
 /*About TraceHub*/
 li.even {
     background-color: lightgray;

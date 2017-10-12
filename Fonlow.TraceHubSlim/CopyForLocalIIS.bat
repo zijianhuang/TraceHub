@@ -2,7 +2,7 @@ cd %~dp0
 set target=C:\inetpub\wwwroot\TraceHubSlim\
 xcopy bin\*.dll %target%bin\ /Y /D
 xcopy Scripts\custom\logging.js %target%Scripts\custom\logging.js* /Y /D
-xcopy Content\Site.css %target%Content\Site.css* /Y /D
+xcopy Content\TraceHub.css %target%Content\TraceHub.css* /Y /D
 
 
 copy Web.config %target%web.config /Y /D
