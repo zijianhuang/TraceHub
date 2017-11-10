@@ -11,7 +11,7 @@ namespace TestTraceListener
     class Program
     {
 
-        const int count = 500;//min 100 expected
+        const int count = 200;//min 100 expected
 
         static void Main(string[] args)
         {

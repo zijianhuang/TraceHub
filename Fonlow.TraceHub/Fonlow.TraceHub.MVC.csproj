@@ -398,9 +398,7 @@
     </VisualStudio>
   </ProjectExtensions>
   <PropertyGroup>
-    <PostBuildEvent>xcopy $(ProjectDir)Scripts\custom\logging.js $(SolutionDir)Fonlow.TraceHubSlim\Scripts\custom\logging.js /D /Y
-
-xcopy $(ProjectDir)Content\TraceHub.css $(SolutionDir)Fonlow.TraceHubSlim\Content\TraceHub.css /D /Y</PostBuildEvent>
+    <PostBuildEvent>xcopy $(ProjectDir)Scripts\custom\logging.js $(SolutionDir)Fonlow.TraceHubSlim\Scripts\custom\logging.js /D /Y</PostBuildEvent>
   </PropertyGroup>
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
