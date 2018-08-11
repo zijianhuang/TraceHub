@@ -28,8 +28,9 @@ var Fonlow_Logging;
          */
         LoggingHubStarter.prototype.reconnectWithDelay = function (ms) {
             var _this = this;
-            if (this.listeningStoped)
+            if (this.listeningStoped) {
                 return;
+            }
             console.info("SignalR client wil try to connect with server in " + ms + " milliseconds.");
             setTimeout(function () {
                 _this.reconnect();
@@ -111,7 +112,7 @@ var Fonlow_Logging;
             })
                 .error(function (error) {
                 var context = error.context;
-                if (context && context.status != 0) {
+                if (context && context.status !== 0) {
                     if (context.status === 401) {
                         console.warn('Due to 401, the connection wont be resumed.' + context.statusText);
                         _this.stopListening();
@@ -123,9 +124,9 @@ var Fonlow_Logging;
         LoggingHubStarter.prototype.DeferredStateChangedAction = function (state) {
             var _this = this;
             this.hubConnectionStateChanged = jQuery.Deferred();
-            this.hubConnectionStateChanged.done(function (state) {
-                console.debug('hubConnectionStateChanged.done state ' + state);
-                if (state === 4 /* Disconnected */) {
+            this.hubConnectionStateChanged.done(function (doneState) {
+                console.debug('hubConnectionStateChanged.done state ' + doneState);
+                if (doneState === 4 /* Disconnected */) {
                     _this.reconnectWithDelay(20000);
                 }
             });
@@ -141,7 +142,7 @@ var Fonlow_Logging;
             for (var _i = 1; _i < arguments.length; _i++) {
                 msg[_i - 1] = arguments[_i];
             }
-            if (!this.connection || this.connection.state != 1) {
+            if (!this.connection || this.connection.state !== 1) {
                 console.debug("Invoking " + method + " when connection or hub state is not good.");
                 return $.when(null);
             }
@@ -190,8 +191,8 @@ var Fonlow_Logging;
                             $('button#listeners').hide();
                         }
                         else {
-                            _this.server.getAllClients().done(function (clientsInfo) {
-                                if (clientsInfo == null) {
+                            _this.server.getAllClients().done(function (clientsInfo2) {
+                                if (clientsInfo2 == null) {
                                     $('button#clients').hide();
                                     $('button#listeners').hide();
                                 }
@@ -200,7 +201,7 @@ var Fonlow_Logging;
                     });
                 })
                     .fail(function () {
-                    console.error("Fail to retrieveClientSettings.");
+                    console.error('Fail to retrieveClientSettings.');
                 });
             })
                 .fail(function () {
@@ -214,10 +215,12 @@ var Fonlow_Logging;
         function WebUiFunctions() {
         }
         WebUiFunctions.prototype.renderClientsInfo = function (clientsInfo) {
-            if (clientsInfo == null)
+            if (clientsInfo == null) {
                 return false;
-            if (clientsInfo.length == 0)
+            }
+            if (clientsInfo.length === 0) {
                 return true;
+            }
             var evenLine = false;
             var divs = clientsInfo.map(function (m) {
                 var div = $('<li/>', { class: 'hubClientInfo' + (evenLine ? ' even' : ' odd') });
@@ -226,7 +229,7 @@ var Fonlow_Logging;
                 div.append($('<span/>', { class: 'hc-userAgent' }).text(m.userAgent));
                 div.append($('<span/>', { class: 'hc-ip' }).text(m.ipAddress));
                 div.append($('<span/>', { class: 'time' }).text(m.connectedTimeUtc.toString()));
-                if (m.clientType == Fonlow_Logging.ClientType.TraceListener) {
+                if (m.clientType === Fonlow_Logging.ClientType.TraceListener) {
                     div.append($('<span/>', { class: 'hc-template' }).text(m.template));
                     div.append($('<span/>', { class: 'origin' }).text(m.origin));
                 }
@@ -241,10 +244,12 @@ var Fonlow_Logging;
             return true;
         };
         WebUiFunctions.prototype.renderListenersInfo = function (listenersInfo, origins) {
-            if (listenersInfo == null)
+            if (listenersInfo == null) {
                 return false;
-            if (listenersInfo.length == 0)
+            }
+            if (listenersInfo.length === 0) {
                 return true;
+            }
             var evenLine = false;
             var divs = listenersInfo.map(function (m) {
                 var div = $('<div/>', { class: 'hubClientInfo' + (evenLine ? ' even' : ' odd') });
@@ -288,20 +293,21 @@ var Fonlow_Logging;
             this.stayWithLatest = true;
             this.sourceLevels = -1; //all
             this.writeTrace = function (tm) {
-                if ((tm.eventType & _this.sourceLevels) == 0)
+                if ((tm.eventType & _this.sourceLevels) === 0) {
                     return;
+                }
                 if (checkedListeners.length === 0 || (checkedListeners.length > 0 && checkedListeners.indexOf(tm.origin) >= 0)) {
                     _this.addLine(tm);
                 }
             };
-            //Write traces in fixed size queue defined by this.bufferSize 
+            //Write traces in fixed size queue defined by this.bufferSize
             this.writeTraces = function (tms) {
                 if (_this.sourceLevels === 0) {
                     return;
                 }
                 tms = tms.filter(function (m) {
-                    return (m.eventType & _this.sourceLevels) != 0 &&
-                        (checkedListeners.length == 0 || (checkedListeners.length > 0 && checkedListeners.indexOf(m.origin) >= 0));
+                    return (m.eventType & _this.sourceLevels) !== 0 &&
+                        (checkedListeners.length === 0 || (checkedListeners.length > 0 && checkedListeners.indexOf(m.origin) >= 0));
                 });
                 //Clean up some space first
                 if (lineCount + tms.length > _this.bufferSize) {
@@ -323,33 +329,33 @@ var Fonlow_Logging;
         ClientFunctions.prototype.eventTypeToString = function (t) {
             switch (t) {
                 case 1:
-                    return "Critical";
+                    return 'Critical';
                 case 2:
-                    return "Error";
+                    return 'Error';
                 case 4:
-                    return "Warning";
+                    return 'Warning';
                 case 8:
-                    return "Info";
+                    return 'Info';
                 case 16:
-                    return "Verbose";
+                    return 'Verbose';
                 case 256:
-                    return "Start";
+                    return 'Start';
                 case 512:
-                    return "Stop";
+                    return 'Stop';
                 case 1024:
-                    return "Suspend";
+                    return 'Suspend';
                 case 2048:
-                    return "Resume";
+                    return 'Resume';
                 case 4096:
-                    return "Transfer";
+                    return 'Transfer';
                 default:
-                    return "Misc ";
+                    return 'Misc ';
             }
         };
         ClientFunctions.prototype.createNewLine = function (tm) {
             var et = this.eventTypeToString(tm.eventType);
             var $eventText = $('<span/>', { class: et + ' et' }).text(et + ': ');
-            var $timeText = $('<span/>', { class: 'time', value: tm.timeUtc }).text(' ' + this.getShortTimeText(new Date(tm.timeUtc.toString())) + ' '); //The Json object seem to become string rather than Date. A bug in SignalR JS? Now I have to cast it 
+            var $timeText = $('<span/>', { class: 'time', value: tm.timeUtc }).text(' ' + this.getShortTimeText(new Date(tm.timeUtc.toString())) + ' '); //The Json object seem to become string rather than Date. A bug in SignalR JS? Now I have to cast it
             var $originText = $('<span/>', { class: 'origin btn-xs btn-primary', onclick: 'void(0)' }).text(' ' + tm.origin + '  ');
             var $messageText = $('<span/>', { class: 'message' }).text(tm.message);
             var newLine = $('<li/>', { class: evenLine ? 'even' : 'odd' });
@@ -413,20 +419,20 @@ var lineCount = 0;
 var clientFunctions = new Fonlow_Logging.ClientFunctions();
 var webUiFunctions = new Fonlow_Logging.WebUiFunctions();
 var managementFunctions = new Fonlow_Logging.ManagementFunctions();
-var originalText = "saveTime";
+var originalText = 'saveTime';
 var clientSettings;
 var checkedListeners = [];
 var checkedListenersTemp = [];
-$(document).on("mouseenter", "span.time", function () {
+$(document).on('mouseenter', 'span.time', function () {
     originalText = $(this).text();
-    $(this).text($(this).attr("value"));
+    $(this).text($(this).attr('value'));
 });
-$(document).on("mouseleave", "span.time", function () {
+$(document).on('mouseleave', 'span.time', function () {
     $(this).text(originalText);
 });
-$(document).on("click", "span.origin", function () {
+$(document).on('click', 'span.origin', function () {
     $(this).siblings('.message').replaceWith(function () {
-        return $(this).prop('tagName') == 'SPAN' ?
+        return $(this).prop('tagName') === 'SPAN' ?
             $('<pre/>', {
                 class: 'message',
                 text: $(this).text()

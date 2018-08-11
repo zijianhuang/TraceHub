@@ -321,6 +321,7 @@
     <Content Include="Views\Manage\ManageLogins.cshtml" />
     <Content Include="Views\Manage\SetPassword.cshtml" />
     <Content Include="Views\Manage\VerifyPhoneNumber.cshtml" />
+    <Content Include="tslint.json" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -383,7 +384,7 @@
     </VisualStudio>
   </ProjectExtensions>
   <PropertyGroup>
-    <PostBuildEvent>xcopy $(ProjectDir)Scripts\custom\logging.js $(SolutionDir)Fonlow.TraceHubSlim\Scripts\custom\logging.js /D /Y</PostBuildEvent>
+    <PostBuildEvent>xcopy $(ProjectDir)Scripts\custom\logging.js $(SolutionDir)Fonlow.TraceHubSlim\Scripts\custom\ /D /Y</PostBuildEvent>
   </PropertyGroup>
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
