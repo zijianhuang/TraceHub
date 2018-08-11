@@ -3,7 +3,7 @@ using System.Text;
 using System.Web;
 using System.Web.Http.Description;
 
-namespace Fonlow.Web.Logging.Areas.HelpPage
+namespace Fonlow.TraceHub.Areas.HelpPage
 {
     public static class ApiDescriptionExtensions
     {

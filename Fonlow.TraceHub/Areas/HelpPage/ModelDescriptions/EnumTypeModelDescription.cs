@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 
-namespace Fonlow.Web.Logging.Areas.HelpPage.ModelDescriptions
+namespace Fonlow.TraceHub.Areas.HelpPage.ModelDescriptions
 {
     public class EnumTypeModelDescription : ModelDescription
     {

@@ -1,4 +1,4 @@
-namespace Fonlow.Web.Logging.Areas.HelpPage
+namespace Fonlow.TraceHub.Areas.HelpPage
 {
     /// <summary>
     /// Indicates whether the sample is used for request or response

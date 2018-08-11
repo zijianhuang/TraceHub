@@ -1,4 +1,4 @@
-namespace Fonlow.Web.Logging.Areas.HelpPage.ModelDescriptions
+namespace Fonlow.TraceHub.Areas.HelpPage.ModelDescriptions
 {
     public class DictionaryModelDescription : KeyValuePairModelDescription
     {

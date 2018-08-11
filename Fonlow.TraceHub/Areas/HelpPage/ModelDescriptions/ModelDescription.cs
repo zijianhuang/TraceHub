@@ -1,6 +1,6 @@
 using System;
 
-namespace Fonlow.Web.Logging.Areas.HelpPage.ModelDescriptions
+namespace Fonlow.TraceHub.Areas.HelpPage.ModelDescriptions
 {
     /// <summary>
     /// Describes a type model.

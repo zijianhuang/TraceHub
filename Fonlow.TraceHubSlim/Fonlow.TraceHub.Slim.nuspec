@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>Fonlow.TraceHub.Slim</id>
-    <version>1.4.1-ForBS4B2</version>
+    <version>1.5.0</version>
     <title>TraceHub.Slim</title>
     <authors>Zijian Huang</authors>
     <owners>Zijian Huang</owners>
@@ -11,13 +11,13 @@
     <requireLicenseAcceptance>true</requireLicenseAcceptance>
     <description>Trace Hub components that make your existing ASP.NET Web Application have TraceHub functionality. And you may need to cherry-pick a portion of Site.css to your Web project.</description>
     <summary>Trace Hub components that make your existing ASP.NET Web Application have TraceHub functionality.</summary>
-    <releaseNotes>Use Bootstrap 4 Beta 2</releaseNotes>
-    <copyright>Copyright © Zijian Huang 2016-2017</copyright>
+    <releaseNotes>Use Bootstrap 4</releaseNotes>
+    <copyright>Copyright © Zijian Huang 2016-2018</copyright>
     <tags>ASP API Web Client Fonlow.TraceHub rest restful aspnet aspnet SignalR httpclient</tags>
     <dependencies>
       <group>
         <dependency id="Fonlow.TraceHub.Core" version="1.4.0" />
-        <dependency id="Microsoft.AspNet.SignalR.SystemWeb" version="2.2.2" />
+        <dependency id="Microsoft.AspNet.SignalR.SystemWeb" version="2.3.0" />
       </group>
     </dependencies>
   </metadata>
@@ -27,9 +27,9 @@
     <file src="Scripts\custom\logging.js" target="content\Scripts\custom\logging.js"/>
     <file src="Content\TraceHub.css" target="content\Content\TraceHub.css"/>
 
-    <file src="Scripts\jquery-3.2.1.min.js" target="content\Scripts\jquery-3.2.1.min.js"/>
+    <file src="Scripts\jquery-3.3.1.min.js" target="content\Scripts\jquery-3.3.1.min.js"/>
     <file src="Scripts\popper.min.js" target="content\Scripts\popper.min.js"/>
     <file src="Scripts\bootstrap.min.js" target="content\Scripts\bootstrap.min.js"/>
-    <file src="Scripts\jquery.signalr-2.2.2.min.js" target="content\Scripts\jquery.signalr-2.2.2.min.js"/>
+    <file src="Scripts\jquery.signalr-2.3.0.min.js" target="content\Scripts\jquery.signalr-2.3.0.min.js"/>
   </files>
 </package>

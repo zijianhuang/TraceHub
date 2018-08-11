@@ -1,7 +1,7 @@
 using System;
 using System.Reflection;
 
-namespace Fonlow.Web.Logging.Areas.HelpPage.ModelDescriptions
+namespace Fonlow.TraceHub.Areas.HelpPage.ModelDescriptions
 {
     public interface IModelDocumentationProvider
     {

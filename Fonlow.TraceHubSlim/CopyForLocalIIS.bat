@@ -1,8 +1,14 @@
 cd %~dp0
 set target=C:\inetpub\wwwroot\TraceHubSlim\
 xcopy bin\*.dll %target%bin\ /Y /D
+
 xcopy Scripts\custom\logging.js %target%Scripts\custom\logging.js* /Y /D
-xcopy Content\TraceHub.css %target%Content\TraceHub.css* /Y /D
+xcopy Scripts\bootstrap.min.js %target%Scripts\ /Y /D
+xcopy Scripts\jquery.signalR-2.3.0.min.js %target%Scripts\ /Y /D
+xcopy Scripts\jquery-3.3.1.min.js %target%Scripts\ /Y /D
+xcopy Scripts\popper.min.js %target%Scripts\ /Y /D
+
+xcopy Content\*.css %target%Content\ /Y /D
 
 
 copy Web.config %target%web.config /Y /D

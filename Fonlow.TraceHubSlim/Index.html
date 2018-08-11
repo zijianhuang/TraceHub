@@ -1,122 +1,120 @@
 ﻿<!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-    <title></title>
-    <link rel="icon" href="data:;base64,iVBORw0KGgo=" />
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous" />
-    <link href="/Content/TraceHub.css" rel="stylesheet" />
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+	<title>Trace Hub</title>
+	<meta name="description" content="Display traces pushed from trace listeners" />
+	<link rel="icon" href="data:;base64,iVBORw0KGgo=" />
+	<link rel="stylesheet" href="/Content/bootstrap.min.css">
+	<link href="/Content/TraceHub.css" rel="stylesheet" />
 </head>
 <body>
-    <div class="container-fluid">
-        <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
-            <a class="navbar-brand" href="https://github.com/zijianhuang/TraceHub/wiki" target="_blank">TraceHub</a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+	<noscript>
+		<div class="alert alert-warning">
+			You don't have JavaScript enabled in this Web browser or for this URL. To run this Web application in this browser, you must enable JavaScript for this URL. If you are using a browser extension like NoScript that could disable JavaScript, please select "Allow all this page".
+		</div>
+	</noscript>
+	<div class="container-fluid">
+		<nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
+			<a class="navbar-brand" href="https://github.com/zijianhuang/TraceHub/wiki" target="_blank" rel="noopener">TraceHub</a>
+			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+			<div class="collapse navbar-collapse" id="navbarSupportedContent">
 
-                <ul class="navbar-nav">
-                    <li class="nav-item mt-1 active ml-2"><button type="button" onclick="managementFunctions.clear()" class="btn btn-secondary">Clear</button></li>
-                    <li class="checkbox-inline nav-item mt-1 active ml-2"><label class="navbar-text"><input type="checkbox" id="stayWithLatest" checked="checked" onclick="clientFunctions.scrollToBottomSuspendedToggle(this.checked, this.id)" />Stay with latest</label></li>
-                    <li class="nav-item mt-1 active ml-2">
-                        <select id="sourceLevels" class="form-control">
-                            <option value="-1" selected="selected">All</option>
-                            <option value="0">Off</option>
-                            <option value="1">Critical</option>
-                            <option value="3">Error</option>
-                            <option value="7">Warning</option>
-                            <option value="15">Information</option>
-                            <option value="31">Verbose</option>
-                            <option value="65280">ActivityTracing</option>
-                        </select>
-                    </li>
-                    <li class="nav-item mt-1 active ml-2">
-                        <button type="button" id="clients" class="btn btn-secondary advanced" data-toggle="modal" data-target="#myModal">Clients</button>
-                    </li>
-                    <li class="nav-item mt-1 active ml-2">
-                        <button type="button" id="listeners" class="btn btn-secondary advanced" data-toggle="modal" data-target="#listenersModal">Listeners</button>
-                    </li>
-                </ul>
-            </div>
-        </nav>
-        <div class="body-content">
-            <h3>Traces from Origins and Sources</h3>
+				<ul class="navbar-nav">
+					<li class="nav-item mt-1 active ml-2"><button type="button" onclick="managementFunctions.clear()" class="btn btn-secondary">Clear</button></li>
+					<li class="checkbox-inline nav-item mt-1 active ml-2"><label class="navbar-text"><input type="checkbox" id="stayWithLatest" checked="checked" onclick="clientFunctions.scrollToBottomSuspendedToggle(this.checked, this.id)" />Stay with latest</label></li>
+					<li class="nav-item mt-1 active ml-2">
+						<select id="sourceLevels" class="form-control">
+							<option value="-1" selected="selected">All</option>
+							<option value="0">Off</option>
+							<option value="1">Critical</option>
+							<option value="3">Error</option>
+							<option value="7">Warning</option>
+							<option value="15">Information</option>
+							<option value="31">Verbose</option>
+							<option value="65280">ActivityTracing</option>
+						</select>
+					</li>
+					<li class="nav-item mt-1 active ml-2">
+						<button type="button" id="clients" class="btn btn-secondary advanced" data-toggle="modal" data-target="#myModal">Clients</button>
+					</li>
+					<li class="nav-item mt-1 active ml-2">
+						<button type="button" id="listeners" class="btn btn-secondary advanced" data-toggle="modal" data-target="#listenersModal">Listeners</button>
+					</li>
+				</ul>
+			</div>
+		</nav>
+		<div class="body-content">
+			<h3>Traces from Origins and Sources</h3>
 
-            <ul id="traces" class="clearfix"></ul>
+			<ul id="traces" class="clearfix"></ul>
 
-            <hr />
+			<hr />
 
-            <!-- Modal -->
-            <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-                <div class="modal-dialog modal-lg" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h4 class="modal-title" id="myModalLabel">Clients</h4>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <ul id="clientList" class="modal-body">
-                            ...
-                        </ul>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
+			<!-- Modal -->
+			<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+				<div class="modal-dialog modal-lg" role="document">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h4 class="modal-title" id="myModalLabel">Clients</h4>
+							<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+								<span aria-hidden="true">&times;</span>
+							</button>
+						</div>
+						<ul id="clientList" class="modal-body">
+							...
+						</ul>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+						</div>
+					</div>
+				</div>
+			</div>
 
-            <!-- Listeners Modal -->
-            <div class="modal fade" id="listenersModal" tabindex="-1" role="dialog" aria-labelledby="listenersModalLabel" aria-hidden="true">
-                <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h4 class="modal-title" id="listenersModalLabel">Listeners of Origins</h4>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <ul id="listenerList" class="modal-body">
-                            ...
-                        </ul>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="webUiFunctions.confirmSelectionOfListeners()"
-                                    data-toggle="tooltip" data-placement="bottom" title="Show traces of all checked listeners. If all is unchecked, show traces of all listeners.">
-                                Close
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
+			<!-- Listeners Modal -->
+			<div class="modal fade" id="listenersModal" tabindex="-1" role="dialog" aria-labelledby="listenersModalLabel" aria-hidden="true">
+				<div class="modal-dialog" role="document">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h4 class="modal-title" id="listenersModalLabel">Listeners of Origins</h4>
+							<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+								<span aria-hidden="true">&times;</span>
+							</button>
+						</div>
+						<ul id="listenerList" class="modal-body">
+							...
+						</ul>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-primary" data-dismiss="modal" onclick="webUiFunctions.confirmSelectionOfListeners()"
+									data-toggle="tooltip" data-placement="bottom" title="Show traces of all checked listeners. If all is unchecked, show traces of all listeners.">
+								OK
+							</button>
+						</div>
+					</div>
+				</div>
+			</div>
 
-            <footer></footer>
-        </div>
-    </div>
+			<footer></footer>
+		</div>
+	</div>
 
-    <!-- #ifdef _xml_preprocess -->
-    <!--
-    <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
-    <script src="https://ajax.aspnetcdn.com/ajax/signalr/jquery.signalr-2.2.2.min.js"></script>
-    -->
-    <!-- #else -->
-    <script src="Scripts/jquery-3.2.1.min.js"></script>
-    <script src="Scripts/popper.min.js"></script>
-    <script src="Scripts/bootstrap.min.js"></script>
-    <script src="Scripts/jquery.signalr-2.2.2.min.js"></script>
-    <!-- #endif -->
+	<script src="Scripts/jquery-3.3.1.min.js"></script>
+	<script src="Scripts/popper.min.js"></script>
+	<script src="Scripts/bootstrap.min.js"></script>
+	<script src="Scripts/jquery.signalr-2.3.0.min.js"></script>
 
-    <script src="Scripts/custom/logging.js"></script>
+	<script src="Scripts/custom/logging.js"></script>
 
-    <script>
-        $(function () {
-            var starter = new Fonlow_Logging.LoggingHubStarter();
-            starter.reconnect();
-        });
-    </script>
+	<script>
+		$(function () {
+			var starter = new Fonlow_Logging.LoggingHubStarter();
+			starter.reconnect();
+		});
+	</script>
 
 </body>
 </html>
+

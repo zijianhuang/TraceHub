@@ -11,10 +11,10 @@ using System.Net.Http.Headers;
 using System.Web.Http;
 using System.Web.Http.Controllers;
 using System.Web.Http.Description;
-using Fonlow.Web.Logging.Areas.HelpPage.ModelDescriptions;
-using Fonlow.Web.Logging.Areas.HelpPage.Models;
+using Fonlow.TraceHub.Areas.HelpPage.ModelDescriptions;
+using Fonlow.TraceHub.Areas.HelpPage.Models;
 
-namespace Fonlow.Web.Logging.Areas.HelpPage
+namespace Fonlow.TraceHub.Areas.HelpPage
 {
     public static class HelpPageConfigurationExtensions
     {

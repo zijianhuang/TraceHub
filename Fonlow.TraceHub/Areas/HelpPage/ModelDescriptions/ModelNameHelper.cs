@@ -3,7 +3,7 @@ using System.Globalization;
 using System.Linq;
 using System.Reflection;
 
-namespace Fonlow.Web.Logging.Areas.HelpPage.ModelDescriptions
+namespace Fonlow.TraceHub.Areas.HelpPage.ModelDescriptions
 {
     internal static class ModelNameHelper
     {

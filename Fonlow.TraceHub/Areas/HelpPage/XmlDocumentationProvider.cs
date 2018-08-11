@@ -5,9 +5,9 @@ using System.Reflection;
 using System.Web.Http.Controllers;
 using System.Web.Http.Description;
 using System.Xml.XPath;
-using Fonlow.Web.Logging.Areas.HelpPage.ModelDescriptions;
+using Fonlow.TraceHub.Areas.HelpPage.ModelDescriptions;
 
-namespace Fonlow.Web.Logging.Areas.HelpPage
+namespace Fonlow.TraceHub.Areas.HelpPage
 {
     /// <summary>
     /// A custom <see cref="IDocumentationProvider"/> that reads the API documentation from an XML documentation file.

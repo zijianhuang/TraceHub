@@ -1,7 +1,7 @@
 using System.Web.Http;
 using System.Web.Mvc;
 
-namespace Fonlow.Web.Logging.Areas.HelpPage
+namespace Fonlow.TraceHub.Areas.HelpPage
 {
     public class HelpPageAreaRegistration : AreaRegistration
     {

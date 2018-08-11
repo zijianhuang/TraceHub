@@ -1,10 +1,10 @@
 using System;
 using System.Web.Http;
 using System.Web.Mvc;
-using Fonlow.Web.Logging.Areas.HelpPage.ModelDescriptions;
-using Fonlow.Web.Logging.Areas.HelpPage.Models;
+using Fonlow.TraceHub.Areas.HelpPage.ModelDescriptions;
+using Fonlow.TraceHub.Areas.HelpPage.Models;
 
-namespace Fonlow.Web.Logging.Areas.HelpPage.Controllers
+namespace Fonlow.TraceHub.Areas.HelpPage.Controllers
 {
     /// <summary>
     /// The controller that will handle requests for the help page.

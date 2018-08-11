@@ -2,9 +2,9 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Net.Http.Headers;
 using System.Web.Http.Description;
-using Fonlow.Web.Logging.Areas.HelpPage.ModelDescriptions;
+using Fonlow.TraceHub.Areas.HelpPage.ModelDescriptions;
 
-namespace Fonlow.Web.Logging.Areas.HelpPage.Models
+namespace Fonlow.TraceHub.Areas.HelpPage.Models
 {
     /// <summary>
     /// The model that represents an API displayed on the help page.
