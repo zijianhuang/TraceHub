@@ -288,10 +288,10 @@ module Fonlow_Logging {
                 return true;
             }
 
-            let evenLine = false;
+            let evenLineOfClientInfo = false;
             const divs = clientsInfo.map((m) => {
-                const div = $('<li/>', { class: 'hubClientInfo' + (evenLine ? ' even' : ' odd') });
-                evenLine = !evenLine;
+                const div = $('<li/>', { class: 'hubClientInfo' + (evenLineOfClientInfo ? ' even' : ' odd') });
+                evenLineOfClientInfo = !evenLineOfClientInfo;
                 div.append($('<span/>', { class: 'hc-type' }).text(Fonlow_Logging.ClientType[m.clientType]));
                 div.append($('<span/>', { class: 'hc-userAgent' }).text(m.userAgent));
                 div.append($('<span/>', { class: 'hc-ip' }).text(m.ipAddress));
@@ -324,10 +324,10 @@ module Fonlow_Logging {
                 return true;
             }
 
-            let evenLine = false;
+            let evenLineOfClientInfo = false;
             const divs = listenersInfo.map((m) => {
-                const div = $('<div/>', { class: 'hubClientInfo' + (evenLine ? ' even' : ' odd') });
-                evenLine = !evenLine;
+                const div = $('<div/>', { class: 'hubClientInfo' + (evenLineOfClientInfo ? ' even' : ' odd') });
+                evenLineOfClientInfo = !evenLineOfClientInfo;
                 const shouldBeChecked = (origins.length > 0 && origins.indexOf(m.origin) >= 0);
                 div.append($('<input/>', { type: 'checkbox', id: m.origin, checked: shouldBeChecked, onclick: 'webUiFunctions.selectListener(this.checked, this.id)' }));
                 div.append($('<span/>', { class: 'hc-ip' }).text(m.ipAddress));
