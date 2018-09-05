@@ -12,7 +12,7 @@ var Fonlow_Logging;
     /**
      * Manage SignalR connection
      */
-    var LoggingHubStarter = (function () {
+    var LoggingHubStarter = /** @class */ (function () {
         function LoggingHubStarter() {
             this.listeningStoped = true;
             console.debug('LoggingHubStarter created.');
@@ -126,7 +126,7 @@ var Fonlow_Logging;
             this.hubConnectionStateChanged = jQuery.Deferred();
             this.hubConnectionStateChanged.done(function (doneState) {
                 console.debug('hubConnectionStateChanged.done state ' + doneState);
-                if (doneState === 4 /* Disconnected */) {
+                if (doneState === 4 /* Disconnected */) { //similar to (obj.OldState == ConnectionState.Reconnecting) && (obj.NewState == ConnectionState.Disconnected) but signalR JS client is using different algorithm
                     _this.reconnectWithDelay(20000);
                 }
             });
@@ -142,12 +142,12 @@ var Fonlow_Logging;
             for (var _i = 1; _i < arguments.length; _i++) {
                 msg[_i - 1] = arguments[_i];
             }
-            if (!this.connection || this.connection.state !== 1) {
+            var _a;
+            if (!this.connection || this.connection.state !== 1) { //1 is connected. It has to be connection.hub.state while connection.state is not working.
                 console.debug("Invoking " + method + " when connection or hub state is not good.");
                 return $.when(null);
             }
             return (_a = this.proxy).invoke.apply(_a, [method].concat(msg));
-            var _a;
         };
         /**
          * Start signalR Hub connection.
@@ -211,7 +211,7 @@ var Fonlow_Logging;
         return LoggingHubStarter;
     }());
     Fonlow_Logging.LoggingHubStarter = LoggingHubStarter;
-    var WebUiFunctions = (function () {
+    var WebUiFunctions = /** @class */ (function () {
         function WebUiFunctions() {
         }
         WebUiFunctions.prototype.renderClientsInfo = function (clientsInfo) {
@@ -221,10 +221,10 @@ var Fonlow_Logging;
             if (clientsInfo.length === 0) {
                 return true;
             }
-            var evenLine = false;
+            var evenLineOfClientInfo = false;
             var divs = clientsInfo.map(function (m) {
-                var div = $('<li/>', { class: 'hubClientInfo' + (evenLine ? ' even' : ' odd') });
-                evenLine = !evenLine;
+                var div = $('<li/>', { class: 'hubClientInfo' + (evenLineOfClientInfo ? ' even' : ' odd') });
+                evenLineOfClientInfo = !evenLineOfClientInfo;
                 div.append($('<span/>', { class: 'hc-type' }).text(Fonlow_Logging.ClientType[m.clientType]));
                 div.append($('<span/>', { class: 'hc-userAgent' }).text(m.userAgent));
                 div.append($('<span/>', { class: 'hc-ip' }).text(m.ipAddress));
@@ -250,10 +250,10 @@ var Fonlow_Logging;
             if (listenersInfo.length === 0) {
                 return true;
             }
-            var evenLine = false;
+            var evenLineOfClientInfo = false;
             var divs = listenersInfo.map(function (m) {
-                var div = $('<div/>', { class: 'hubClientInfo' + (evenLine ? ' even' : ' odd') });
-                evenLine = !evenLine;
+                var div = $('<div/>', { class: 'hubClientInfo' + (evenLineOfClientInfo ? ' even' : ' odd') });
+                evenLineOfClientInfo = !evenLineOfClientInfo;
                 var shouldBeChecked = (origins.length > 0 && origins.indexOf(m.origin) >= 0);
                 div.append($('<input/>', { type: 'checkbox', id: m.origin, checked: shouldBeChecked, onclick: 'webUiFunctions.selectListener(this.checked, this.id)' }));
                 div.append($('<span/>', { class: 'hc-ip' }).text(m.ipAddress));
@@ -286,7 +286,7 @@ var Fonlow_Logging;
     /**
      * Helper functions used by pushes.
      */
-    var ClientFunctions = (function () {
+    var ClientFunctions = /** @class */ (function () {
         function ClientFunctions() {
             var _this = this;
             this.bufferSize = 10000; //this will be altered by Web.config through a server call retrieveClientSettings once the signalR connection is established.
@@ -403,7 +403,7 @@ var Fonlow_Logging;
         return ClientFunctions;
     }());
     Fonlow_Logging.ClientFunctions = ClientFunctions;
-    var ManagementFunctions = (function () {
+    var ManagementFunctions = /** @class */ (function () {
         function ManagementFunctions() {
         }
         ManagementFunctions.prototype.clear = function () {
