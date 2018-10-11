@@ -10,6 +10,8 @@ This project delivers TraceHub MVC, TraceHub Slim, HubTraceListener and TraceHub
 * Extending System.Diagnostics and Essential.Diagnostics
 * Providing structured tracing and logging withou needing to change 1 line of your application codes
 
+You may deploy TraceHub as a standalone application to monitor traces of one or multiple ASP.NET Websites, or integrate TraceHub into existing ASP.NET Websites.
+
 ## Products
 
 ### TraceHub MVC
