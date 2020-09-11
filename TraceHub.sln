@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29613.14
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fonlow.TraceHub.Common", "Fonlow.Web.Logging.Common\Fonlow.TraceHub.Common.csproj", "{ED8EFF5F-1EF8-4FD1-AF11-85DF81CC1CDC}"
 EndProject
@@ -31,6 +31,12 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CoreTests", "Tests\CoreTests\CoreTests.csproj", "{E1EE5653-677A-4171-B49F-B2C43B5B5705}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{7CF9E7BE-85A2-4603-AECB-8319E9EF9D68}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Fonlow.TraceHub.CommonCore", "Fonlow.TraceHub.CommonCore\Fonlow.TraceHub.CommonCore.csproj", "{2AFF10A1-2B35-4B8D-A586-AF661BC179BD}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Fonlow.TraceHub.CoreCore", "Fonlow.TraceHub.CoreCore\Fonlow.TraceHub.CoreCore.csproj", "{E10BF13B-67E5-4506-9782-E5C3AF72C9AB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fonlow.TraceHub.SlimCore", "Fonlow.TraceHub.SlimCore\Fonlow.TraceHub.SlimCore.csproj", "{E4B8C0F8-1CD5-4E30-92BC-791DB0C763E0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -78,11 +84,26 @@ Global
 		{E1EE5653-677A-4171-B49F-B2C43B5B5705}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E1EE5653-677A-4171-B49F-B2C43B5B5705}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E1EE5653-677A-4171-B49F-B2C43B5B5705}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2AFF10A1-2B35-4B8D-A586-AF661BC179BD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2AFF10A1-2B35-4B8D-A586-AF661BC179BD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2AFF10A1-2B35-4B8D-A586-AF661BC179BD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2AFF10A1-2B35-4B8D-A586-AF661BC179BD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E10BF13B-67E5-4506-9782-E5C3AF72C9AB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E10BF13B-67E5-4506-9782-E5C3AF72C9AB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E10BF13B-67E5-4506-9782-E5C3AF72C9AB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E10BF13B-67E5-4506-9782-E5C3AF72C9AB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E4B8C0F8-1CD5-4E30-92BC-791DB0C763E0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E4B8C0F8-1CD5-4E30-92BC-791DB0C763E0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E4B8C0F8-1CD5-4E30-92BC-791DB0C763E0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E4B8C0F8-1CD5-4E30-92BC-791DB0C763E0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{E1EE5653-677A-4171-B49F-B2C43B5B5705} = {7CF9E7BE-85A2-4603-AECB-8319E9EF9D68}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {CAC12C6B-92C3-4F9B-B4D8-844B9BB086A5}
 	EndGlobalSection
 EndGlobal

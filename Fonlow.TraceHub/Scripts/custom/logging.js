@@ -1,5 +1,12 @@
 ///<reference path="../typings/jquery/jquery.d.ts" />
 ///<reference path="../typings/signalr/signalr.d.ts" />
+var __spreadArrays = (this && this.__spreadArrays) || function () {
+    for (var s = 0, i = 0, il = arguments.length; i < il; i++) s += arguments[i].length;
+    for (var r = Array(s), k = 0, i = 0; i < il; i++)
+        for (var a = arguments[i], j = 0, jl = a.length; j < jl; j++, k++)
+            r[k] = a[j];
+    return r;
+};
 var Fonlow_Logging;
 (function (Fonlow_Logging) {
     var ClientType;
@@ -138,16 +145,16 @@ var Fonlow_Logging;
          * @param msg server function parameters
          */
         LoggingHubStarter.prototype.invoke = function (method) {
+            var _a;
             var msg = [];
             for (var _i = 1; _i < arguments.length; _i++) {
                 msg[_i - 1] = arguments[_i];
             }
-            var _a;
             if (!this.connection || this.connection.state !== 1) { //1 is connected. It has to be connection.hub.state while connection.state is not working.
                 console.debug("Invoking " + method + " when connection or hub state is not good.");
                 return $.when(null);
             }
-            return (_a = this.proxy).invoke.apply(_a, [method].concat(msg));
+            return (_a = this.proxy).invoke.apply(_a, __spreadArrays([method], msg));
         };
         /**
          * Start signalR Hub connection.
