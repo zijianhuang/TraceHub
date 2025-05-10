@@ -1,0 +1,1844 @@
+<!DOCTYPE html>
+<!-- saved from url=(0095)https://www.codeproject.com/Articles/1118166/TraceHub-a-flexible-solution-for-Web-based-structu -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="preload" as="image" imagesrcset="/_next/image?url=%2Flogo250x135.gif&amp;w=256&amp;q=75 1x, /_next/image?url=%2Flogo250x135.gif&amp;w=640&amp;q=75 2x"><link rel="stylesheet" href="./TraceHub, A Flexible Solution for Web Based Structured Logging - CodeProject_files/f00fbee724adea66.css" data-precedence="next"><link rel="preload" as="script" fetchpriority="low" href="./TraceHub, A Flexible Solution for Web Based Structured Logging - CodeProject_files/webpack-5ed466aeca77ac7a.js.download"><script src="./TraceHub, A Flexible Solution for Web Based Structured Logging - CodeProject_files/4bd1b696-4098621b6d81f3cf.js.download" async=""></script><script src="./TraceHub, A Flexible Solution for Web Based Structured Logging - CodeProject_files/684-7067fe44ff85ebe6.js.download" async=""></script><script src="./TraceHub, A Flexible Solution for Web Based Structured Logging - CodeProject_files/main-app-f38f0d9153b95312.js.download" async=""></script><script async="" src="./TraceHub, A Flexible Solution for Web Based Structured Logging - CodeProject_files/f(1).txt"></script><link rel="preload" href="./TraceHub, A Flexible Solution for Web Based Structured Logging - CodeProject_files/js" as="script"><meta name="next-size-adjust" content=""><link rel="apple-touch-icon" sizes="144x144" href="https://www.codeproject.com/favicon/apple-touch-icon.png"><link rel="icon" type="image/png" sizes="32x32" href="https://www.codeproject.com/favicon/favicon-32x32.png"><link rel="icon" type="image/png" sizes="16x16" href="https://www.codeproject.com/favicon/favicon-16x16.png"><link rel="manifest" href="https://www.codeproject.com/favicon/manifest.json"><link rel="mask-icon" href="https://www.codeproject.com/favicon/safari-pinned-tab.svg" color="#ff9900"><meta property="og:title" content="CodeProject"><meta property="og:image" content="https://www.codeproject.com/favicon/mstile-150x150.png"><meta property="og:description" content="For those who code"><meta property="og:url" content="https://www.codeproject.com"><title>TraceHub, A Flexible Solution for Web Based Structured Logging - CodeProject</title><link rel="manifest" href="https://www.codeproject.com/manifest.json"><script>document.querySelectorAll('body link[rel="icon"], body link[rel="apple-touch-icon"]').forEach(el => document.head.appendChild(el))</script><script src="./TraceHub, A Flexible Solution for Web Based Structured Logging - CodeProject_files/polyfills-42372ed130431b0a.js.download" nomodule=""></script><link rel="preload" href="https://www.codeproject.com/_next/static/media/945b7384c5256ec3-s.p.ttf" as="font" crossorigin="" type="font/ttf"><link rel="preload" href="https://www.codeproject.com/_next/static/media/b55e164a6e7ce445-s.p.ttf" as="font" crossorigin="" type="font/ttf"><link rel="preload" href="https://www.codeproject.com/_next/static/media/e337cf18f0f81cb9-s.p.ttf" as="font" crossorigin="" type="font/ttf"><link rel="preload" href="https://www.codeproject.com/_next/static/media/f7794ce32483498f-s.p.ttf" as="font" crossorigin="" type="font/ttf"><meta http-equiv="origin-trial" content="AlK2UR5SkAlj8jjdEc9p3F3xuFYlF6LYjAML3EOqw1g26eCwWPjdmecULvBH5MVPoqKYrOfPhYVL71xAXI1IBQoAAAB8eyJvcmlnaW4iOiJodHRwczovL2RvdWJsZWNsaWNrLm5ldDo0NDMiLCJmZWF0dXJlIjoiV2ViVmlld1hSZXF1ZXN0ZWRXaXRoRGVwcmVjYXRpb24iLCJleHBpcnkiOjE3NTgwNjcxOTksImlzU3ViZG9tYWluIjp0cnVlfQ=="><meta http-equiv="origin-trial" content="Amm8/NmvvQfhwCib6I7ZsmUxiSCfOxWxHayJwyU1r3gRIItzr7bNQid6O8ZYaE1GSQTa69WwhPC9flq/oYkRBwsAAACCeyJvcmlnaW4iOiJodHRwczovL2dvb2dsZXN5bmRpY2F0aW9uLmNvbTo0NDMiLCJmZWF0dXJlIjoiV2ViVmlld1hSZXF1ZXN0ZWRXaXRoRGVwcmVjYXRpb24iLCJleHBpcnkiOjE3NTgwNjcxOTksImlzU3ViZG9tYWluIjp0cnVlfQ=="><meta http-equiv="origin-trial" content="A9wSqI5i0iwGdf6L1CERNdmsTPgVu44ewj8QxTBYgsv1LCPUVF7YmWOvTappqB1139jAymxUW/RO8zmMqo4zlAAAAACNeyJvcmlnaW4iOiJodHRwczovL2RvdWJsZWNsaWNrLm5ldDo0NDMiLCJmZWF0dXJlIjoiRmxlZGdlQmlkZGluZ0FuZEF1Y3Rpb25TZXJ2ZXIiLCJleHBpcnkiOjE3MzY4MTI4MDAsImlzU3ViZG9tYWluIjp0cnVlLCJpc1RoaXJkUGFydHkiOnRydWV9"><meta http-equiv="origin-trial" content="A+d7vJfYtay4OUbdtRPZA3y7bKQLsxaMEPmxgfhBGqKXNrdkCQeJlUwqa6EBbSfjwFtJWTrWIioXeMW+y8bWAgQAAACTeyJvcmlnaW4iOiJodHRwczovL2dvb2dsZXN5bmRpY2F0aW9uLmNvbTo0NDMiLCJmZWF0dXJlIjoiRmxlZGdlQmlkZGluZ0FuZEF1Y3Rpb25TZXJ2ZXIiLCJleHBpcnkiOjE3MzY4MTI4MDAsImlzU3ViZG9tYWluIjp0cnVlLCJpc1RoaXJkUGFydHkiOnRydWV9"><script src="./TraceHub, A Flexible Solution for Web Based Structured Logging - CodeProject_files/f(2).txt" async=""></script><link href="https://securepubads.g.doubleclick.net/pagead/managed/dict/m202505080101/gpt" rel="compression-dictionary"><script async="" src="./TraceHub, A Flexible Solution for Web Based Structured Logging - CodeProject_files/6839"></script><script async="" src="./TraceHub, A Flexible Solution for Web Based Structured Logging - CodeProject_files/AGSKWxUZiE-Jcfzpu84AHPeNCMUJ7dI72ma8HHe20ibND0-FAQ6bxJkr1R8MZoH3KBPxoqWZwY2VfG0tvpFb_4Mp6hJcjz2Oi_CrXl_ZiQT1EqgnRr3pLgcS1fQPf4jKsWSi2X0Np"></script><script async="" src="./TraceHub, A Flexible Solution for Web Based Structured Logging - CodeProject_files/AGSKWxVmouoPdSpuLI8cypai5taSnXfwd82CP6RhEc4e7bd3SWXhihNIHIPEIRShAy-17dpCDMgPXy3jC-NYnoCVc4e9UEITXTnlFdH1laUTt9y0OJcKJfXeAPP0NYGlx6AA2l6YP"></script><meta http-equiv="origin-trial" content="AxjhRadLCARYRJawRjMjq4U8V8okQvSnrBIJWdMajuEkN3/DfVAcLcFhMVrUWnOXagwlI8dQD84FwJDGj9ohqAYAAABveyJvcmlnaW4iOiJodHRwczovL2dvb2dsZWFkc2VydmljZXMuY29tOjQ0MyIsImZlYXR1cmUiOiJGZXRjaExhdGVyQVBJIiwiZXhwaXJ5IjoxNzI1NDA3OTk5LCJpc1RoaXJkUGFydHkiOnRydWV9"><script async="" src="./TraceHub, A Flexible Solution for Web Based Structured Logging - CodeProject_files/AGSKWxUYc9Zk_aijHBeldS70qkvqDgjeModtmdLm96YeDxUtXLscCsCULR1KdbeJHCYZfeIy13JHG3anRvDZXLeyAdXeWS20saAGaTbCyTQj6cVyqR8NC6TXT6YPas35TWKjHSgMz"></script></head><body class="__className_2277ee"><header><div class="custom-container gap-2 py-1 text-gray-light flex justify-between whitespace-nowrap z-10 relative px-1 md:px-0"><div class="flex-1 md:ml-20"><span class="hidden md:block">65.938<!-- --> articles</span><span class="block md:hidden">65.9<!-- -->K</span></div><div class="flex-1">CodeProject is changing.<!-- --> <a class="!text-gray-lightest" href="https://www.codeproject.com/info/Changes.aspx">Read more.</a></div><div class="flex-1"></div><div class="flex-1"></div></div><div class="mb-2 mt-2 md:mt-0"><div class="h-[94px] bg-primary"><div class="custom-container relative h-full"><a href="https://www.codeproject.com/"><img alt="Home" width="250" height="135" decoding="async" data-nimg="1" class="absolute -top-[31px]" style="color:transparent" srcset="/_next/image?url=%2Flogo250x135.gif&amp;w=256&amp;q=75 1x, /_next/image?url=%2Flogo250x135.gif&amp;w=640&amp;q=75 2x" src="./TraceHub, A Flexible Solution for Web Based Structured Logging - CodeProject_files/logo250x135.gif"></a><div class="w-[calc(100%-300px)] translate-x-[300px] translate-y-[2px] h-[90px] relative overflow-hidden"><div id="div-gpt-ad-1738591571151-0" style="min-width:728px;min-height:90px" class="absolute top-0 left-0" data-google-query-id="CIS748-imI0DFaSKrAIdR8Iimg"><div id="google_ads_iframe_/67541884/CPLeader728_0__container__" style="border: 0pt none;"><iframe id="google_ads_iframe_/67541884/CPLeader728_0" name="google_ads_iframe_/67541884/CPLeader728_0" title="3rd party ad content" width="728" height="90" scrolling="no" marginwidth="0" marginheight="0" frameborder="0" aria-label="Advertisement" tabindex="0" allow="private-state-token-redemption;attribution-reporting" data-load-complete="true" data-google-container-id="1" style="border: 0px; vertical-align: bottom;" src="./TraceHub, A Flexible Solution for Web Based Structured Logging - CodeProject_files/saved_resource.html"></iframe></div></div></div></div></div></div><nav class="custom-container py-1 px-2 whitespace-nowrap"><ul class="flex gap-2 border-b border-border-gray"><li class="relative leading-normal hidden md:block"><a class="block py-0.5 px-2 font-bold cursor-pointer !text-gray-light border border-transparent" href="https://www.codeproject.com/">home</a></li><li class="relative leading-normal"><a class="block py-0.5 px-2 font-bold cursor-pointer !text-gray-light border border-transparent" href="https://www.codeproject.com/script/Articles/Latest.aspx">articles</a><ul class="absolute border border-border-gray bg-white border-b-4 border-b-primary pb-2 z-10 hidden bottom-0 left-0 translate-y-full translate-x-0"><li class="cursor-pointer block relative leading-normal box-border"><a class="py-0.5 px-5 block !text-inherit relative" href="https://www.codeproject.com/script/Content/SiteMap.aspx">Browse topics<span class="absolute top-1/2 right-1 -translate-y-1/2">&gt;</span></a><ul class="absolute border border-border-gray bg-white border-b-4 border-b-primary pb-2 z-10 hidden -top-[1px] right-0 translate-x-full"><li class="cursor-pointer block relative leading-normal box-border"><a class="py-0.5 px-5 block !text-inherit relative" href="https://www.codeproject.com/script/Content/Tag.aspx?tags=AI">Artificial Intelligence<span class="absolute top-1/2 right-1 -translate-y-1/2">&gt;</span></a><ul class="absolute border border-border-gray bg-white border-b-4 border-b-primary pb-2 z-10 hidden -top-[1px] right-0 translate-x-full"><li class="cursor-pointer block relative leading-normal box-border"><a class="py-0.5 px-5 block !text-inherit relative" href="https://www.codeproject.com/script/Content/Tag.aspx?tags=Automation">Automation</a></li><li class="cursor-pointer block relative leading-normal box-border"><a class="py-0.5 px-5 block !text-inherit relative" href="https://www.codeproject.com/script/Content/Tag.aspx?tags=big-data">big-data</a></li><li class="cursor-pointer block relative leading-normal box-border"><a class="py-0.5 px-5 block !text-inherit relative" href="https://www.codeproject.com/script/Content/Tag.aspx?tags=machine-learning">machine-learning</a></li></ul></li><li class="cursor-pointer block relative leading-normal box-border"><a class="py-0.5 px-5 block !text-inherit relative" href="https://www.codeproject.com/script/Content/Tag.aspx?tags=Containers">Containers<span class="absolute top-1/2 right-1 -translate-y-1/2">&gt;</span></a><ul class="absolute border border-border-gray bg-white border-b-4 border-b-primary pb-2 z-10 hidden -top-[1px] right-0 translate-x-full"><li class="cursor-pointer block relative leading-normal box-border"><a class="py-0.5 px-5 block !text-inherit relative" href="https://www.codeproject.com/script/Content/Tag.aspx?tags=docker">docker</a></li><li class="cursor-pointer block relative leading-normal box-border"><a class="py-0.5 px-5 block !text-inherit relative" href="https://www.codeproject.com/script/Content/Tag.aspx?tags=virtual-machine">virtual-machine</a></li></ul></li><li class="cursor-pointer block relative leading-normal box-border"><a class="py-0.5 px-5 block !text-inherit relative" href="https://www.codeproject.com/script/Content/Tag.aspx?tags=database">Database Development<span class="absolute top-1/2 right-1 -translate-y-1/2">&gt;</span></a><ul class="absolute border border-border-gray bg-white border-b-4 border-b-primary pb-2 z-10 hidden -top-[1px] right-0 translate-x-full"><li class="cursor-pointer block relative leading-normal box-border"><a class="py-0.5 px-5 block !text-inherit relative" href="https://www.codeproject.com/script/Content/Tag.aspx?tags=Elasticsearch">Elasticsearch</a></li><li class="cursor-pointer block relative leading-normal box-border"><a class="py-0.5 px-5 block !text-inherit relative" href="https://www.codeproject.com/script/Content/Tag.aspx?tags=Lucene">Lucene</a></li><li class="cursor-pointer block relative leading-normal box-border"><a class="py-0.5 px-5 block !text-inherit relative" href="https://www.codeproject.com/script/Content/Tag.aspx?tags=MongoDB">mongodb</a></li><li class="cursor-pointer block relative leading-normal box-border"><a class="py-0.5 px-5 block !text-inherit relative" href="https://www.codeproject.com/script/Content/Tag.aspx?tags=MySQL">MySQL</a></li><li class="cursor-pointer block relative leading-normal box-border"><a class="py-0.5 px-5 block !text-inherit relative" href="https://www.codeproject.com/script/Content/Tag.aspx?tags=NoSQL">NoSQL</a></li><li class="cursor-pointer block relative leading-normal box-border"><a class="py-0.5 px-5 block !text-inherit relative" href="https://www.codeproject.com/script/Content/Tag.aspx?tags=PostgreSQL">PostgreSQL</a></li><li class="cursor-pointer block relative leading-normal box-border"><a class="py-0.5 px-5 block !text-inherit relative" href="https://www.codeproject.com/script/Content/Tag.aspx?tags=Redis">Redis</a></li><li class="cursor-pointer block relative leading-normal box-border"><a class="py-0.5 px-5 block !text-inherit relative" href="https://www.codeproject.com/script/Content/Tag.aspx?tags=SQL-Server">SQL Server</a></li></ul></li><li class="cursor-pointer block relative leading-normal box-border"><a class="py-0.5 px-5 block !text-inherit relative" href="https://www.codeproject.com/script/Content/Tag.aspx?tags=Desktop">Desktop Programming<span class="absolute top-1/2 right-1 -translate-y-1/2">&gt;</span></a><ul class="absolute border border-border-gray bg-white border-b-4 border-b-primary pb-2 z-10 hidden -top-[1px] right-0 translate-x-full"><li class="cursor-pointer block relative leading-normal box-border"><a class="py-0.5 px-5 block !text-inherit relative" href="https://www.codeproject.com/script/Content/Tag.aspx?tags=ATL">ATL</a></li><li class="cursor-pointer block relative leading-normal box-border"><a class="py-0.5 px-5 block !text-inherit relative" href="https://www.codeproject.com/script/Content/Tag.aspx?tags=Cocoa">Cocoa</a></li><li class="cursor-pointer block relative leading-normal box-border"><a class="py-0.5 px-5 block !text-inherit relative" href="https://www.codeproject.com/script/Content/Tag.aspx?tags=MFC">MFC</a></li><li class="cursor-pointer block relative leading-normal box-border"><a class="py-0.5 px-5 block !text-inherit relative" href="https://www.codeproject.com/script/Content/Tag.aspx?tags=QT">QT</a></li><li class="cursor-pointer block relative leading-normal box-border"><a class="py-0.5 px-5 block !text-inherit relative" href="https://www.codeproject.com/script/Content/Tag.aspx?tags=Swing">Swing</a></li><li class="cursor-pointer block relative leading-normal box-border"><a class="py-0.5 px-5 block !text-inherit relative" href="https://www.codeproject.com/script/Content/Tag.aspx?tags=system">system</a></li><li class="cursor-pointer block relative leading-normal box-border"><a class="py-0.5 px-5 block !text-inherit relative" href="https://www.codeproject.com/script/Content/Tag.aspx?tags=UWP">UWP</a></li><li class="cursor-pointer block relative leading-normal box-border"><a class="py-0.5 px-5 block !text-inherit relative" href="https://www.codeproject.com/script/Content/Tag.aspx?tags=Win32">Win32</a></li><li class="cursor-pointer block relative leading-normal box-border"><a class="py-0.5 px-5 block !text-inherit relative" href="https://www.codeproject.com/script/Content/Tag.aspx?tags=WinForms">WinForms</a></li><li class="cursor-pointer block relative leading-normal box-border"><a class="py-0.5 px-5 block !text-inherit relative" href="https://www.codeproject.com/script/Content/Tag.aspx?tags=WPF">WPF</a></li><li class="cursor-pointer block relative leading-normal box-border"><a class="py-0.5 px-5 block !text-inherit relative" href="https://www.codeproject.com/script/Content/Tag.aspx?tags=WTL">WTL</a></li><li class="cursor-pointer block relative leading-normal box-border"><a class="py-0.5 px-5 block !text-inherit relative" href="https://www.codeproject.com/script/Content/Tag.aspx?tags=X11">X11</a></li><li class="cursor-pointer block relative leading-normal box-border"><a class="py-0.5 px-5 block !text-inherit relative" href="https://www.codeproject.com/script/Content/Tag.aspx?tags=XAML">XAML</a></li></ul></li><li class="cursor-pointer block relative leading-normal box-border"><a class="py-0.5 px-5 block !text-inherit relative" href="https://www.codeproject.com/script/Content/Tag.aspx?tags=DevOps">DevOps<span class="absolute top-1/2 right-1 -translate-y-1/2">&gt;</span></a><ul class="absolute border border-border-gray bg-white border-b-4 border-b-primary pb-2 z-10 hidden -top-[1px] right-0 translate-x-full"><li class="cursor-pointer block relative leading-normal box-border"><a class="py-0.5 px-5 block !text-inherit relative" href="https://www.codeproject.com/script/Content/Tag.aspx?tags=Agile">Agile</a></li><li class="cursor-pointer block relative leading-normal box-border"><a class="py-0.5 px-5 block !text-inherit relative" href="https://www.codeproject.com/script/Content/Tag.aspx?tags=Continuous-build">Continuous-build</a></li><li class="cursor-pointer block relative leading-normal box-border"><a class="py-0.5 px-5 block !text-inherit relative" href="https://www.codeproject.com/script/Content/Tag.aspx?tags=Continuous-delivery">Continuous-delivery</a></li><li class="cursor-pointer block relative leading-normal box-border"><a class="py-0.5 px-5 block !text-inherit relative" href="https://www.codeproject.com/script/Content/Tag.aspx?tags=Deployment">Deployment</a></li><li class="cursor-pointer block relative leading-normal box-border"><a class="py-0.5 px-5 block !text-inherit relative" href="https://www.codeproject.com/script/Content/Tag.aspx?tags=Git">Git</a></li><li class="cursor-pointer block relative leading-normal box-border"><a class="py-0.5 px-5 block !text-inherit relative" href="https://www.codeproject.com/script/Content/Tag.aspx?tags=load-testing">load-testing</a></li><li class="cursor-pointer block relative leading-normal box-border"><a class="py-0.5 px-5 block !text-inherit relative" href="https://www.codeproject.com/script/Content/Tag.aspx?tags=testing">testing</a></li><li class="cursor-pointer block relative leading-normal box-border"><a class="py-0.5 px-5 block !text-inherit relative" href="https://www.codeproject.com/script/Content/Tag.aspx?tags=TFS">TFS</a></li><li class="cursor-pointer block relative leading-normal box-border"><a class="py-0.5 px-5 block !text-inherit relative" href="https://www.codeproject.com/script/Content/Tag.aspx?tags=unit-testing">unit-testing</a></li></ul></li><li class="cursor-pointer block relative leading-normal box-border"><a class="py-0.5 px-5 block !text-inherit relative" href="https://www.codeproject.com/script/Content/Tag.aspx?tags=Game">Game Development<span class="absolute top-1/2 right-1 -translate-y-1/2">&gt;</span></a><ul class="absolute border border-border-gray bg-white border-b-4 border-b-primary pb-2 z-10 hidden -top-[1px] right-0 translate-x-full"><li class="cursor-pointer block relative leading-normal box-border"><a class="py-0.5 px-5 block !text-inherit relative" href="https://www.codeproject.com/script/Content/Tag.aspx?tags=Unity">Unity</a></li><li class="cursor-pointer block relative leading-normal box-border"><a class="py-0.5 px-5 block !text-inherit relative" href="https://www.codeproject.com/script/Content/Tag.aspx?tags=Unreal">Unreal</a></li><li class="cursor-pointer block relative leading-normal box-border"><a class="py-0.5 px-5 block !text-inherit relative" href="https://www.codeproject.com/script/Content/Tag.aspx?tags=XBox">XBox</a></li></ul></li><li class="cursor-pointer block relative leading-normal box-border"><a class="py-0.5 px-5 block !text-inherit relative" href="https://www.codeproject.com/script/Content/Tag.aspx?tags=performance">High Performance Computing<span class="absolute top-1/2 right-1 -translate-y-1/2">&gt;</span></a><ul class="absolute border border-border-gray bg-white border-b-4 border-b-primary pb-2 z-10 hidden -top-[1px] right-0 translate-x-full"><li class="cursor-pointer block relative leading-normal box-border"><a class="py-0.5 px-5 block !text-inherit relative" href="https://www.codeproject.com/script/Content/Tag.aspx?tags=GPU">GPU</a></li><li class="cursor-pointer block relative leading-normal box-border"><a class="py-0.5 px-5 block !text-inherit relative" href="https://www.codeproject.com/script/Content/Tag.aspx?tags=optimization">optimization</a></li></ul></li><li class="cursor-pointer block relative leading-normal box-border"><a class="py-0.5 px-5 block !text-inherit relative" href="https://www.codeproject.com/script/Content/Tag.aspx?tags=IoT">Internet of Things<span class="absolute top-1/2 right-1 -translate-y-1/2">&gt;</span></a><ul class="absolute border border-border-gray bg-white border-b-4 border-b-primary pb-2 z-10 hidden -top-[1px] right-0 translate-x-full"><li class="cursor-pointer block relative leading-normal box-border"><a class="py-0.5 px-5 block !text-inherit relative" href="https://www.codeproject.com/script/Content/Tag.aspx?tags=wearables">wearable</a></li></ul></li><li class="cursor-pointer block relative leading-normal box-border"><a class="py-0.5 px-5 block !text-inherit relative" href="https://www.codeproject.com/script/Content/Tag.aspx?tags=Mobile">Mobile Apps<span class="absolute top-1/2 right-1 -translate-y-1/2">&gt;</span></a><ul class="absolute border border-border-gray bg-white border-b-4 border-b-primary pb-2 z-10 hidden -top-[1px] right-0 translate-x-full"><li class="cursor-pointer block relative leading-normal box-border"><a class="py-0.5 px-5 block !text-inherit relative" href="https://www.codeproject.com/script/Content/Tag.aspx?tags=Android">Android</a></li><li class="cursor-pointer block relative leading-normal box-border"><a class="py-0.5 px-5 block !text-inherit relative" href="https://www.codeproject.com/script/Content/Tag.aspx?tags=AWS">AWS</a></li><li class="cursor-pointer block relative leading-normal box-border"><a class="py-0.5 px-5 block !text-inherit relative" href="https://www.codeproject.com/script/Content/Tag.aspx?tags=Azure">Azure</a></li><li class="cursor-pointer block relative leading-normal box-border"><a class="py-0.5 px-5 block !text-inherit relative" href="https://www.codeproject.com/script/Content/Tag.aspx?tags=Cordova">Cordova</a></li><li class="cursor-pointer block relative leading-normal box-border"><a class="py-0.5 px-5 block !text-inherit relative" href="https://www.codeproject.com/script/Content/Tag.aspx?tags=ExtJS">ExtJS</a></li><li class="cursor-pointer block relative leading-normal box-border"><a class="py-0.5 px-5 block !text-inherit relative" href="https://www.codeproject.com/script/Content/Tag.aspx?tags=google-cloud">google-cloud</a></li><li class="cursor-pointer block relative leading-normal box-border"><a class="py-0.5 px-5 block !text-inherit relative" href="https://www.codeproject.com/script/Content/Tag.aspx?tags=iOS">iOS</a></li><li class="cursor-pointer block relative leading-normal box-border"><a class="py-0.5 px-5 block !text-inherit relative" href="https://www.codeproject.com/script/Content/Tag.aspx?tags=nativescript">nativescript</a></li><li class="cursor-pointer block relative leading-normal box-border"><a class="py-0.5 px-5 block !text-inherit relative" href="https://www.codeproject.com/script/Content/Tag.aspx?tags=PhoneGap">PhoneGap</a></li><li class="cursor-pointer block relative leading-normal box-border"><a class="py-0.5 px-5 block !text-inherit relative" href="https://www.codeproject.com/script/Content/Tag.aspx?tags=storage">storage</a></li><li class="cursor-pointer block relative leading-normal box-border"><a class="py-0.5 px-5 block !text-inherit relative" href="https://www.codeproject.com/script/Content/Tag.aspx?tags=WinMobile">Windows Mobile</a></li><li class="cursor-pointer block relative leading-normal box-border"><a class="py-0.5 px-5 block !text-inherit relative" href="https://www.codeproject.com/script/Content/Tag.aspx?tags=Xamarin">Xamarin</a></li></ul></li><li class="cursor-pointer block relative leading-normal box-border"><a class="py-0.5 px-5 block !text-inherit relative" href="https://www.codeproject.com/script/Content/Tag.aspx?tags=Multimedia">Multimedia<span class="absolute top-1/2 right-1 -translate-y-1/2">&gt;</span></a><ul class="absolute border border-border-gray bg-white border-b-4 border-b-primary pb-2 z-10 hidden -top-[1px] right-0 translate-x-full"><li class="cursor-pointer block relative leading-normal box-border"><a class="py-0.5 px-5 block !text-inherit relative" href="https://www.codeproject.com/script/Content/Tag.aspx?tags=ASM">ASM</a></li><li class="cursor-pointer block relative leading-normal box-border"><a class="py-0.5 px-5 block !text-inherit relative" href="https://www.codeproject.com/script/Content/Tag.aspx?tags=ASP">ASP</a></li><li class="cursor-pointer block relative leading-normal box-border"><a class="py-0.5 px-5 block !text-inherit relative" href="https://www.codeproject.com/script/Content/Tag.aspx?tags=audio">audio</a></li><li class="cursor-pointer block relative leading-normal box-border"><a class="py-0.5 px-5 block !text-inherit relative" href="https://www.codeproject.com/script/Content/Tag.aspx?tags=audio-video">audio video</a></li><li class="cursor-pointer block relative leading-normal box-border"><a class="py-0.5 px-5 block !text-inherit relative" href="https://www.codeproject.com/script/Content/Tag.aspx?tags=Bash">Bash</a></li><li class="cursor-pointer block relative leading-normal box-border"><a class="py-0.5 px-5 block !text-inherit relative" href="https://www.codeproject.com/script/Content/Tag.aspx?tags=Basic">Basic</a></li><li class="cursor-pointer block relative leading-normal box-border"><a class="py-0.5 px-5 block !text-inherit relative" href="https://www.codeproject.com/script/Content/Tag.aspx?tags=Csharp">C#</a></li><li class="cursor-pointer block relative leading-normal box-border"><a class="py-0.5 px-5 block !text-inherit relative" href="https://www.codeproject.com/script/Content/Tag.aspx?tags=Cplusplus">C++</a></li><li class="cursor-pointer block relative leading-normal box-border"><a class="py-0.5 px-5 block !text-inherit relative" href="https://www.codeproject.com/script/Content/Tag.aspx?tags=COBOL">cobol</a></li><li class="cursor-pointer block relative leading-normal box-border"><a class="py-0.5 px-5 block !text-inherit relative" href="https://www.codeproject.com/script/Content/Tag.aspx?tags=Compression">Compression</a></li><li class="cursor-pointer block relative leading-normal box-border"><a class="py-0.5 px-5 block !text-inherit relative" href="https://www.codeproject.com/script/Content/Tag.aspx?tags=Dart">Dart</a></li><li class="cursor-pointer block relative leading-normal box-border"><a class="py-0.5 px-5 block !text-inherit relative" href="https://www.codeproject.com/script/Content/Tag.aspx?tags=dbase">dbase</a></li><li class="cursor-pointer block relative leading-normal box-border"><a class="py-0.5 px-5 block !text-inherit relative" href="https://www.codeproject.com/script/Content/Tag.aspx?tags=Design">Design/Graphics</a></li><li class="cursor-pointer block relative leading-normal box-border"><a class="py-0.5 px-5 block !text-inherit relative" href="https://www.codeproject.com/script/Content/Tag.aspx?tags=DirectX">DirectX</a></li><li class="cursor-pointer block relative leading-normal box-border"><a class="py-0.5 px-5 block !text-inherit relative" href="https://www.codeproject.com/script/Content/Tag.aspx?tags=Emulation">Emulation</a></li><li class="cursor-pointer block relative leading-normal box-border"><a class="py-0.5 px-5 block !text-inherit relative" href="https://www.codeproject.com/script/Content/Tag.aspx?tags=Exceptions">Exceptions</a></li><li class="cursor-pointer block relative leading-normal box-border"><a class="py-0.5 px-5 block !text-inherit relative" href="https://www.codeproject.com/script/Content/Tag.aspx?tags=Fsharp">F#</a></li><li class="cursor-pointer block relative leading-normal box-border"><a class="py-0.5 px-5 block !text-inherit relative" href="https://www.codeproject.com/script/Content/Tag.aspx?tags=file">file</a></li><li class="cursor-pointer block relative leading-normal box-border"><a class="py-0.5 px-5 block !text-inherit relative" href="https://www.codeproject.com/script/Content/Tag.aspx?tags=GDI">GDI</a></li><li class="cursor-pointer block relative leading-normal box-border"><a class="py-0.5 px-5 block !text-inherit relative" href="https://www.codeproject.com/script/Content/Tag.aspx?tags=GDIplus">GDI+</a></li><li class="cursor-pointer block relative leading-normal box-border"><a class="py-0.5 px-5 block !text-inherit relative" href="https://www.codeproject.com/script/Content/Tag.aspx?tags=Image-Processing">Image-Processing</a></li><li class="cursor-pointer block relative leading-normal box-border"><a class="py-0.5 px-5 block !text-inherit relative" href="https://www.codeproject.com/script/Content/Tag.aspx?tags=Internet">Internet</a></li><li class="cursor-pointer block relative leading-normal box-border"><a class="py-0.5 px-5 block !text-inherit relative" href="https://www.codeproject.com/script/Content/Tag.aspx?tags=Java">Java</a></li><li class="cursor-pointer block relative leading-normal box-border"><a class="py-0.5 px-5 block !text-inherit relative" href="https://www.codeproject.com/script/Content/Tag.aspx?tags=Javascript">Javascript</a></li><li class="cursor-pointer block relative leading-normal box-border"><a class="py-0.5 px-5 block !text-inherit relative" href="https://www.codeproject.com/script/Content/Tag.aspx?tags=localization">localization</a></li><li class="cursor-pointer block relative leading-normal box-border"><a class="py-0.5 px-5 block !text-inherit relative" href="https://www.codeproject.com/script/Content/Tag.aspx?tags=Lua">Lua</a></li><li class="cursor-pointer block relative leading-normal box-border"><a class="py-0.5 px-5 block !text-inherit relative" href="https://www.codeproject.com/script/Content/Tag.aspx?tags=MSIL">MSIL</a></li><li class="cursor-pointer block relative leading-normal box-border"><a class="py-0.5 px-5 block !text-inherit relative" href="https://www.codeproject.com/script/Content/Tag.aspx?tags=Objective-C">Objective C</a></li><li class="cursor-pointer block relative leading-normal box-border"><a class="py-0.5 px-5 block !text-inherit relative" href="https://www.codeproject.com/script/Content/Tag.aspx?tags=OpenGL">OpenGL</a></li><li class="cursor-pointer block relative leading-normal box-border"><a class="py-0.5 px-5 block !text-inherit relative" href="https://www.codeproject.com/script/Content/Tag.aspx?tags=Pascal">Pascal</a></li><li class="cursor-pointer block relative leading-normal box-border"><a class="py-0.5 px-5 block !text-inherit relative" href="https://www.codeproject.com/script/Content/Tag.aspx?tags=Perl">Perl</a></li><li class="cursor-pointer block relative leading-normal box-border"><a class="py-0.5 px-5 block !text-inherit relative" href="https://www.codeproject.com/script/Content/Tag.aspx?tags=PHP">PHP</a></li><li class="cursor-pointer block relative leading-normal box-border"><a class="py-0.5 px-5 block !text-inherit relative" href="https://www.codeproject.com/script/Content/Tag.aspx?tags=PowerShell">PowerShell</a></li><li class="cursor-pointer block relative leading-normal box-border"><a class="py-0.5 px-5 block !text-inherit relative" href="https://www.codeproject.com/script/Content/Tag.aspx?tags=printing">printing</a></li><li class="cursor-pointer block relative leading-normal box-border"><a class="py-0.5 px-5 block !text-inherit relative" href="https://www.codeproject.com/script/Content/Tag.aspx?tags=Python">Python</a></li><li class="cursor-pointer block relative leading-normal box-border"><a class="py-0.5 px-5 block !text-inherit relative" href="https://www.codeproject.com/script/Content/Tag.aspx?tags=Razor">Razor</a></li><li class="cursor-pointer block relative leading-normal box-border"><a class="py-0.5 px-5 block !text-inherit relative" href="https://www.codeproject.com/script/Content/Tag.aspx?tags=regular-expression">regular expression</a></li><li class="cursor-pointer block relative leading-normal box-border"><a class="py-0.5 px-5 block !text-inherit relative" href="https://www.codeproject.com/script/Content/Tag.aspx?tags=Ruby">Ruby</a></li><li class="cursor-pointer block relative leading-normal box-border"><a class="py-0.5 px-5 block !text-inherit relative" href="https://www.codeproject.com/script/Content/Tag.aspx?tags=Scala">scala</a></li><li class="cursor-pointer block relative leading-normal box-border"><a class="py-0.5 px-5 block !text-inherit relative" href="https://www.codeproject.com/script/Content/Tag.aspx?tags=Shell">Shell</a></li><li class="cursor-pointer block relative leading-normal box-border"><a class="py-0.5 px-5 block !text-inherit relative" href="https://www.codeproject.com/script/Content/Tag.aspx?tags=Sorting">Sorting</a></li><li class="cursor-pointer block relative leading-normal box-border"><a class="py-0.5 px-5 block !text-inherit relative" href="https://www.codeproject.com/script/Content/Tag.aspx?tags=SQL">SQL</a></li><li class="cursor-pointer block relative leading-normal box-border"><a class="py-0.5 px-5 block !text-inherit relative" href="https://www.codeproject.com/script/Content/Tag.aspx?tags=string">string</a></li><li class="cursor-pointer block relative leading-normal box-border"><a class="py-0.5 px-5 block !text-inherit relative" href="https://www.codeproject.com/script/Content/Tag.aspx?tags=Swift">Swift</a></li><li class="cursor-pointer block relative leading-normal box-border"><a class="py-0.5 px-5 block !text-inherit relative" href="https://www.codeproject.com/script/Content/Tag.aspx?tags=threads">threads</a></li><li class="cursor-pointer block relative leading-normal box-border"><a class="py-0.5 px-5 block !text-inherit relative" href="https://www.codeproject.com/script/Content/Tag.aspx?tags=usability">usability</a></li><li class="cursor-pointer block relative leading-normal box-border"><a class="py-0.5 px-5 block !text-inherit relative" href="https://www.codeproject.com/script/Content/Tag.aspx?tags=VB">VB</a></li><li class="cursor-pointer block relative leading-normal box-border"><a class="py-0.5 px-5 block !text-inherit relative" href="https://www.codeproject.com/script/Content/Tag.aspx?tags=VB.NET">VB.NET</a></li><li class="cursor-pointer block relative leading-normal box-border"><a class="py-0.5 px-5 block !text-inherit relative" href="https://www.codeproject.com/script/Content/Tag.aspx?tags=VBScript">VBScript</a></li><li class="cursor-pointer block relative leading-normal box-border"><a class="py-0.5 px-5 block !text-inherit relative" href="https://www.codeproject.com/script/Content/Tag.aspx?tags=Video">Video</a></li><li class="cursor-pointer block relative leading-normal box-border"><a class="py-0.5 px-5 block !text-inherit relative" href="https://www.codeproject.com/script/Content/Tag.aspx?tags=XML">XML</a></li></ul></li><li class="cursor-pointer block relative leading-normal box-border"><a class="py-0.5 px-5 block !text-inherit relative" href="https://www.codeproject.com/script/Content/Tag.aspx?tags=security">Security<span class="absolute top-1/2 right-1 -translate-y-1/2">&gt;</span></a><ul class="absolute border border-border-gray bg-white border-b-4 border-b-primary pb-2 z-10 hidden -top-[1px] right-0 translate-x-full"><li class="cursor-pointer block relative leading-normal box-border"><a class="py-0.5 px-5 block !text-inherit relative" href="https://www.codeproject.com/script/Content/Tag.aspx?tags=blockchain">blockchain</a></li><li class="cursor-pointer block relative leading-normal box-border"><a class="py-0.5 px-5 block !text-inherit relative" href="https://www.codeproject.com/script/Content/Tag.aspx?tags=cryptography">cryptography</a></li><li class="cursor-pointer block relative leading-normal box-border"><a class="py-0.5 px-5 block !text-inherit relative" href="https://www.codeproject.com/script/Content/Tag.aspx?tags=Encryption">Encryption</a></li></ul></li><li class="cursor-pointer block relative leading-normal box-border"><a class="py-0.5 px-5 block !text-inherit relative" href="https://www.codeproject.com/script/Content/Tag.aspx?tags=Web">Web Development<span class="absolute top-1/2 right-1 -translate-y-1/2">&gt;</span></a><ul class="absolute border border-border-gray bg-white border-b-4 border-b-primary pb-2 z-10 hidden -top-[1px] right-0 translate-x-full"><li class="cursor-pointer block relative leading-normal box-border"><a class="py-0.5 px-5 block !text-inherit relative" href="https://www.codeproject.com/script/Content/Tag.aspx?tags=Apache">Apache</a></li><li class="cursor-pointer block relative leading-normal box-border"><a class="py-0.5 px-5 block !text-inherit relative" href="https://www.codeproject.com/script/Content/Tag.aspx?tags=ASP.NET">ASP.NET</a></li><li class="cursor-pointer block relative leading-normal box-border"><a class="py-0.5 px-5 block !text-inherit relative" href="https://www.codeproject.com/script/Content/Tag.aspx?tags=CSS">CSS</a></li><li class="cursor-pointer block relative leading-normal box-border"><a class="py-0.5 px-5 block !text-inherit relative" href="https://www.codeproject.com/script/Content/Tag.aspx?tags=CSS3">CSS3</a></li><li class="cursor-pointer block relative leading-normal box-border"><a class="py-0.5 px-5 block !text-inherit relative" href="https://www.codeproject.com/script/Content/Tag.aspx?tags=HTML">HTML</a></li><li class="cursor-pointer block relative leading-normal box-border"><a class="py-0.5 px-5 block !text-inherit relative" href="https://www.codeproject.com/script/Content/Tag.aspx?tags=HTML5">HTML5</a></li><li class="cursor-pointer block relative leading-normal box-border"><a class="py-0.5 px-5 block !text-inherit relative" href="https://www.codeproject.com/script/Content/Tag.aspx?tags=IIS">IIS</a></li><li class="cursor-pointer block relative leading-normal box-border"><a class="py-0.5 px-5 block !text-inherit relative" href="https://www.codeproject.com/script/Content/Tag.aspx?tags=Kestrel">Kestrel</a></li><li class="cursor-pointer block relative leading-normal box-border"><a class="py-0.5 px-5 block !text-inherit relative" href="https://www.codeproject.com/script/Content/Tag.aspx?tags=LESS">LESS</a></li><li class="cursor-pointer block relative leading-normal box-border"><a class="py-0.5 px-5 block !text-inherit relative" href="https://www.codeproject.com/script/Content/Tag.aspx?tags=Node.js">Node.js</a></li><li class="cursor-pointer block relative leading-normal box-border"><a class="py-0.5 px-5 block !text-inherit relative" href="https://www.codeproject.com/script/Content/Tag.aspx?tags=React">React</a></li><li class="cursor-pointer block relative leading-normal box-border"><a class="py-0.5 px-5 block !text-inherit relative" href="https://www.codeproject.com/script/Content/Tag.aspx?tags=Spring">Spring</a></li><li class="cursor-pointer block relative leading-normal box-border"><a class="py-0.5 px-5 block !text-inherit relative" href="https://www.codeproject.com/script/Content/Tag.aspx?tags=XHTML">XHTML</a></li></ul></li></ul></li><li class="cursor-pointer block relative leading-normal box-border"><a class="py-0.5 px-5 block !text-inherit relative" href="https://www.codeproject.com/script/Articles/Latest.aspx">Latest articles</a></li><li class="cursor-pointer block relative leading-normal box-border"><a class="py-0.5 px-5 block !text-inherit relative" href="https://www.codeproject.com/script/Articles/TopArticles.aspx">Top articles</a></li></ul></li><li class="relative leading-normal"><a class="block py-0.5 px-2 font-bold cursor-pointer !text-gray-light border border-transparent" href="https://www.codeproject.com/Feature">features</a><ul class="absolute border border-border-gray bg-white border-b-4 border-b-primary pb-2 z-10 hidden bottom-0 left-0 translate-y-full translate-x-0"><li class="cursor-pointer block relative leading-normal box-border"><a class="py-0.5 px-5 block !text-inherit relative" href="https://www.codeproject.com/script/News/List.aspx">News</a></li><li class="cursor-pointer block relative leading-normal box-border"><a href="https://sdnews.io/" class="py-0.5 px-5 block !text-inherit relative" rel="nofollow noreferrer">The Insider Newsletter</a></li><li class="cursor-pointer block relative leading-normal box-border"><a href="https://sdnews.io/" class="py-0.5 px-5 block !text-inherit relative" rel="nofollow noreferrer">The Daily Build Newsletter</a></li><li class="cursor-pointer block relative leading-normal box-border"><a class="py-0.5 px-5 block !text-inherit relative" href="https://www.codeproject.com/Info/Stuff.aspx">CodeProject Stuff</a></li></ul></li><li class="relative leading-normal"><a class="block py-0.5 px-2 font-bold cursor-pointer !text-gray-light border border-transparent" href="https://www.codeproject.com/KB/FAQs">help</a><ul class="absolute border border-border-gray bg-white border-b-4 border-b-primary pb-2 z-10 hidden bottom-0 left-0 translate-y-full translate-x-0"><li class="cursor-pointer block relative leading-normal box-border"><a class="py-0.5 px-5 block !text-inherit relative" href="https://www.codeproject.com/info/guide.aspx">What is 'CodeProject'?</a></li><li class="cursor-pointer block relative leading-normal box-border"><a class="py-0.5 px-5 block !text-inherit relative" href="https://www.codeproject.com/KB/FAQs">General FAQ</a></li><li class="cursor-pointer block relative leading-normal box-border"><a class="py-0.5 px-5 block !text-inherit relative" href="https://www.codeproject.com/info/about.aspx">About Us</a></li></ul></li></ul></nav></header><main class="px-2 py-10"><div class="custom-container flex px-2 gap-8 overflow-hidden"><div class="w-[948px] max-w-full"><div class="flex gap-2 mb-2 flex-wrap"><a rel="tag" href="https://www.codeproject.com/Tags/HTML" class="px-2 border border-border-yellow rounded-l-full text-gray-light visited:text-gray-light hover:underline hover:bg-yellow-light">HTML</a><a rel="tag" href="https://www.codeproject.com/Tags/Intermediate" class="px-2 border border-border-yellow rounded-l-full text-gray-light visited:text-gray-light hover:underline hover:bg-yellow-light">Intermediate</a><a rel="tag" href="https://www.codeproject.com/Tags/Dev" class="px-2 border border-border-yellow rounded-l-full text-gray-light visited:text-gray-light hover:underline hover:bg-yellow-light">Dev</a><a rel="tag" href="https://www.codeproject.com/Tags/Javascript" class="px-2 border border-border-yellow rounded-l-full text-gray-light visited:text-gray-light hover:underline hover:bg-yellow-light">Javascript</a><a rel="tag" href="https://www.codeproject.com/Tags/C#" class="px-2 border border-border-yellow rounded-l-full text-gray-light visited:text-gray-light hover:underline hover:bg-yellow-light">C#</a></div><h1 class="text-4xl text-text-gray">TraceHub, A Flexible Solution for Web Based Structured Logging</h1><div class="max-w-[600px]"><div class="flex pt-4 justify-between"><div class="text-base hover:underline font-bold"><a class="text-gray-lightest" href="https://www.codeproject.com/script/Membership/View.aspx?mid=3627575">Zijian</a></div><div class="flex items-center gap-2"><div class="flex"><img alt="starIcon" loading="lazy" width="24" height="24" decoding="async" data-nimg="1" style="color:transparent" srcset="/_next/image?url=%2Ficons%2FstarIcon.png&amp;w=32&amp;q=75 1x, /_next/image?url=%2Ficons%2FstarIcon.png&amp;w=48&amp;q=75 2x" src="./TraceHub, A Flexible Solution for Web Based Structured Logging - CodeProject_files/starIcon.png"><img alt="starIcon" loading="lazy" width="24" height="24" decoding="async" data-nimg="1" style="color:transparent" srcset="/_next/image?url=%2Ficons%2FstarIcon.png&amp;w=32&amp;q=75 1x, /_next/image?url=%2Ficons%2FstarIcon.png&amp;w=48&amp;q=75 2x" src="./TraceHub, A Flexible Solution for Web Based Structured Logging - CodeProject_files/starIcon.png"><img alt="starIcon" loading="lazy" width="24" height="24" decoding="async" data-nimg="1" style="color:transparent" srcset="/_next/image?url=%2Ficons%2FstarIcon.png&amp;w=32&amp;q=75 1x, /_next/image?url=%2Ficons%2FstarIcon.png&amp;w=48&amp;q=75 2x" src="./TraceHub, A Flexible Solution for Web Based Structured Logging - CodeProject_files/starIcon.png"><img alt="starIcon" loading="lazy" width="24" height="24" decoding="async" data-nimg="1" style="color:transparent" srcset="/_next/image?url=%2Ficons%2FstarIcon.png&amp;w=32&amp;q=75 1x, /_next/image?url=%2Ficons%2FstarIcon.png&amp;w=48&amp;q=75 2x" src="./TraceHub, A Flexible Solution for Web Based Structured Logging - CodeProject_files/starIcon.png"><div class="relative"><img alt="emptyStarIcon" loading="lazy" width="24" height="24" decoding="async" data-nimg="1" style="color:transparent" srcset="/_next/image?url=%2Ficons%2FemptyStarIcon.png&amp;w=32&amp;q=75 1x, /_next/image?url=%2Ficons%2FemptyStarIcon.png&amp;w=48&amp;q=75 2x" src="./TraceHub, A Flexible Solution for Web Based Structured Logging - CodeProject_files/emptyStarIcon.png"><div class="absolute left-0 top-0 overflow-hidden" style="max-width:89.65515999999995%"><img alt="starIcon" loading="lazy" width="24" height="24" decoding="async" data-nimg="1" style="color:transparent" srcset="/_next/image?url=%2Ficons%2FstarIcon.png&amp;w=32&amp;q=75 1x, /_next/image?url=%2Ficons%2FstarIcon.png&amp;w=48&amp;q=75 2x" src="./TraceHub, A Flexible Solution for Web Based Structured Logging - CodeProject_files/starIcon.png"></div></div></div><p class="text-sm">4.90<!-- -->/5 (<!-- -->16<!-- --> vote<!-- -->s<!-- -->)</p></div></div><div class="flex pt-2 gap-4"><p class="text-gray-lightest text-[13px]">Aug 23, 2016</p><a class="text-[13px] flex" href="http://www.codeproject.com/info/cpol10.aspx">CPOL</a><p class="text-gray-lightest text-[13px]">14<!-- --> min read</p><div class="flex gap-1 items-center"><img alt="viewsIcon" loading="lazy" width="16" height="16" decoding="async" data-nimg="1" class="w-4 h-4" style="color:transparent" srcset="/_next/image?url=%2Ficons%2FviewsIcon.png&amp;w=16&amp;q=75 1x, /_next/image?url=%2Ficons%2FviewsIcon.png&amp;w=32&amp;q=75 2x" src="./TraceHub, A Flexible Solution for Web Based Structured Logging - CodeProject_files/viewsIcon.png"><p class="text-gray-lightest text-[13px] pl-0.5">33692</p></div></div></div><p class="pt-6 pb-4 text-gray-lightest">Overview of TraceHub, and the design concepts/contexts behind this open source project</p><div class="max-w-full"><template shadowrootmode="open"><style>/*
+  This is the legacy article critical styles
+  They are added in order to reduce mvp development time
+  They should be refactored or completely replaced woth nextjs css modules in future
+*/
+
+::selection {
+  background-color: #f90;
+  color: #fff;
+  text-shadow: none;
+}
+.blank-background {
+  background-color: white;
+}
+html,
+div,
+span,
+applet,
+object,
+iframe,
+a,
+abbr,
+acronym,
+big,
+cite,
+code,
+del,
+dfn,
+em,
+font,
+img,
+ins,
+kbd,
+q,
+s,
+samp,
+small,
+strike,
+strong,
+sub,
+sup,
+tt,
+var,
+fieldset,
+form,
+label,
+table,
+tbody,
+tfoot,
+thead,
+tr,
+th,
+td,
+li,
+ol,
+ul {
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+html {
+  font-size: 16px;
+  -webkit-font-smoothing: antialiased;
+  font-smooth: always;
+}
+body,
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+li,
+tr,
+td,
+th,
+dd,
+dt {
+  font-size: 16px;
+  line-height: 1.4;
+  color: #111111;
+}
+body {
+  margin: 0;
+}
+h1,
+h3,
+h4,
+h5,
+th {
+  font-weight: bold;
+}
+h1 {
+  color: #333333;
+  padding: 0px;
+  margin: 0 0 7px;
+  text-align: left;
+}
+h2 {
+  margin: 20px 0 11px;
+  padding: 0;
+  padding-bottom: 10px;
+  color: #333333;
+}
+h3 {
+  color: #ff9900;
+}
+h1 {
+  font-size: 38px;
+  font-weight: 400;
+}
+h2 {
+  font-size: 29px;
+  font-weight: 400;
+}
+h3 {
+  font-size: 19px;
+  font-weight: normal;
+}
+h4 {
+  font-size: 17px;
+}
+pre {
+  color: black;
+  background-color: #fbedbb;
+  padding: 6px;
+  font: 14px Consolas, monospace, mono;
+  white-space: pre;
+  overflow: auto;
+  border: solid 1px #fbedbb;
+  -moz-tab-size: 4;
+  -o-tab-size: 4;
+  -webkit-tab-size: 4;
+  tab-size: 4;
+}
+code {
+  color: #990000;
+  font: 15px Consolas, monospace, mono;
+}
+table {
+  background-color: Transparent;
+}
+img {
+  -ms-interpolation-mode: bicubic;
+}
+a {
+  text-decoration: none;
+  color: #005782;
+}
+a:visited {
+  color: #800080;
+}
+a:hover {
+  text-decoration: underline;
+}
+a:not([href]) {
+  color: inherit;
+  text-decoration: none;
+}
+input[type="text"],
+input[type="url"],
+input[type="search"],
+input[type="email"],
+input[type="number"],
+input[type="password"],
+select,
+textarea {
+  border: 1px solid #d7d7d7;
+  font-size: 16px;
+  padding: 5px;
+}
+a.button,
+a.button-large,
+.button,
+.button-large {
+  color: white;
+  background-color: #e08900;
+  border: 1px solid #cccccc;
+  text-decoration: none;
+  white-space: nowrap;
+  font-size: 100%;
+  padding: 4px;
+  cursor: pointer;
+  border-radius: 3px;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+}
+table.small-text td,
+ul.small-text li,
+ol.small-text li,
+.small-text {
+  font-size: 14px;
+}
+.invisible {
+  display: none;
+}
+.subdue,
+.subdue li,
+tr.subdue td {
+  color: #808080;
+}
+.bold {
+  font-weight: bold;
+}
+.align-left {
+  text-align: left;
+}
+.align-right {
+  text-align: right;
+}
+.align-center {
+  text-align: center;
+}
+.float-right {
+  float: right;
+}
+.float-left {
+  float: left;
+}
+.sticky {
+  position: sticky;
+  top: 0;
+}
+.extended {
+  width: 100%;
+  box-sizing: border-box;
+}
+.padded-top {
+  padding-top: 20px;
+}
+.tight {
+  margin: 0px;
+  padding: 0px;
+}
+.nowrap {
+  white-space: nowrap;
+}
+.fixed-layout {
+  table-layout: fixed;
+}
+.clip-text {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+.raised {
+  background-color: #fff8df;
+  border: 1px solid #cccccc;
+  -moz-box-shadow: 4px 4px 16px 1px rgba(0, 0, 0, 0.25);
+  -webkit-box-shadow: 4px 4px 16px 1px rgba(0, 0, 0, 0.25);
+  box-shadow: 4px 4px 16px 1px rgba(0, 0, 0, 0.25);
+}
+ol,
+ul {
+  padding-left: 40px;
+  margin: 10px 0;
+}
+ol.compact li,
+ul.compact li,
+ol li.compact,
+ul li.compact {
+  font-size: 14px;
+}
+ul.download {
+  margin-top: 25px;
+}
+ul.download li,
+ul li.download,
+ul.Download li,
+ul li.Download {
+  background: url("/images/download24.png") no-repeat scroll left center
+    transparent;
+  font-weight: bold;
+  list-style-type: none;
+  margin: 0px 0 6px -40px;
+  padding: 0 0 1px 30px;
+  vertical-align: middle;
+}
+.callout {
+  margin: 20px 0;
+  background-color: #ffffe1;
+  color: #333333;
+  border: 1px solid #cccccc;
+  padding: 15px;
+  border-radius: 3px;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+}
+.trace {
+  padding: 20px;
+  background-color: #eeeeee;
+  color: #333333;
+  border: 1px solid red;
+  font-size: 13px;
+}
+textarea,
+input[type="text"],
+input[type="button"],
+input[type="submit"] {
+  -webkit-appearance: none;
+  border-radius: 0;
+}
+.container-content {
+  background-color: white;
+  position: relative;
+  zoom: 1;
+  padding: 0 9px;
+  cursor: default;
+}
+.container-content-wrap {
+  margin: auto;
+  max-width: 1270px;
+}
+.container-content pre,
+.container-code pre,
+.answer pre {
+  white-space: pre-wrap;
+  /* css-3 */
+  white-space: -moz-pre-wrap;
+  /* Mozilla, since 1999 */
+  white-space: -pre-wrap;
+  /* Opera 4-6 */
+  white-space: -o-pre-wrap;
+  /* Opera 7 */
+  word-wrap: break-word;
+  /* Internet Explorer 5.5+ */
+  _white-space: pre;
+  /* IE only hack to re-specify in addition to word-wrap  */
+  word-break: break-word;
+  -ms-word-break: break-word;
+}
+.flex-container {
+  display: -webkit-box;
+  /* OLD - iOS 6-, Safari 3.1-6 */
+  display: -moz-box;
+  /* OLD - Firefox 19- (buggy but mostly works) */
+  display: -ms-flexbox;
+  /* TWEENER - IE 10 */
+  display: -webkit-flex;
+  /* NEW - Chrome */
+  display: flex;
+  /* NEW, Spec - Opera 12.1, Firefox 20+ */
+}
+.flex-extend {
+  justify-content: space-between;
+}
+.flex-wrap {
+  flex-wrap: wrap;
+}
+.flex-item {
+  -webkit-box-flex: 1;
+  /* OLD - iOS 6-, Safari 3.1-6 */
+  -moz-box-flex: 1;
+  /* OLD - Firefox 19- */
+  -webkit-flex: 1;
+  /* Chrome */
+  -ms-flex: 1;
+  /* IE 10 */
+  flex: 1;
+}
+.flex-item-tight {
+  flex: 0 1 auto;
+}
+.hover-container {
+  display: block;
+  position: relative;
+}
+.clearfix:after,
+.container:after {
+  display: block;
+  content: ".";
+  visibility: hidden;
+  height: 0px;
+  clear: both;
+}
+.clearfix,
+.container {
+  display: inline-block;
+  /* Mac IE5 sees this */
+  /* Mac IE5 comment hack \*/
+  display: block;
+  /* Mac IE5 doesn't see this, but everyone else does */
+}
+.access-link,
+.access-link img {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  width: 1px;
+  height: 1px;
+  z-index: 101;
+  border-style: none;
+  margin-top: -1px;
+  overflow: hidden;
+}
+.site-top-menu {
+  white-space: nowrap;
+  position: absolute;
+  z-index: 101;
+  width: 100%;
+}
+.site-top-menu .main-content {
+  width: 100%;
+}
+.site-top-menu .main-content .memberbar {
+  margin-left: 90px;
+  margin-right: 10px;
+}
+.site-top-menu.fixed .main-content {
+  margin: auto;
+  max-width: 1270px;
+}
+.site-header {
+  background-image: url("/App_Themes/CodeProject/Img/logo135-bg.gif");
+  white-space: nowrap;
+  overflow: hidden;
+}
+.site-header .main-content {
+  position: relative;
+  overflow: hidden;
+  white-space: nowrap;
+}
+.site-header .logo {
+  display: inline-block;
+}
+.site-header .promo {
+  display: inline-block;
+  position: absolute;
+  top: 33px;
+  right: 0;
+}
+.site-header.fixed .main-content {
+  margin: auto;
+  max-width: 1270px;
+}
+.sub-headerbar {
+  padding-right: 9px;
+  position: relative;
+  margin: auto;
+  max-width: 1270px;
+}
+.sub-headerbar-divider {
+  margin-left: 10px;
+  height: 1px;
+  border-bottom: 1px solid #cccccc;
+  position: absolute;
+  bottom: 2px;
+  left: 0px;
+  right: 9px;
+}
+.memberbar {
+  height: 25px;
+  padding-top: 10px;
+  color: #999999;
+  font-size: 14px;
+}
+.memberbar a {
+  color: #808080;
+  font-size: 14px;
+}
+div.navbar {
+  white-space: nowrap;
+}
+.navmenu {
+  background: white;
+  color: #4d4d4d;
+  padding: 0px;
+  margin: 0px;
+  list-style: none;
+  height: 25px;
+}
+.navmenu ul,
+.navmenu li {
+  margin: 0;
+  padding: 0;
+}
+.navmenu .has-submenu {
+  position: absolute;
+  right: 5px;
+  padding-left: 10px;
+}
+.navmenu > li:hover > a,
+.navmenu > li > a:active {
+  border: 1px solid #cccccc;
+}
+.navmenu ul,
+.navmenu > li.open:hover > a,
+.navmenu > li.open > a:active {
+  border: 1px solid #cccccc;
+  border-bottom-color: white;
+}
+.navmenu > li {
+  margin: 0 11px 2px 2px;
+}
+.navmenu > li:active,
+.navmenu > li:active > a,
+.navmenu > li:hover,
+.navmenu > li > a:active {
+  background: white;
+  color: #4d4d4d;
+}
+.navmenu > li.openable > a:active,
+.navmenu > li.openable:hover > a {
+  /*border-bottom: 1px solid @ColourBack-Menu; */
+}
+.navmenu > li > a {
+  padding: 2px 7px 6px 7px;
+  border: 1px solid transparent;
+  font-weight: bold;
+}
+.navmenu a {
+  display: block;
+  float: left;
+  color: #666666;
+  background: white;
+  font-size: 17px;
+  padding: 0px 9px;
+  text-decoration: none;
+  white-space: nowrap;
+}
+.navmenu a.fly {
+  white-space: nowrap;
+}
+.navmenu ul {
+  background: white;
+  position: absolute;
+  left: -9999px;
+  top: -9999px;
+  list-style: none;
+}
+.navmenu li {
+  float: left;
+  color: #4d4d4d;
+}
+.navmenu li.last {
+  height: 9px;
+}
+.navmenu li a:active,
+.navmenu li a:hover {
+  color: white;
+  background-color: #ff9900;
+}
+.navmenu li > a:active,
+.navmenu li:hover,
+.navmenu li:hover > a,
+.navmenu li:hover.heading,
+.navmenu li a.selected {
+  position: relative;
+  color: white;
+  background-color: #ff9900;
+}
+.navmenu li.openable:hover ul {
+  left: 0px;
+  top: 30px;
+  z-index: 500;
+}
+.navmenu li.openable:hover > ul ul {
+  position: absolute;
+  left: -9999px;
+  top: -9999px;
+  width: auto;
+}
+.navmenu li ul {
+  border-bottom: 5px solid #ff9900;
+}
+.navmenu li li {
+  float: none;
+}
+.navmenu li li a {
+  float: none;
+  font-size: 16px;
+  font-weight: normal;
+}
+.navmenu li li a.fly {
+  color: #4d4d4d;
+  background-color: white;
+  padding: 2px 20px;
+}
+.navmenu li li a.break {
+  margin-bottom: 15px;
+}
+.navmenu li li a.highlight1,
+.navmenu li li a.highlight1:active,
+.navmenu li li a.highlight1:hover {
+  background-color: #009900;
+}
+.navmenu li li a.highlight2,
+.navmenu li li a.highlight2:active,
+.navmenu li li a.highlight2:hover {
+  background-color: #ff9900;
+}
+.navmenu li li a.highlight3,
+.navmenu li li a.highlight3:active,
+.navmenu li li a.highlight3:hover {
+  background-color: #000000;
+}
+.navmenu li li a.highlight1,
+.navmenu li li a.highlight2,
+.navmenu li li a.highlight3 {
+  color: white;
+  font-size: 16px;
+  margin: 5px 0;
+  padding: 9px 20px;
+}
+.site-footer {
+  display: -webkit-box;
+  /* OLD - iOS 6-, Safari 3.1-6 */
+  display: -moz-box;
+  /* OLD - Firefox 19- (buggy but mostly works) */
+  display: -ms-flexbox;
+  /* TWEENER - IE 10 */
+  display: -webkit-flex;
+  /* NEW - Chrome */
+  display: flex;
+  /* NEW, Spec - Opera 12.1, Firefox 20+ */
+  padding-top: 5px;
+  width: 100%;
+  font-size: 13px;
+  color: #999999;
+}
+.site-footer .align-left,
+.site-footer .align-center,
+.site-footer .align-right {
+  -webkit-box-flex: 1;
+  /* OLD - iOS 6-, Safari 3.1-6 */
+  -moz-box-flex: 1;
+  /* OLD - Firefox 19- */
+  -webkit-flex: 1;
+  /* Chrome */
+  -ms-flex: 1;
+  /* IE 10 */
+  flex: 1;
+}
+.site-footer .align-left {
+  flex: 1 0 100px;
+}
+.site-footer .align-center {
+  flex: 0 1 0%;
+  white-space: nowrap;
+}
+.site-footer .align-right {
+  flex: 1 0 100px;
+}
+.site-footer .page-width .active {
+  border-bottom: 2px solid #ff9900;
+}
+.searchbar {
+  padding: 0;
+}
+.searchbar .search {
+  margin-bottom: 4px;
+  padding: 2px 5px 0px;
+  border: 1px solid #cccccc;
+}
+.searchbar .search.subdue {
+  color: #cccccc;
+}
+.searchbar input.search {
+  width: 190px;
+  border: none;
+  font-size: 13px;
+  padding: 4px 2px;
+}
+.searchbar .search-advanced {
+  padding: 8px;
+  width: 203px;
+  z-index: 1000;
+  background-color: white;
+  border: solid 1px #cccccc;
+  position: absolute;
+  top: -4px;
+  right: 0px;
+}
+.searchbar .popup {
+  display: none;
+}
+.sub-headerbar .searchbar {
+  /*
+	.search-advanced
+	{
+        .transition(width, .1s, linear);
+
+        &.open
+        {
+    		width: 320px;
+        }
+    }
+    */
+}
+.sub-headerbar .searchbar input.search {
+  /*
+        &:focus,&:active
+        {
+            position     : absolute;
+            top          : 3px;
+            right        : 36px;
+            height       : 19px;
+            border       : 1px solid #ccc;
+            border-right : none;
+            width:         300px;
+
+            .transition(width, .1s, linear);
+        }
+        */
+}
+.search td {
+  background-color: white;
+}
+.article-container-parts {
+  display: -webkit-box;
+  /* OLD - iOS 6-, Safari 3.1-6 */
+  display: -moz-box;
+  /* OLD - Firefox 19- (buggy but mostly works) */
+  display: -ms-flexbox;
+  /* TWEENER - IE 10 */
+  display: -webkit-flex;
+  /* NEW - Chrome */
+  display: flex;
+  /* NEW, Spec - Opera 12.1, Firefox 20+ */
+}
+.article-container {
+  -webkit-box-flex: 1;
+  /* OLD - iOS 6-, Safari 3.1-6 */
+  -moz-box-flex: 1;
+  /* OLD - Firefox 19- */
+  -webkit-flex: 1;
+  /* Chrome */
+  -ms-flex: 1;
+  /* IE 10 */
+  flex: 1;
+  background-color: white;
+  color: #111111;
+  zoom: 1;
+  position: relative;
+  max-width: 100%;
+  min-height: 675px;
+}
+.article-container .article {
+  margin: 0 20px 0 10px;
+  line-height: 143%;
+}
+.article-container span.stats {
+  margin-left: 30px;
+}
+.article-left-sidebar {
+  width: 120px;
+  min-width: 120px;
+  min-height: 400px;
+  font-size: 14px;
+  border-right: 1px solid #f2f2f2;
+  padding: 0;
+  /* Old school style */
+  /*
+    .license {
+        font-weight: bold;
+        display: inline-block;
+        margin-top: 10px;
+    }
+    */
+}
+.article-left-sidebar .article-left-sidebar-inner {
+  width: 120px;
+  min-width: 120px;
+}
+.article-left-sidebar .tabs > div {
+  padding: 5px 0 5px 10px;
+}
+.article-left-sidebar .selected {
+  font-weight: bold;
+  background: transparent url("/images/right-selected.gif") no-repeat scroll
+    right 9px;
+}
+.article-left-sidebar h4 {
+  color: #ff9900;
+  font-size: 14px;
+  font-weight: bold;
+}
+.article-left-sidebar .stats div div div {
+  padding: 0px 0 10px 10px;
+  color: #666666;
+}
+.article-right-sidebar {
+  width: 300px;
+  margin-left: 10px;
+  font-size: 14px;
+}
+.article-right-sidebar .header {
+  font-size: 22px;
+  color: white;
+  background-color: #ff9900;
+  padding: 8px;
+  font-weight: 400;
+  margin: 0;
+}
+.article-right-sidebar .reading-list-toc {
+  max-height: 250px;
+  overflow-y: auto;
+  padding-right: 6px;
+  margin-top: 5px;
+}
+.article-right-sidebar .reading-list-toc .count {
+  font-weight: normal;
+  font-size: 13px;
+}
+.article-right-sidebar .reading-list-toc .title {
+  font-size: 16px;
+}
+.article-right-sidebar .content-list-item {
+  display: -webkit-box;
+  /* OLD - iOS 6-, Safari 3.1-6 */
+  display: -moz-box;
+  /* OLD - Firefox 19- (buggy but mostly works) */
+  display: -ms-flexbox;
+  /* TWEENER - IE 10 */
+  display: -webkit-flex;
+  /* NEW - Chrome */
+  display: flex;
+  /* NEW, Spec - Opera 12.1, Firefox 20+ */
+  justify-content: space-between;
+  font-size: 14px;
+  margin: 4px 0;
+}
+.article-right-sidebar .content-list-item .count {
+  width: 15%;
+  padding: 0px;
+}
+.article-right-sidebar .content-list-item .title {
+  width: 85%;
+  font-weight: normal;
+}
+.article-right-sidebar .gototop {
+  text-align: center;
+  padding: 10px 0;
+  opacity: 0;
+  -webkit-transition: opacity 0.3s linear 0ms;
+  -moz-transition: opacity 0.3s linear 0ms;
+  -o-transition: opacity 0.3s linear 0ms;
+  transition: opacity 0.3s linear 0ms;
+}
+.container-content .edit-links {
+  margin: 21px 0 0 10px;
+}
+.article-summary {
+  padding: 0px 10px 0px 10px;
+  overflow: hidden;
+}
+.article h1 {
+  margin: 0 0 15px 0;
+}
+.article h2 {
+  color: #ff9900;
+}
+.article pre {
+  overflow: auto;
+}
+.article .header .title {
+  color: #808080;
+}
+.article .header .author {
+  font-weight: bold;
+  min-width: 100px;
+}
+.article .header .author a {
+  color: #808080;
+}
+.article .header .avatar {
+  max-width: 48px;
+  max-height: 48px;
+  overflow: unset;
+}
+.article .header .avatar-wrap {
+  width: 48px;
+  height: 48px;
+  margin-right: 10px;
+  text-align: center;
+}
+.article .header .date {
+  white-space: nowrap;
+}
+.article .header .license {
+  margin-left: 15px;
+}
+.article .header .stats {
+  margin-left: 30px;
+}
+.article img.lazyload,
+.article img.lazyloading {
+  opacity: 0;
+}
+.article img {
+  max-width: 700px;
+  height: auto;
+}
+.article img.lazyloaded {
+  opacity: 1;
+  transition: opacity 300ms;
+}
+.article .summary {
+  color: #808080;
+  padding: 40px 0 15px 0;
+}
+.article .text {
+  padding-top: 10px;
+}
+.article .reading-list-nav {
+  border-top: 1px #dedede solid;
+  border-bottom: 1px #dedede solid;
+  padding: 10px 0;
+}
+.article .reading-list-nav .prev {
+  padding-left: 20px;
+}
+.article .reading-list-nav .next {
+  margin-left: 5px;
+  padding-right: 20px;
+  text-align: right;
+}
+.article-nav {
+  text-align: right;
+  margin-top: 21px;
+  vertical-align: middle;
+  line-height: 15px;
+}
+.msg-728x90 {
+  width: 728px;
+  height: 90px;
+  overflow: hidden;
+}
+.msg-300x250 {
+  width: 300px;
+  height: 250px;
+  overflow: hidden;
+}
+.content-list {
+  margin-bottom: 17px;
+}
+.content-list .count {
+  font-weight: bold;
+  font-size: 16px;
+  color: #ff9900;
+  padding: 3px;
+  text-align: center;
+}
+.content-list-item {
+  margin: 10px 0;
+}
+.content-list-item .title {
+  font-size: 14px;
+  font-weight: bold;
+  padding: 0px 0;
+}
+.content-list-item .title a {
+  color: #005782;
+}
+.tags {
+  line-height: 190%;
+}
+.tags .t {
+  background: none repeat scroll 0 0 transparent;
+  border: 1px solid #fbedbb;
+  border-radius: 12px 0 0 12px;
+  line-height: 1.4;
+  padding: 0 2px 2px 3px;
+  position: relative;
+  text-decoration: none;
+  margin: 2px 5px 4px 0;
+  white-space: nowrap;
+}
+.tags .t a {
+  color: #666666;
+  display: inline-block;
+  margin-right: 3px;
+  padding-left: 5px;
+  text-overflow: ellipsis;
+}
+.container-breadcrumb {
+  font-size: 14px;
+  margin-top: 7px;
+  color: #808080;
+  margin: 12px 0 35px;
+}
+.container-breadcrumb a {
+  color: #808080;
+}
+.pre-lang {
+  display: -webkit-box;
+  /* OLD - iOS 6-, Safari 3.1-6 */
+  display: -moz-box;
+  /* OLD - Firefox 19- (buggy but mostly works) */
+  display: -ms-flexbox;
+  /* TWEENER - IE 10 */
+  display: -webkit-flex;
+  /* NEW - Chrome */
+  display: flex;
+  /* NEW, Spec - Opera 12.1, Firefox 20+ */
+  background-color: #fbedbb;
+  justify-content: space-between;
+  padding: 4px 8px;
+  margin-top: 5px;
+  color: #999999;
+  border-bottom: solid 1px #ffd044;
+}
+.code-comment {
+  color: #008000;
+  font-style: italic;
+}
+.code-keyword {
+  color: Blue;
+}
+.code-sdkkeyword {
+  color: #339999;
+}
+.code-string {
+  color: Purple;
+}
+.code-attribute {
+  color: red;
+}
+.code-leadattribute {
+  color: #800000;
+}
+.pre-action-link {
+  font-size: 13px;
+  color: #999999;
+}
+.pre-action-link span {
+  cursor: pointer;
+  margin: 0;
+  -webkit-transition: color 0.1s linear;
+  -moz-transition: color 0.1s linear;
+  -o-transition: color 0.1s linear;
+  transition: color 0.1s linear;
+}
+.speech-bubble-container-down,
+.speech-bubble-container-up,
+.speech-bubble-container-up-right,
+.speech-bubble-container-left,
+.speech-bubble-container-right {
+  position: relative;
+}
+.speech-bubble-up,
+.speech-bubble-down,
+.speech-bubble-left,
+.speech-bubble-right,
+.speech-bubble-up-right {
+  padding: 0.6em;
+  border: 1px solid #cccccc;
+  background-color: white;
+  margin: 15px;
+  text-decoration: none;
+  font-weight: normal;
+  text-align: left;
+  white-space: normal;
+  color: #333333;
+  font-size: 14px;
+  line-height: 1.3;
+}
+.speech-bubble-down {
+  margin-bottom: 0px;
+}
+.tooltip .speech-bubble-up,
+.tooltip .speech-bubble-up-right,
+.tooltip .speech-bubble-down,
+.tooltip .speech-bubble-left,
+.tooltip .speech-bubble-right {
+  -moz-box-shadow: 4px 4px 16px 1px rgba(0, 0, 0, 0.25);
+  -webkit-box-shadow: 4px 4px 16px 1px rgba(0, 0, 0, 0.25);
+  box-shadow: 4px 4px 16px 1px rgba(0, 0, 0, 0.25);
+  border-radius: 5px;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  min-width: 75px;
+}
+.speech-bubble-pointer-down,
+.speech-bubble-pointer-down-inner {
+  width: 0;
+  height: 0;
+  border-bottom-width: 0;
+  background: none;
+}
+.speech-bubble-pointer-down {
+  border-left: 7px solid transparent;
+  border-right: 7px solid transparent;
+  border-top: 1px solid #cccccc;
+  border-top-width: 14px;
+  margin-left: 35px;
+  margin-bottom: 15px;
+  _display: none;
+}
+.speech-bubble-pointer-up,
+.speech-bubble-pointer-up-right,
+.speech-bubble-pointer-up-inner,
+.speech-bubble-pointer-up-right-inner {
+  width: 0;
+  height: 0;
+  border-top-width: 0;
+  background: none;
+}
+.speech-bubble-pointer-up,
+.speech-bubble-pointer-up-right {
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-bottom: 1px solid #cccccc;
+  border-bottom-width: 14px;
+  margin-left: 35px;
+  position: absolute;
+  top: -12px;
+  _display: none;
+}
+.speech-bubble-container-up-right .speech-bubble-pointer-up-right {
+  margin-left: 0;
+  margin-right: 0px;
+  right: 35px;
+}
+.tooltip {
+  position: relative;
+  text-decoration: none;
+}
+.tooltip .speech-bubble-container-up,
+.tooltip .speech-bubble-container-down,
+.tooltip .speech-bubble-container-left,
+.tooltip .speech-bubble-container-right,
+.tooltip .speech-bubble-container-up-right,
+.tooltip .tooltip-flyout {
+  display: none;
+  opacity: 0;
+  -webkit-transition: opacity 0.5s linear 0ms;
+  -moz-transition: opacity 0.5s linear 0ms;
+  -o-transition: opacity 0.5s linear 0ms;
+  transition: opacity 0.5s linear 0ms;
+}
+.micromodal {
+  display: none;
+}
+.micromodal .modal__overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: rgba(0, 0, 0, 0.65);
+  z-index: 1000;
+}
+.micromodal .modal__container {
+  box-sizing: border-box;
+  overflow-y: auto;
+  max-width: 500px;
+  max-height: 100vh;
+  padding: 30px;
+  background-color: #fff;
+  border-radius: 4px;
+}
+.micromodal .modal__container,
+.micromodal .modal__overlay {
+  will-change: transform;
+}
+.micromodal .modal_header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+.micromodal .modal_title {
+  margin-top: 0;
+  margin-bottom: 0;
+  color: #ff9900;
+  box-sizing: border-box;
+}
+.bottom-promo {
+  height: 90px;
+  margin-top: 10px;
+  overflow: hidden;
+}
+.bottom-promo .msg-728x90 {
+  width: 728px;
+  margin: 0 auto;
+}
+.msg-728x90 {
+  overflow: hidden;
+  position: relative;
+  height: 90px;
+  min-width: 728px;
+}
+table.forum {
+  table-layout: fixed;
+  margin: 0 0 20px 0;
+  padding: 0px;
+  width: 100%;
+}
+.forum {
+  /*
+    .indent
+    {
+        padding-left:5px; padding-right: 5px;
+    }
+    */
+}
+.forum table {
+  border-collapse: separate;
+}
+.forum .header1,
+.forum .header1 TD {
+  color: #333333;
+  font-size: 14px;
+  vertical-align: middle;
+}
+.forum .header2,
+.forum .header2 TD {
+  color: white;
+  background-color: #ff9900;
+  font-size: 14px;
+  vertical-align: middle;
+}
+.forum .header2 input,
+.forum .header2 TD input,
+.forum .header2 select,
+.forum .header2 TD select {
+  padding: 2px;
+}
+.forum .button {
+  border: 1px solid #ffcc66;
+  margin: 1px;
+}
+.forum .searchbar {
+  border: 1px solid #cccccc;
+  padding: 4px 0 0 0;
+  margin: 3px 0;
+}
+.forum .searchbar .search {
+  width: 200px;
+}
+.forum .searchbar input[type="image"] {
+  vertical-align: middle;
+}
+.forum .dropdown {
+  background-color: #fffdfa;
+  font-size: 95%;
+  margin-left: 5px;
+}
+.forum .footer,
+.forum .footer td,
+.forum .navbar,
+.forum .navbar td {
+  font-size: 14px;
+  padding: 8px 0;
+  border: 0;
+  border-top: 1px solid #808080;
+}
+.author-wrapper {
+  position: relative;
+}
+.author-wrapper .profile-pic {
+  border: 1px solid #333;
+  margin: 0 13px 0 0;
+  padding: 10px;
+  -moz-box-shadow: 3px 3px 5px 1px rgba(0, 0, 0, 0.2);
+  -webkit-box-shadow: 3px 3px 5px 1px rgba(0, 0, 0, 0.2);
+  box-shadow: 3px 3px 5px 1px rgba(0, 0, 0, 0.2);
+  max-height: 100px;
+}
+.author-wrapper .container-member .author {
+  font-size: 29px;
+  color: #333333;
+  font-weight: 600;
+}
+.member-signin .forgot {
+  padding: 0;
+}
+.member-signin a.forgot {
+  color: #808080;
+}
+.rating-container {
+  /*
+	.rating-close
+	{
+		font-size       : @FontSize-MediumSmall;
+		font-weight     : bold;
+		// display         : inline-block;
+		// height          : 19px;
+		padding         : 0px 7px 3px 5px;
+		text-decoration : none;
+		border          : 1px solid transparent;
+		position        : absolute;
+		right           : 1px;
+		top             : -1px;
+
+		&:hover { border : 1px solid @Colour-Theme1; }
+	}*/
+}
+.rating-container .rating-prompt {
+  padding-right: 5px;
+  white-space: nowrap;
+  line-height: 25px;
+  margin-right: 2px;
+  font-weight: bold;
+  color: #808080;
+}
+.rating-container .rating-votes {
+  margin-left: 5px;
+}
+.rating-container.large-stars,
+.rating-container.medium-stars,
+.rating-container.small-stars {
+  margin-left: 7px;
+}
+.rating-container.large-stars .rating-votes,
+.rating-container.large-stars .rating-prompt,
+.rating-container.large-stars .rating-poor,
+.rating-container.large-stars .rating-good {
+  line-height: 25px;
+}
+.tablet-only,
+.tablet-block-only {
+  display: none;
+}
+.mobile-only,
+.mobile-block-only {
+  display: none;
+}
+.desktop-only.tablet-only {
+  display: inherit;
+}
+.tablet-only.desktop-only {
+  display: inherit;
+}
+.rrssb-buttons,
+.rrssb-buttons li,
+.rrssb-buttons li a {
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+.clearfix:after {
+  clear: both;
+}
+.clearfix:before,
+.clearfix:after {
+  content: " ";
+  display: table;
+}
+.rrssb-buttons {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  height: 40px;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+}
+.rrssb-buttons li {
+  float: left;
+  height: 100%;
+  list-style: none;
+  margin: 0;
+  padding: 0 2.5px;
+  line-height: 13px;
+}
+.rrssb-buttons li.email a {
+  background-color: #0a88ff;
+}
+.rrssb-buttons li.facebook a {
+  background-color: #306199;
+}
+.rrssb-buttons li.linkedin a {
+  background-color: #007bb6;
+}
+.rrssb-buttons li.twitter a {
+  background-color: #26c4f1;
+}
+.rrssb-buttons li.reddit a {
+  background-color: #8bbbe3;
+}
+.rrssb-buttons li.pinterest a {
+  background-color: #b81621;
+}
+.rrssb-buttons li.compact {
+  padding: 0 4.5px;
+}
+.rrssb-buttons li.compact a {
+  border-radius: 50%;
+  padding: 0px 7px 0 32px;
+}
+.rrssb-buttons li.compact a .icon {
+  left: 7px;
+  top: -3px;
+  width: 5%;
+  transform: scale(0.85);
+}
+.rrssb-buttons li.compact a .icon svg {
+  height: auto;
+  width: auto;
+}
+.rrssb-buttons li a {
+  background-color: #ccc;
+  border-radius: 3px;
+  display: block;
+  font-size: 11px;
+  font-weight: bold;
+  height: 100%;
+  padding: 11px 7px 12px 27px;
+  position: relative;
+  text-align: center;
+  text-decoration: none;
+  text-transform: uppercase;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  width: 100%;
+  -webkit-transition: background-color 0.2s ease-in-out;
+  -moz-transition: background-color 0.2s ease-in-out;
+  -o-transition: background-color 0.2s ease-in-out;
+  transition: background-color 0.2s ease-in-out;
+}
+.rrssb-buttons li a .icon {
+  display: block;
+  height: 100%;
+  left: 10px;
+  padding-top: 9px;
+  position: absolute;
+  top: 0;
+  width: 10%;
+}
+.rrssb-buttons li a .icon svg {
+  height: 17px;
+  width: 17px;
+}
+.rrssb-buttons li a .icon svg path,
+.rrssb-buttons li a .icon svg polygon {
+  fill: #fff;
+}
+.cc-window {
+  opacity: 1;
+  background-color: #ff9900;
+  /*
+  -webkit-transition: opacity .25s ease;
+  -moz-transition: opacity .25s ease;
+  -ms-transition: opacity .25s ease;
+  -o-transition: opacity .25s ease;
+  transition: opacity .25s ease;
+  */
+}
+.cc-window.cc-invisible {
+  opacity: 0;
+}
+.cc-animate.cc-revoke {
+  /*
+  -webkit-transition: transform .25s ease;
+  -moz-transition: transform .25s ease;
+  -ms-transition: transform .25s ease;
+  -o-transition: transform .25s ease;
+  transition: transform .25s ease;
+  */
+}
+.cc-animate.cc-revoke.cc-bottom {
+  transform: translateY(2em);
+}
+.cc-window,
+.cc-revoke {
+  position: fixed;
+  overflow: hidden;
+  box-sizing: border-box;
+  /* exclude padding when dealing with width */
+  font-family: "Segoe UI", Arial, Sans-Serif;
+  font-size: 13px;
+  /* by setting the base font here, we can size the rest of the popup using CSS `em` */
+  line-height: 1.5em;
+  display: flex;
+  flex-wrap: nowrap;
+  /* the following are random unjustified styles - just because - should probably be removed */
+  z-index: 9999;
+}
+.cc-window.cc-banner {
+  padding: 0.7em 1.8em;
+  width: 100%;
+  flex-direction: row;
+}
+.cc-revoke {
+  padding: 0.5em;
+}
+.cc-btn,
+.cc-link,
+.cc-close,
+.cc-revoke {
+  cursor: pointer;
+}
+.cc-link {
+  opacity: 0.8;
+  display: inline-block;
+  padding: 0.2em;
+  text-decoration: underline;
+}
+.cc-link:active,
+.cc-link:visited {
+  color: initial;
+}
+.cc-btn {
+  display: block;
+  padding: 0.4em 0.8em;
+  font-size: 0.9em;
+  font-weight: bold;
+  border-width: 2px;
+  border-style: solid;
+  text-align: center;
+  white-space: nowrap;
+}
+.cc-banner .cc-btn:last-child {
+  min-width: 110px;
+  margin-left: 10px;
+}
+.cc-highlight .cc-btn:first-child {
+  background-color: transparent;
+  border-color: transparent;
+}
+.cc-revoke.cc-bottom {
+  bottom: 0;
+  left: 3em;
+  border-top-left-radius: 0.5em;
+  border-top-right-radius: 0.5em;
+}
+.cc-bottom {
+  bottom: 1em;
+}
+.cc-window.cc-banner {
+  align-items: center;
+}
+.cc-banner.cc-bottom {
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+.cc-banner .cc-message {
+  flex: 1;
+}
+.cc-compliance {
+  display: flex;
+  align-items: center;
+  align-content: space-between;
+}
+.cc-compliance > .cc-btn {
+  flex: 1;
+}
+.cc-btn + .cc-btn {
+  margin-left: 0.5em;
+}
+
+@keyframes showcopied {
+  0% {
+    opacity: 0;
+  }
+  70% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+</style><div><div><div class="article"><h2>Part I: Getting Started</h2>
+
+<ul class="download">
+	<li><a href="https://github.com/zijianhuang/TraceHubDemos">TraceHub Demo at GitHub</a></li>	<li><a href="https://github.com/zijianhuang/HelloWorldAuth/tree/branches/TraceHub">WCF Service and TraceHub Demo at GitHub</a></li>	<li><a href="http://tracehubslim.fonlow.com/">TraceHub Slim Demo</a></li>	<li><a href="https://youtu.be/e7uWITR7Kjc">Demo</a></li></ul>
+
+<h2>Introduction</h2>
+
+<p><a href="https://github.com/zijianhuang/TraceHub/"><strong>TraceHub</strong> </a>is a Web based centralized logging system that utilizes <code>System.Diagnostic</code> for structured logging, and SignalR for transporting structured traces from your service applications to trace observers. This open source project delivers 4 products out of the box:</p>
+
+<ol>
+	<li><strong>TraceHub MVC</strong>: ASP.NET MVC Application that provides the <code>TraceHub</code> service, displays structured traces from <code>HubTraceListeners</code> injected to your service applications, and push the traces to other clients like <code>TraceHub</code> Console.</li>	<li><strong>TraceHub Slim</strong>: Slim edition of <code>TraceHub</code>, with only 1 Web page and without built-in authentication, however with all key features of <code>TraceHub</code> MVC.</li>	<li><strong>TraceHub Console</strong>: Windows console application that listens to the <code>TraceHub</code> service and displays the traces, and could be used to relay traces to other trace listeners.</li>	<li><strong>HubTraceListener</strong>: Derived class of <code>System.Diagnostics.TraceListener</code>, which uploads structured traces to the <code>TraceHub</code> service.</li></ol>
+
+<p>If you have been using <a href="https://msdn.microsoft.com/en-us/library/windows/desktop/bb968803(v=vs.85).aspx">Event Tracing for Windows (ETW)</a> and trace listeners in <code>System.Diagnostics</code> or other tracing and logging frameworks compatible with <code>System.Diagnostics</code>, you may find that the learning curve of using <code>TraceHub</code> is almost zero, and your existing application codes don't need to be altered for logging structured traces to the new medias, thus don't need to be rebuilt.</p>
+
+<p>And this article also introduces some design concepts / contexts behind <code>TraceHub</code>.</p>
+
+<div class="Caption">Figure 1: TraceHub MVC</div>
+
+<p><a href="http://tracehub.fonlow.com/"><img alt="TraceHub MVC" src="https://cloudfront.codeproject.com/articles/1118166/tracehub.png" style="height: 228px; width: 640px"></a></p>
+
+<div class="Caption">Figure 2: TraceHub Slim</div>
+
+<p><img alt="" src="https://cloudfront.codeproject.com/articles/1118166/tracehub.gif" style="height: 225px; width: 640px"></p>
+
+<div class="Caption">Figure 3: TraceHub Console</div>
+
+<p><img alt="TraceHub Console" src="https://cloudfront.codeproject.com/articles/1118166/tracehubconsole.png" style="height: 277px; width: 640px"></p>
+
+<div class="Caption">Figure 4: View a trace in multiple lines</div>
+
+<p><img alt="TraceHub Slim" height="438" src="https://cloudfront.codeproject.com/articles/1118166/5848b330-e3a5-4064-9909-da6f6234119c.png" style="height: 237px; width: 640px" width="1181"></p>
+
+<h2>Use TraceHub</h2>
+
+<p>Presumably, you have been using <code>Trace</code> and <code>TraceSource</code> of <code>System.Diagnostics</code> in your applications, like these examples:</p>
+
+<div><div style="background-color: rgb(251, 237, 187); border-bottom: 1px solid rgb(255, 208, 68); color: rgb(153, 153, 153); display: flex; padding: 4px 8px; justify-content: space-between;"><div>C#</div><div style="align-items: center; display: flex; gap: 0.5rem; justify-content: space-between; position: relative;"><div style="color: inherit; cursor: pointer; font-size: 13px; transition: color 0.1s linear;">Shrink ▲</div><svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 460 460" width="16px" height="16px" fill="currentColor" style="color: inherit; cursor: pointer; transition: color 0.1s linear;"><g><path d="M425.934,0H171.662c-18.122,0-32.864,14.743-32.864,32.864v77.134h30V32.864c0-1.579,1.285-2.864,2.864-2.864h254.272 c1.579,0,2.864,1.285,2.864,2.864v254.272c0,1.58-1.285,2.865-2.864,2.865h-74.729v30h74.729 c18.121,0,32.864-14.743,32.864-32.865V32.864C458.797,14.743,444.055,0,425.934,0z"></path><path d="M288.339,139.998H34.068c-18.122,0-32.865,14.743-32.865,32.865v254.272C1.204,445.257,15.946,460,34.068,460h254.272 c18.122,0,32.865-14.743,32.865-32.864V172.863C321.206,154.741,306.461,139.998,288.339,139.998z M288.341,430H34.068 c-1.58,0-2.865-1.285-2.865-2.864V172.863c0-1.58,1.285-2.865,2.865-2.865h254.272c1.58,0,2.865,1.285,2.865,2.865v254.273h0.001 C291.206,428.715,289.92,430,288.341,430z"></path></g></svg></div></div></div><pre lang="cs" style="margin-top: 0px;">    try
+    {
+        ...
+        Debug.WriteLine("...");
+        ...
+        myTraceSource.TraceInformation("......");
+        ...
+        myTraceSource.TraceEvent(TraceEventType.Warning, 3, "File {0} not found.", "test");
+        ...
+        return true;
+    }
+    catch (IOException e)
+    {
+        Trace.TraceWarning(e.Message);
+        return false;
+    }
+    catch (UnauthorizedAccessException e)
+    {
+        Trace.TraceWarning(e.Message);
+        return false;
+    }
+    catch (System.Security.SecurityException e)
+    {
+        Trace.TraceWarning(e.Message);
+        return false;
+    }
+    catch (FormatException ex)
+    {
+        System.Diagnostics.Trace.TraceWarning($"{s} is not a valid IP address or range.");
+        return false;
+    }
+    catch (System.Exception ex)
+    {
+        Trace.TraceError(ex.ToString());
+        throw;
+    }
+
+
+   public class TraceErrorAttribute : HandleErrorAttribute
+    {
+        public override void OnException(ExceptionContext filterContext)
+        {
+            System.Diagnostics.Trace.TraceError("Controller: {0}; View: {1}; Exception: {2}",
+                filterContext.Controller.ToString(), View, filterContext.Exception.ToString());
+            base.OnException(filterContext);
+        }
+    }</pre>
+
+<h3>Step 1: Install TraceHub MVC or TraceHub Slim to a Server</h3>
+
+<p>Simply download the source codes of <code>TraceHub</code>, build and deploy <code>TraceHub</code> MVC or <code>TraceHub</code> Slim to a server as you would do for ASP.NET applications and configure the URL like <a href="http://mytracehub.com/">http://mytracehub.com</a>.</p>
+
+<h4>Remarks</h4>
+
+<p>For <code>TraceHub</code> MVC, the Identity 2 database should have a user role named "<code>API</code>", and a user associated with "<code>API</code>". And you can may make <code>TraceHub</code> MVC share the same Identity 2 database with other ASP.NET MVC/Web API applications. It shouldn't be difficult for you to integrate <code>TraceHub</code> MVC to your existing authentication.</p>
+
+<h4>Hint</h4>
+
+<p><code>TraceHub</code> Slim does not use any authentication, while you could <a href="https://github.com/zijianhuang/TraceHub/wiki/UseTraceHubSlim">use white listed IP addresses</a> for basic security.</p>
+
+<h3>Step 2: Inject HubTraceListener to Your Application</h3>
+
+<h4>Step 2.1: Copy the following files in the Fonlow.HubTraceListener CS project to the program directory</h4>
+
+<h5>File List</h5>
+
+<ul>
+	<li><em>Fonlow.HubTraceListener.dll</em></li>	<li><em>Fonlow.TraceHub.Common</em></li>	<li><em>Essential.Diagnostics.Core.dll</em></li>	<li><em>Microsoft.AspNet.SignalR.Client.dll</em></li>	<li><em>Newtonsoft.Json.dll</em></li></ul>
+
+<p>Alternatively, you may import NuGet package <a href="https://www.nuget.org/packages/Fonlow.HubTraceListener/">Fonlow.HubTraceListener</a>, even though your application codes don't need static references to those files.</p>
+
+<h4>Step 2.2: Modify app.config or Web.config of Your Application</h4>
+
+<p>Your service applications may be using <em>Web.config</em> or <em>MyService.exe.config</em>.</p>
+
+<p>Example:</p>
+
+<div><div style="background-color: rgb(251, 237, 187); border-bottom: 1px solid rgb(255, 208, 68); color: rgb(153, 153, 153); display: flex; padding: 4px 8px; justify-content: space-between;"><div>XML</div><div style="align-items: center; display: flex; gap: 0.5rem; justify-content: space-between; position: relative;"><div style="color: inherit; cursor: pointer; font-size: 13px; transition: color 0.1s linear;">Shrink ▲</div><svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 460 460" width="16px" height="16px" fill="currentColor" style="color: inherit; cursor: pointer; transition: color 0.1s linear;"><g><path d="M425.934,0H171.662c-18.122,0-32.864,14.743-32.864,32.864v77.134h30V32.864c0-1.579,1.285-2.864,2.864-2.864h254.272 c1.579,0,2.864,1.285,2.864,2.864v254.272c0,1.58-1.285,2.865-2.864,2.865h-74.729v30h74.729 c18.121,0,32.864-14.743,32.864-32.865V32.864C458.797,14.743,444.055,0,425.934,0z"></path><path d="M288.339,139.998H34.068c-18.122,0-32.865,14.743-32.865,32.865v254.272C1.204,445.257,15.946,460,34.068,460h254.272 c18.122,0,32.865-14.743,32.865-32.864V172.863C321.206,154.741,306.461,139.998,288.339,139.998z M288.341,430H34.068 c-1.58,0-2.865-1.285-2.865-2.864V172.863c0-1.58,1.285-2.865,2.865-2.865h254.272c1.58,0,2.865,1.285,2.865,2.865v254.273h0.001 C291.206,428.715,289.92,430,288.341,430z"></path></g></svg></div></div></div><pre lang="xml" style="margin-top: 0px;">  &lt;system.diagnostics&gt;
+    &lt;sharedListeners&gt;
+      &lt;add name="hubListener" type="Fonlow.Diagnostics.HubTraceListener, 
+       Fonlow.HubTraceListener" template="{Message}{Data}" hubUrl="http://MyTraceHub.com" 
+       apiUser="api" apiPassword="MyPassword" instanceId="MyServiceInstanceId" /&gt;
+      &lt;add name="rollingfile" type="Essential.Diagnostics.RollingFileTraceListener, 
+       Essential.Diagnostics" template="{LocalDateTime:HH':'mm':'ss} 
+       [{Thread}] {EventType} {Source}: {Message}{Data}" 
+          initializeData="%AllUsersProfile%\MyCompany\logs\
+               MyService-{LocalDateTime:yyyy-MM-dd}-p{ProcessId}.log" /&gt;
+    &lt;/sharedListeners&gt;
+    &lt;switches&gt;
+      &lt;add name="TraceLevelSwitch" value="Verbose" /&gt;
+    &lt;/switches&gt;
+    &lt;sources&gt;
+      &lt;source name="myAppSource" switchValue="All"&gt;
+        &lt;listeners&gt;
+          &lt;clear /&gt;
+          &lt;add name="hubListener" /&gt;
+          &lt;add name="rollingfile" /&gt;
+        &lt;/listeners&gt;
+      &lt;/source&gt;
+    &lt;/sources&gt;
+    &lt;trace autoflush="true"&gt;
+      &lt;listeners&gt;
+        &lt;clear /&gt;
+        &lt;add name="hubListener" /&gt;
+        &lt;add name="rollingfile" /&gt;
+      &lt;/listeners&gt;
+    &lt;/trace&gt;
+  &lt;/system.diagnostics&gt;</pre>
+
+<p>In this example, the template attribute for <code>hubListener</code> does not include time stamp and trace event type, etc., however, <code>TraceHub</code> still displays them. This is because <code>HubTraceListener</code> sends not only the formatted trace message according to the template, but also the structured trace data, so the <code>TraceHub</code> Web page would display them and filter them accordingly.</p>
+
+<h4>Hints</h4>
+
+<p>For <code>TraceHub</code> Slim, the value of the <code>apiUser</code> attribute should be "<code>anonymous</code>", and the value of password is not used.</p>
+
+<h3>Step 3: Up and Run</h3>
+
+<p>Both <code>TraceListener</code> and ASP.NET Web application are starting up in a lazy manner. That is, only when the application or the CLR startup logic creates the first trace, the <code>TraceListener</code> instances defined in <em>app.config</em> are created; only when the first HTTP request reaches IIS, an instance of the Web application is created. And there could be significant interval between the first trace and the full operation of <code>TraceHub</code>, and there could be latency and interruptions between your application and <code>TraceHub</code>. <code>HubTraceListener</code> may buffer up to 100,000 traces in case of network outage between your applications and <code>TraceHub</code>. And it is good to keep local rolling log files through <code>RollingFileTraceListener</code>, since local resources like local file and Windows Events log are the most reliable medias for logging.</p>
+
+<h4>Hints</h4>
+
+<p>To minimize the negative impact of lazy loading, you may consider to alter the following setting:</p>
+
+<ol>
+	<li>In Advanced Settings of the IIS Website, set "<strong>Start Automatically</strong>" or "<strong>Preload Enabled</strong>" to <code>True</code>.</li>	<li>In the Advanced Settings of respective <code>AppPool</code>, set "<strong>Start Automatically</strong>" to <code>True</code> or set "<strong>Start Mode</strong>" to "<code>AlwaysRunning</code>".</li>	<li>In the Advanced Settings of respective <code>AppPool</code>, set "<strong>Idle Time-out(minutes)</strong>" to a larger number.</li></ol>
+
+<h2>Architecture and Deployments</h2>
+
+<p><code>HubTraceListener</code> listens to trace events of the service application, and upload the formatted trace message along with some structured trace info to <code>TraceHub</code>; and <code>TraceHub</code> pushes the trace data to Web browsers which are loading the Web pages of <code>TraceHub</code> MVC or <code>TraceHub</code> Slim, so you could view traces on the client side; and an alternative client viewer is <code>TraceHub</code> Console.</p>
+
+<p><img alt="Deploy TraceHub components" src="https://cloudfront.codeproject.com/articles/1118166/tracehubdeployment.png" style="height: 378px; width: 640px"></p>
+
+<p>If you want to introduce more trace sinks, you just inject respective trace listeners implemented in <code>System.Diagnostics</code>, Essential Diagnostics or Semantic Logging to <code>TraceHub</code> Console. You may install <code>TraceHub</code> Console in a Windows workstation or Windows Server, depending on how you would further process trace data.</p>
+
+<p>To use products out of the box, you may download or clone the source codes of <code>TraceHub</code>, build and deploy, as describe in <a href="https://github.com/zijianhuang/TraceHub/wiki/UseTraceHub">TraceHub Wiki</a>.</p>
+
+<p>Please note, applications that need <code>HubTraceListener</code> don't need to be compiled with the listener, because derived classes of <code>TraceListener</code> could be injected to an application through <em>app.config</em>. And you just need to make sure <a href="https://github.com/zijianhuang/TraceHub/wiki/UseFonlowHubTraceListener">the dependencies</a> are available in the program directory.</p>
+
+<h2>Part II: Concepts behind TraceHub</h2>
+
+<h3>Structured Tracing and Logging Have Been Available Since .NET Framework 2!</h3>
+
+<p>Over years, I have come across a few Web based logging and diagnostics tools for ASP.NET Web applications:</p>
+
+<ul>
+	<li><a href="http://getglimpse.com/">Glimpse</a></li>	<li><a href="https://azure.microsoft.com/en-us/services/application-insights/">Application Insights</a></li></ul>
+
+<p>They are excellent tools, though I had rarely used them. And the scope of the <code>TraceHub</code> won't be anywhere closer to Glimpse and Application Insights which cover wider spectrums and more scenarios.</p>
+
+<p>If you have never used Serilog + Seq, you may probably skip this chapter and go next to "<strong>Design Concepts</strong>".</p>
+
+<p>A few months ago, I was introduced to <a href="https://serilog.net/">Serilog </a>+ <a href="https://getseq.net/">Seq </a><a href="https://serilog.net/">/ </a><a href="https://raygun.com/">Raygun </a>in some Web service + Azure projects that I did not lead. So I had a bit hands-on experience in these new toys, while the team leads and other developers were eager to teach me the new concepts of structured logging. I was very puzzled, since I supposedly had been doing structured logging for years without these new toys or being aware of "structured logging". And I had grown up in the .NET world since 2003 with these concepts:</p>
+
+<ol>
+	<li>Use Trace and Debug of <code>System.Diagnostics</code>; and in complex applications and libraries, use <code>TraceSource</code>.</li>	<li>.NET codes should have no knowledge of the logging mechanism. The logging is done through trace listeners, and trace listeners generally are injected by .NET runtime according to app settings in element <code>system.diagnostics</code> in <em>app.config</em>, so some CLR startup errors could be logged before the first line of the application code is executed.</li>	<li><code>System.Diagnostics</code> since .NET Framework 2 had already provided advanced tracing of structured data and correlation.</li></ol>
+
+<p>With Serilog, you have to create an instance of <code>LoggerConfiguration</code> in your application codes and library codes, because CLR startup logic has no knowledge of it,</p>
+
+<ol>
+	<li>So CLR startup errors won't be picked up by Serilog.</li>	<li>And every library you create will need make to reference to Serilog just for the sake of logging. Why should I always make a reference to Serilog in every library? Not only 3<sup>rd</sup> party libraries, but also WCF, WPF and WF, etc. had provided specific trace sources for diagnostics. Serilog and alike are missing these. A workaround is to use <a href="https://github.com/serilog-trace-listener/SerilogTraceListener">Serilog Tracelistener</a>. But a logging instrument on top of another logging instrument is looking odd to me.</li></ol>
+
+<p>The popular Log4Net has similar shortfalls, even though if you have been using it since .NET Framework 1, you won't see any problem.</p>
+
+<p>A few weeks ago, I happened to have some moment reading the materials about Serilog and Seq in more details in addition to those in the official Websites:</p>
+
+<ul>
+	<li><a href="https://nblumhardt.com/2015/01/designing-log-events-for-effective-correlation/">Tagging log events for effective correlation</a></li>	<li><a href="https://nblumhardt.com/2013/03/serilog/">Serilog at the beginning</a></li>	<li><a href="https://leastprivilege.com/2015/10/22/identityserver3-logging-monitoring-using-serilog-and-seq/">IdentityServer 3 Logging &amp; Monitoring using Serilog and Seq</a></li>	<li><a href="http://programmers.stackexchange.com/questions/312197/benefits-of-structured-logging-vs-basic-logging">Benefits of Structured Logging vs basic logging</a></li>	<li><a href="https://www.troyhunt.com/error-logging-and-tracking-done-right/">Error logging and tracking done right with Raygun.io</a></li></ul>
+
+<p>It is confirmed that <a href="https://msdn.microsoft.com/en-us/library/system.diagnostics(v=vs.110).aspx">System.Diagnostics</a> + <a href="http://essentialdiagnostics.codeplex.com/">Essential.Diagnostics</a> had covered most of what Serilog offers. To be fair, Serilog does offer some additional sophisticated features:</p>
+
+<ol>
+	<li>Message Template</li>	<li>Preserving Object Structure</li>	<li>Flood gate upon identical traces in flooding</li></ol>
+
+<p>It is probably very context specific to value these features.</p>
+
+<p>Structured tracing has been available in <code>System.Diagnostics</code> of .NET Framework since .NET 2 released in 2005. And for structured logging, there are quite a few free and open source solutions around, and here's an incomplete list:</p>
+
+<ul>
+	<li><a href="https://github.com/mspnp/semantic-logging">Semantic Logging </a>(formerly know at the<a href="https://msdn.microsoft.com/en-us/library/dn440729(v=pandp.60).aspx"> Semantic Logging Application Block</a> or SLAB)</li>	<li><a href="http://essentialdiagnostics.codeplex.com/">Essential Diagnostics</a></li></ul>
+
+<p>Both Semantic Logging and Essential Diagnostics were designed on top of <a href="https://msdn.microsoft.com/en-us/library/windows/desktop/bb968803(v=vs.85).aspx">Event Tracing for Windows (ETW)</a> and <code>System.Diagnostics</code>.</p>
+
+<h3>Design Concepts for Web Applications/Services</h3>
+
+<p>When I lead a green field project, I would ensure:</p>
+
+<ol>
+	<li>Small and evolvable designs</li>	<li>Basic separation of concerns</li>	<li>Conformation to SOLID; design patterns for right contexts</li>	<li>Component designs</li>	<li>Separation of development concerns and deployment concerns; and application and library codes having least knowledge of the deployment environments</li>	<li>Defensive programming</li>	<li>Static code analysis</li>	<li>Integration tests as early as possible, in local dev machine first, then in the team test environment</li>	<li>Stress testing as early as possible</li></ol>
+
+<p>Also, I would:</p>
+
+<ol>
+	<li>Avoid premature introduction of DI/IoC frameworks like Autofac and Unity, etc.</li>	<li>Avoid premature scalability with Microservices.</li>	<li>Avoid excessive trace and logging. Application codes should have no knowledge of the logging mechanisms, except <code>System.Diagnostics</code>. Trace listeners are generally injected by .NET runtime as defined in <em>app.config</em>.</li>	<li>Except in small and simple business applications, do not mix technical logging and <a href="https://en.wikipedia.org/wiki/Business_activity_monitoring">business activity monitoring</a> as well as traffic monitoring.</li></ol>
+
+<p>For Web application and services, I would keep the VS projects of WCF, MVC and Web API as thin as possible. Web services, SOAP based or RESTful are just a transportation layer or tier for delivering server side functions to clients and get feedback from clients. It is good for teamwork and testing to put most, if not all the business logic into the model assemblies rather than in the Web entry assembly. And during stress testing of business domain functionality, I would already have a good idea about the performances of the core business modules. If you take such an approach, you will be less likely to be surprised about performance after deploying Web applications. If you endorse such design concepts, you may probably find <code>TraceHub</code> appealing.</p>
+
+<h3>Is Logging Really Important to SDLC?</h3>
+
+<p>While nowadays components of <a href="http://essentialdiagnostics.codeplex.com/wikipage?title=Logging%20Levels&amp;referringTitle=Guidance">tracing and logging </a>are fairly fast even in heavy traffic, however, excessive logging could hamper the efforts of debugging because the overwhelming information.</p>
+
+<p>The bottom line is, if your program is highly reliable, you will depend less on logging; if you have good QA, your program will be naturally reliable and robust, and you will depend on less QC and testing; if you have good testing, you will depend less on debugging and logging. Debugging/diagnostic and logging should be the last resort to control quality. If your SDLC heavily depends on debugging/diagnostics and logging, there could be something dirty in your SDLC, eating you alive without you noticing it, even if you enjoy the technical challenges which bring no value to the stakeholders.</p>
+
+<p>You may ask why I would develop something similar to Serilog + Seq, etc., after saying all these. Here are my reasons:</p>
+
+<ol>
+	<li><strong>Logging and debugging are wastes that we developers haven't managed to eliminate</strong>! However, at least, we could make logging easier and cheaper for most scenarios of development and deployment on the ASP.NET stacks.</li>	<li><code>System.Diagnostics</code> since .NET 2 had already covered almost everything which Log4Net and alike cover. Some simple extensions like <code>Essential.Diagnostics</code> and Serilog are already well complementing what needed for distributed computing, while <code>Essential.Diagnostics</code> conforms more to <a href="https://msdn.microsoft.com/en-us/library/windows/desktop/bb968803(v=vs.85).aspx">Event Tracing for Windows (ETW)</a> and <code>System.Diagnostics</code>.</li>	<li>Having structured logging and Web based logging together is much easier than you would had thought, as long as you pick the right resources to depend on. When using Serilog + Seq, I had already been feeling: logging shouldn't be so complex, so hard, so slow, so unreliable and so expensive. Logging should be simple, fast, reliable and free, because (technical) logging is a waste in the first place.</li></ol>
+
+<h2>Points of Interest</h2>
+
+<p>Over years, I have been reviewing or maintaining quite a lot of legacy applications with dirty designs and implementations, as well as excessive logging on variety of logging components. A few years ago, I have done some <a href="http://webandlife.blogspot.com/2013/04/essential-diagnostics.html">extensive researches on logging components</a>, before joining project Essential Diagnostic. I had been thinking of developing a light-weight centralized logging system occasionally over years. There have also been a few good Web based logging and diagnostics systems around like Glimpse and AI. Though they are comprehensive and heavy, there seemed no need for some additions to the landscape. The poor experiences in using Serilog+Seq had prompted me to develop a Web based centralized logging system based on <code>System.Diagnostics</code> + Essential Diagnostics + SignalR. To be fair, Serilog on its own is a well designed and implemented product, and is pretty fast. However, in my observations, people using Serilog had often enjoyed excessive logging and debugging on premature scalability with Microservices and premature usage of CI server like TeamCity, rather than spend more efforts in making simpler designs and writing clean codes. So I was thinking whether a light-weight Web based logging system could be fixing the gap between primitive log files and heavy tools like Glimpse and AI, and providing a free, simpler and more flexible alternative to Seq. Here you are, when you have some light-weight needs for Web based centralized logging as I normally do, you will have more choices for your contexts.</p>
+
+<p>Do you find it interesting that the author of the logging components does not encourage developers to log and debug?</p>
+
+<h3>What's Not</h3>
+
+<p><code>TraceHub</code> is designed to be a light-weight centralized logging service extending what already in <code>System.Diagnostics</code> and <code>Essential.Diagnostics</code>. While it has some some overlap with Glimpse, Microsoft Application Insights and Azure Event Hubs, it won't be extended to the wider spectrums of these products.</p>
+
+<h3>Differences from Seq</h3>
+
+<p>Seq stores traces, while <code>TraceHub</code> does not store traces directly. If you want to persist traces, there exist trace listeners to be injected to <code>TraceHub</code> Console that could be running on the server side.</p>
+
+<ul>
+	<li><a href="http://essentialdiagnostics.codeplex.com/wikipage?title=RollingFileTraceListener">RollingFileTraceListener</a></li>	<li><a href="https://essentialdiagnostics.codeplex.com/wikipage?title=RollingXmlTraceListener&amp;referringTitle=Listeners">RollingXmlTraceListener</a></li>	<li><a href="http://essentialdiagnostics.codeplex.com/wikipage?title=SqlDatabaseTraceListener">SqlDatabaseTraceListener</a></li>	<li><a href="https://github.com/amccool/ElasticSearch.Diagnostics">ElasticSearchTraceListener</a></li>	<li><a href="https://github.com/aws/aws-dotnet-trace-listener/">AWS DynamoDB TraceListener</a></li>	<li><a href="https://azure.microsoft.com/en-us/documentation/articles/cloud-services-dotnet-diagnostics-trace-flow/">DiagnosticMonitorTraceListener</a></li></ul>
+
+<p>Other than this, <code>TraceHub</code> has covered most functionality of Seq, additionally, it is free, fast, open source and more flexible.</p>
+
+<h3>Differences from Serilog</h3>
+
+<p>Serilog is apparently to become a better log4net, while <code>HubTraceListener</code> is based on <code>System.Diagnostics</code> and <code>Essential.Diagnostics</code>, inheriting the capability of structured logging. Serilog endorses some fluent API coding style, Most of the differences had already been mentioned in this article about the design concepts and contexts in SDLC.</p>
+
+<h3>Tracing, Logging, Business Activity Monitoring</h3>
+
+<p>The creator of Essential Diagnostics <a href="http://www.codeplex.com/site/users/view/sgryphon">Sly Gryphon</a> said: " <a href="http://essentialdiagnostics.codeplex.com/wikipage?title=Logging%20Levels&amp;referringTitle=Guidance">A distinction should be made between the concepts of logging and tracing (although sometimes the terminology used is unclear). </a>". In my view, generally you decide what to trace during development/coding, and decide whether to log, what to log and where to log during deployment and operations.</p>
+
+<p><a href="https://en.wikipedia.org/wiki/Business_activity_monitoring">Business Activity Monitoring (BAM)</a> is software that aids in monitoring of business activities implemented in computer systems. So BAM is application specific, and it is natural that BAM is tightly associated with your applications codes, while the concrete implementation of logging like trace listeners should be de-coupled from your applications codes, and it is even better that your applications codes have no knowledge of logging until deployment and operation. In small and simple applications, you may probably use tracing (with Trace, TraceSource, Log4Net, or Serilog) and logging (with trace listeners) to implement BAM. However, for more complex applications, it is better to separate technical logging and BAM, and develop or use a dedicated subsystem like Biztalk BAM to monitor business activities.</p>
+
+<p>A few years ago, I had maintained some legacy Biztalk applications designed and implemented by a consultant firm, and previous developers had used Biztalk BAM to log all kinds of technical traces and very little business activities. It is not hard to imagine the impacts on development and operations from such design, even if you haven't ever used Biztalk BAM.</p>
+
+<p>There's no one-size-fits-all. It is quite fine that your ASP.NET projects use Glimpse, AI, TraceHub and Azure Event Hubs for different concerns and contexts in order to scale and evolve.</p>
+
+<h2>Further References</h2>
+
+<ul>
+	<li><a href="http://essentialdiagnostics.codeplex.com/wikipage?title=Guidance">Guidance </a>on considerations when implementing logging and other instrumentation for your project</li>	<li><a href="https://msdn.microsoft.com/en-us/library/ty48b824(v=vs.110).aspx">Configure Network Tracking</a></li>	<li><a href="http://www.codeproject.com/Tips/1071853/Use-TraceSource-Efficiently">Use TraceSource Efficiently</a></li>	<li><a href="https://essentialdiagnostics.codeplex.com/wikipage?title=Hello%20Logging">Logging with Correlation</a></li></ul></div></div></div></template></div></div><div><div id="div-gpt-ad-1738591766860-0" style="min-width:300px;min-height:600px" class="mt-40 sticky top-40" data-google-query-id="CIm848-imI0DFdOgrAIdQXUclA"><div id="google_ads_iframe_/67541884/CPLargeSky160600_0__container__" style="border: 0pt none;"><iframe id="google_ads_iframe_/67541884/CPLargeSky160600_0" name="google_ads_iframe_/67541884/CPLargeSky160600_0" title="3rd party ad content" width="300" height="600" scrolling="no" marginwidth="0" marginheight="0" frameborder="0" aria-label="Advertisement" tabindex="0" allow="private-state-token-redemption;attribution-reporting" data-load-complete="true" data-google-container-id="2" style="border: 0px; vertical-align: bottom;" src="./TraceHub, A Flexible Solution for Web Based Structured Logging - CodeProject_files/saved_resource(1).html"></iframe></div></div></div></div><!--$--><!--/$--><!--$--><!--/$--></main><footer class="custom-container flex flex-col gap-3 px-2"><div class="mt-2 py-4 min-h-36 bg-primary"></div><div class="border-t-4 border-primary p-3 flex justify-between"><nav class="flex-1"><ul><li><a href="http://developermedia.com/" rel="nofollow noreferrer">Advertise</a></li><li><a href="https://www.codeproject.com/info/privacy.aspx">Privacy</a></li><li><a href="https://www.codeproject.com/info/cookie.aspx">Cookies</a></li><li><a href="https://www.codeproject.com/info/TermsOfUse.aspx">Terms of Use</a></li></ul></nav><div class="flex-1"></div><div class="flex-1 text-gray text-sm text-right">Copyright © <a href="mailto:webmaster@codeproject.com">CodeProject</a>, 1999-2025<br>All Rights Reserved.</div></div></footer><script src="./TraceHub, A Flexible Solution for Web Based Structured Logging - CodeProject_files/webpack-5ed466aeca77ac7a.js.download" async=""></script><script>(self.__next_f=self.__next_f||[]).push([0])</script><script>self.__next_f.push([1,"1:\"$Sreact.fragment\"\n2:I[387,[\"869\",\"static/chunks/869-095b567be01917e3.js\",\"177\",\"static/chunks/app/layout-12dfdcc6fc1e5fcf.js\"],\"default\"]\n3:I[6874,[\"869\",\"static/chunks/869-095b567be01917e3.js\",\"76\",\"static/chunks/app/(article)/Articles/%5BarticleId%5D/%5BarticleSlug%5D/page-ade9d0789736a960.js\"],\"\"]\n4:I[3063,[\"869\",\"static/chunks/869-095b567be01917e3.js\",\"76\",\"static/chunks/app/(article)/Articles/%5BarticleId%5D/%5BarticleSlug%5D/page-ade9d0789736a960.js\"],\"Image\"]\n5:I[6932,[\"869\",\"static/chunks/869-095b567be01917e3.js\",\"76\",\"static/chunks/app/(article)/Articles/%5BarticleId%5D/%5BarticleSlug%5D/page-ade9d0789736a960.js\"],\"default\"]\n6:I[7231,[\"869\",\"static/chunks/869-095b567be01917e3.js\",\"177\",\"static/chunks/app/layout-12dfdcc6fc1e5fcf.js\"],\"default\"]\n7:I[7555,[],\"\"]\n8:I[1295,[],\"\"]\na:I[9665,[],\"MetadataBoundary\"]\nc:I[9665,[],\"OutletBoundary\"]\nf:I[4911,[],\"AsyncMetadataOutlet\"]\n11:I[9665,[],\"ViewportBoundary\"]\n13:I[6614,[],\"\"]\n14:\"$Sreact.suspense\"\n15:I[4911,[],\"AsyncMetadata\"]\n:HL[\"/_next/static/media/945b7384c5256ec3-s.p.ttf\",\"font\",{\"crossOrigin\":\"\",\"type\":\"font/ttf\"}]\n:HL[\"/_next/static/media/b55e164a6e7ce445-s.p.ttf\",\"font\",{\"crossOrigin\":\"\",\"type\":\"font/ttf\"}]\n:HL[\"/_next/static/media/e337cf18f0f81cb9-s.p.ttf\",\"font\",{\"crossOrigin\":\"\",\"type\":\"font/ttf\"}]\n:HL[\"/_next/static/media/f7794ce32483498f-s.p.ttf\",\"font\",{\"crossOrigin\":\"\",\"type\":\"font/ttf\"}]\n:HL[\"/_next/static/css/f00fbee724adea66.css\",\"style\"]\n"])</script><script>self.__next_f.push([1,"0:{\"P\":null,\"b\":\"RM4oGDTGwzcUK8vU4hkUW\",\"p\":\"\",\"c\":[\"\",\"Articles\",\"1118166\",\"TraceHub-a-flexible-solution-for-Web-based-structu\"],\"i\":false,\"f\":[[[\"\",{\"children\":[\"(article)\",{\"children\":[\"Articles\",{\"children\":[[\"articleId\",\"1118166\",\"d\"],{\"children\":[[\"articleSlug\",\"TraceHub-a-flexible-solution-for-Web-based-structu\",\"d\"],{\"children\":[\"__PAGE__\",{}]}]}]}]}]},\"$undefined\",\"$undefined\",true],[\"\",[\"$\",\"$1\",\"c\",{\"children\":[[[\"$\",\"link\",\"0\",{\"rel\":\"stylesheet\",\"href\":\"/_next/static/css/f00fbee724adea66.css\",\"precedence\":\"next\",\"crossOrigin\":\"$undefined\",\"nonce\":\"$undefined\"}]],[\"$\",\"html\",null,{\"lang\":\"en\",\"children\":[[\"$\",\"head\",null,{\"children\":[[\"$\",\"link\",null,{\"rel\":\"apple-touch-icon\",\"sizes\":\"144x144\",\"href\":\"/favicon/apple-touch-icon.png\"}],[\"$\",\"link\",null,{\"rel\":\"icon\",\"type\":\"image/png\",\"sizes\":\"32x32\",\"href\":\"/favicon/favicon-32x32.png\"}],[\"$\",\"link\",null,{\"rel\":\"icon\",\"type\":\"image/png\",\"sizes\":\"16x16\",\"href\":\"/favicon/favicon-16x16.png\"}],[\"$\",\"link\",null,{\"rel\":\"manifest\",\"href\":\"/favicon/manifest.json\"}],[\"$\",\"link\",null,{\"rel\":\"mask-icon\",\"href\":\"/favicon/safari-pinned-tab.svg\",\"color\":\"#ff9900\"}],[\"$\",\"meta\",null,{\"property\":\"og:title\",\"content\":\"CodeProject\"}],[\"$\",\"meta\",null,{\"property\":\"og:image\",\"content\":\"https://www.codeproject.com/favicon/mstile-150x150.png\"}],[\"$\",\"meta\",null,{\"property\":\"og:description\",\"content\":\"For those who code\"}],[\"$\",\"meta\",null,{\"property\":\"og:url\",\"content\":\"https://www.codeproject.com\"}],[\"$\",\"script\",null,{\"async\":true,\"src\":\"https://securepubads.g.doubleclick.net/tag/js/gpt.js\"}],[\"$\",\"$L2\",null,{}]]}],[\"$\",\"body\",null,{\"className\":\"__className_2277ee\",\"children\":[[\"$\",\"header\",null,{\"children\":[[\"$\",\"div\",null,{\"className\":\"custom-container gap-2 py-1 text-gray-light flex justify-between whitespace-nowrap z-10 relative px-1 md:px-0\",\"children\":[[\"$\",\"div\",null,{\"className\":\"flex-1 md:ml-20\",\"children\":[[\"$\",\"span\",null,{\"className\":\"hidden md:block\",\"children\":[65.938,\" articles\"]}],[\"$\",\"span\",null,{\"className\":\"block md:hidden\",\"children\":[\"65.9\",\"K\"]}]]}],[\"$\",\"div\",null,{\"className\":\"flex-1\",\"children\":[\"CodeProject is changing.\",\" \",[\"$\",\"$L3\",null,{\"href\":\"/info/Changes.aspx\",\"className\":\"!text-gray-lightest\",\"children\":\"Read more.\"}]]}],[\"$\",\"div\",null,{\"className\":\"flex-1\"}],[\"$\",\"div\",null,{\"className\":\"flex-1\"}]]}],[\"$\",\"div\",null,{\"className\":\"mb-2 mt-2 md:mt-0\",\"children\":[\"$\",\"div\",null,{\"className\":\"h-[94px] bg-primary\",\"children\":[\"$\",\"div\",null,{\"className\":\"custom-container relative h-full\",\"children\":[[\"$\",\"$L3\",null,{\"href\":\"/\",\"children\":[\"$\",\"$L4\",null,{\"className\":\"absolute -top-[31px]\",\"src\":\"/logo250x135.gif\",\"priority\":true,\"alt\":\"Home\",\"width\":250,\"height\":135}]}],[\"$\",\"div\",null,{\"className\":\"w-[calc(100%-300px)] translate-x-[300px] translate-y-[2px] h-[90px] relative overflow-hidden\",\"children\":[\"$\",\"$L5\",null,{\"adUnit\":\"/67541884/CPLeader728\",\"adSlotId\":\"div-gpt-ad-1738591571151-0\",\"adSize\":[728,90],\"className\":\"absolute top-0 left-0\"}]}]]}]}]}],[\"$\",\"$L6\",null,{}]]}],[\"$\",\"main\",null,{\"className\":\"px-2 py-10\",\"children\":[\"$\",\"$L7\",null,{\"parallelRouterKey\":\"children\",\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"errorScripts\":\"$undefined\",\"template\":[\"$\",\"$L8\",null,{}],\"templateStyles\":\"$undefined\",\"templateScripts\":\"$undefined\",\"notFound\":[[[\"$\",\"title\",null,{\"children\":\"404: This page could not be found.\"}],[\"$\",\"div\",null,{\"style\":{\"fontFamily\":\"system-ui,\\\"Segoe UI\\\",Roboto,Helvetica,Arial,sans-serif,\\\"Apple Color Emoji\\\",\\\"Segoe UI Emoji\\\"\",\"height\":\"100vh\",\"textAlign\":\"center\",\"display\":\"flex\",\"flexDirection\":\"column\",\"alignItems\":\"center\",\"justifyContent\":\"center\"},\"children\":[\"$\",\"div\",null,{\"children\":[[\"$\",\"style\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"body{color:#000;background:#fff;margin:0}.next-error-h1{border-right:1px solid rgba(0,0,0,.3)}@media (prefers-color-scheme:dark){body{color:#fff;background:#000}.next-error-h1{border-right:1px solid rgba(255,255,255,.3)}}\"}}],[\"$\",\"h1\",null,{\"className\":\"next-error-h1\",\"style\":{\"display\":\"inline-block\",\"margin\":\"0 20px 0 0\",\"padding\":\"0 23px 0 0\",\"fontSize\":24,\"fontWeight\":500,\"verticalAlign\":\"top\",\"lineHeight\":\"49px\"},\"children\":404}],[\"$\",\"div\",null,{\"style\":{\"display\":\"inline-block\"},\"children\":[\"$\",\"h2\",null,{\"style\":{\"fontSize\":14,\"fontWeight\":400,\"lineHeight\":\"49px\",\"margin\":0},\"children\":\"This page could not be found.\"}]}]]}]}]],[]],\"forbidden\":\"$undefined\",\"unauthorized\":\"$undefined\"}]}],[\"$\",\"footer\",null,{\"className\":\"custom-container flex flex-col gap-3 px-2\",\"children\":[[\"$\",\"div\",null,{\"className\":\"mt-2 py-4 min-h-36 bg-primary\"}],[\"$\",\"div\",null,{\"className\":\"border-t-4 border-primary p-3 flex justify-between\",\"children\":[[\"$\",\"nav\",null,{\"className\":\"flex-1\",\"children\":[\"$\",\"ul\",null,{\"children\":[[\"$\",\"li\",null,{\"children\":[\"$\",\"a\",null,{\"href\":\"http://developermedia.com/\",\"rel\":\"nofollow noreferrer\",\"children\":\"Advertise\"}]}],[\"$\",\"li\",null,{\"children\":[\"$\",\"$L3\",null,{\"href\":\"/info/privacy.aspx\",\"children\":\"Privacy\"}]}],[\"$\",\"li\",null,{\"children\":[\"$\",\"$L3\",null,{\"href\":\"/info/cookie.aspx\",\"children\":\"Cookies\"}]}],[\"$\",\"li\",null,{\"children\":[\"$\",\"$L3\",null,{\"href\":\"/info/TermsOfUse.aspx\",\"children\":\"Terms of Use\"}]}]]}]}],[\"$\",\"div\",null,{\"className\":\"flex-1\"}],[\"$\",\"div\",null,{\"className\":\"flex-1 text-gray text-sm text-right\",\"children\":[\"Copyright © \",[\"$\",\"a\",null,{\"href\":\"mailto:webmaster@codeproject.com\",\"children\":\"CodeProject\"}],\", 1999-2025\",[\"$\",\"br\",null,{}],\"All Rights Reserved.\"]}]]}]]}]]}]]}]]}],{\"children\":[\"(article)\",[\"$\",\"$1\",\"c\",{\"children\":[null,[\"$\",\"$L7\",null,{\"parallelRouterKey\":\"children\",\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"errorScripts\":\"$undefined\",\"template\":[\"$\",\"$L8\",null,{}],\"templateStyles\":\"$undefined\",\"templateScripts\":\"$undefined\",\"notFound\":[[[\"$\",\"title\",null,{\"children\":\"404: This page could not be found.\"}],[\"$\",\"div\",null,{\"style\":\"$0:f:0:1:1:props:children:1:props:children:1:props:children:1:props:children:props:notFound:0:1:props:style\",\"children\":[\"$\",\"div\",null,{\"children\":[[\"$\",\"style\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"body{color:#000;background:#fff;margin:0}.next-error-h1{border-right:1px solid rgba(0,0,0,.3)}@media (prefers-color-scheme:dark){body{color:#fff;background:#000}.next-error-h1{border-right:1px solid rgba(255,255,255,.3)}}\"}}],[\"$\",\"h1\",null,{\"className\":\"next-error-h1\",\"style\":\"$0:f:0:1:1:props:children:1:props:children:1:props:children:1:props:children:props:notFound:0:1:props:children:props:children:1:props:style\",\"children\":404}],[\"$\",\"div\",null,{\"style\":\"$0:f:0:1:1:props:children:1:props:children:1:props:children:1:props:children:props:notFound:0:1:props:children:props:children:2:props:style\",\"children\":[\"$\",\"h2\",null,{\"style\":\"$0:f:0:1:1:props:children:1:props:children:1:props:children:1:props:children:props:notFound:0:1:props:children:props:children:2:props:children:props:style\",\"children\":\"This page could not be found.\"}]}]]}]}]],[]],\"forbidden\":\"$undefined\",\"unauthorized\":\"$undefined\"}]]}],{\"children\":[\"Articles\",[\"$\",\"$1\",\"c\",{\"children\":[null,[\"$\",\"$L7\",null,{\"parallelRouterKey\":\"children\",\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"errorScripts\":\"$undefined\",\"template\":[\"$\",\"$L8\",null,{}],\"templateStyles\":\"$undefined\",\"templateScripts\":\"$undefined\",\"notFound\":\"$undefined\",\"forbidden\":\"$undefined\",\"unauthorized\":\"$undefined\"}]]}],{\"children\":[[\"articleId\",\"1118166\",\"d\"],[\"$\",\"$1\",\"c\",{\"children\":[null,[\"$\",\"$L7\",null,{\"parallelRouterKey\":\"children\",\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"errorScripts\":\"$undefined\",\"template\":[\"$\",\"$L8\",null,{}],\"templateStyles\":\"$undefined\",\"templateScripts\":\"$undefined\",\"notFound\":\"$undefined\",\"forbidden\":\"$undefined\",\"unauthorized\":\"$undefined\"}]]}],{\"children\":[[\"articleSlug\",\"TraceHub-a-flexible-solution-for-Web-based-structu\",\"d\"],[\"$\",\"$1\",\"c\",{\"children\":[null,[\"$\",\"$L7\",null,{\"parallelRouterKey\":\"children\",\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"errorScripts\":\"$undefined\",\"template\":[\"$\",\"$L8\",null,{}],\"templateStyles\":\"$undefined\",\"templateScripts\":\"$undefined\",\"notFound\":\"$undefined\",\"forbidden\":\"$undefined\",\"unauthorized\":\"$undefined\"}]]}],{\"children\":[\"__PAGE__\",[\"$\",\"$1\",\"c\",{\"children\":[\"$L9\",[\"$\",\"$La\",null,{\"children\":\"$Lb\"}],null,[\"$\",\"$Lc\",null,{\"children\":[\"$Ld\",\"$Le\",[\"$\",\"$Lf\",null,{\"promise\":\"$@10\"}]]}]]}],{},null,false]},null,false]},null,false]},null,false]},null,false]},null,false],[\"$\",\"$1\",\"h\",{\"children\":[null,[\"$\",\"$1\",\"zzPSXX9w--lz-h_QYTqjo\",{\"children\":[[\"$\",\"$L11\",null,{\"children\":\"$L12\"}],[\"$\",\"meta\",null,{\"name\":\"next-size-adjust\",\"content\":\"\"}]]}],null]}],false]],\"m\":\"$undefined\",\"G\":[\"$13\",\"$undefined\"],\"s\":false,\"S\":false}\n"])</script><script>self.__next_f.push([1,"b:[\"$\",\"$14\",null,{\"fallback\":null,\"children\":[\"$\",\"$L15\",null,{\"promise\":\"$@16\"}]}]\ne:null\n12:[[\"$\",\"meta\",\"0\",{\"charSet\":\"utf-8\"}],[\"$\",\"meta\",\"1\",{\"name\":\"viewport\",\"content\":\"width=device-width, initial-scale=1\"}]]\nd:null\n"])</script><script>self.__next_f.push([1,"16:{\"metadata\":[[\"$\",\"title\",\"0\",{\"children\":\"TraceHub, A Flexible Solution for Web Based Structured Logging - CodeProject\"}],[\"$\",\"link\",\"1\",{\"rel\":\"manifest\",\"href\":\"/manifest.json\",\"crossOrigin\":\"$undefined\"}]],\"error\":null,\"digest\":\"$undefined\"}\n10:{\"metadata\":\"$16:metadata\",\"error\":null,\"digest\":\"$undefined\"}\n"])</script><script>self.__next_f.push([1,"17:I[9741,[\"869\",\"static/chunks/869-095b567be01917e3.js\",\"76\",\"static/chunks/app/(article)/Articles/%5BarticleId%5D/%5BarticleSlug%5D/page-ade9d0789736a960.js\"],\"default\"]\n19:I[6947,[\"869\",\"static/chunks/869-095b567be01917e3.js\",\"76\",\"static/chunks/app/(article)/Articles/%5BarticleId%5D/%5BarticleSlug%5D/page-ade9d0789736a960.js\"],\"default\"]\n18:T706f,"])</script><script>self.__next_f.push([1,"/*\n  This is the legacy article critical styles\n  They are added in order to reduce mvp development time\n  They should be refactored or completely replaced woth nextjs css modules in future\n*/\n\n::selection {\n  background-color: #f90;\n  color: #fff;\n  text-shadow: none;\n}\n.blank-background {\n  background-color: white;\n}\nhtml,\ndiv,\nspan,\napplet,\nobject,\niframe,\na,\nabbr,\nacronym,\nbig,\ncite,\ncode,\ndel,\ndfn,\nem,\nfont,\nimg,\nins,\nkbd,\nq,\ns,\nsamp,\nsmall,\nstrike,\nstrong,\nsub,\nsup,\ntt,\nvar,\nfieldset,\nform,\nlabel,\ntable,\ntbody,\ntfoot,\nthead,\ntr,\nth,\ntd,\nli,\nol,\nul {\n  margin: 0;\n  padding: 0;\n  border: 0;\n}\nhtml {\n  font-size: 16px;\n  -webkit-font-smoothing: antialiased;\n  font-smooth: always;\n}\nbody,\np,\nh1,\nh2,\nh3,\nh4,\nh5,\nh6,\nli,\ntr,\ntd,\nth,\ndd,\ndt {\n  font-size: 16px;\n  line-height: 1.4;\n  color: #111111;\n}\nbody {\n  margin: 0;\n}\nh1,\nh3,\nh4,\nh5,\nth {\n  font-weight: bold;\n}\nh1 {\n  color: #333333;\n  padding: 0px;\n  margin: 0 0 7px;\n  text-align: left;\n}\nh2 {\n  margin: 20px 0 11px;\n  padding: 0;\n  padding-bottom: 10px;\n  color: #333333;\n}\nh3 {\n  color: #ff9900;\n}\nh1 {\n  font-size: 38px;\n  font-weight: 400;\n}\nh2 {\n  font-size: 29px;\n  font-weight: 400;\n}\nh3 {\n  font-size: 19px;\n  font-weight: normal;\n}\nh4 {\n  font-size: 17px;\n}\npre {\n  color: black;\n  background-color: #fbedbb;\n  padding: 6px;\n  font: 14px Consolas, monospace, mono;\n  white-space: pre;\n  overflow: auto;\n  border: solid 1px #fbedbb;\n  -moz-tab-size: 4;\n  -o-tab-size: 4;\n  -webkit-tab-size: 4;\n  tab-size: 4;\n}\ncode {\n  color: #990000;\n  font: 15px Consolas, monospace, mono;\n}\ntable {\n  background-color: Transparent;\n}\nimg {\n  -ms-interpolation-mode: bicubic;\n}\na {\n  text-decoration: none;\n  color: #005782;\n}\na:visited {\n  color: #800080;\n}\na:hover {\n  text-decoration: underline;\n}\na:not([href]) {\n  color: inherit;\n  text-decoration: none;\n}\ninput[type=\"text\"],\ninput[type=\"url\"],\ninput[type=\"search\"],\ninput[type=\"email\"],\ninput[type=\"number\"],\ninput[type=\"password\"],\nselect,\ntextarea {\n  border: 1px solid #d7d7d7;\n  font-size: 16px;\n  padding: 5px;\n}\na.button,\na.button-large,\n.button,\n.button-large {\n  color: white;\n  background-color: #e08900;\n  border: 1px solid #cccccc;\n  text-decoration: none;\n  white-space: nowrap;\n  font-size: 100%;\n  padding: 4px;\n  cursor: pointer;\n  border-radius: 3px;\n  -webkit-border-radius: 3px;\n  -moz-border-radius: 3px;\n}\ntable.small-text td,\nul.small-text li,\nol.small-text li,\n.small-text {\n  font-size: 14px;\n}\n.invisible {\n  display: none;\n}\n.subdue,\n.subdue li,\ntr.subdue td {\n  color: #808080;\n}\n.bold {\n  font-weight: bold;\n}\n.align-left {\n  text-align: left;\n}\n.align-right {\n  text-align: right;\n}\n.align-center {\n  text-align: center;\n}\n.float-right {\n  float: right;\n}\n.float-left {\n  float: left;\n}\n.sticky {\n  position: sticky;\n  top: 0;\n}\n.extended {\n  width: 100%;\n  box-sizing: border-box;\n}\n.padded-top {\n  padding-top: 20px;\n}\n.tight {\n  margin: 0px;\n  padding: 0px;\n}\n.nowrap {\n  white-space: nowrap;\n}\n.fixed-layout {\n  table-layout: fixed;\n}\n.clip-text {\n  text-overflow: ellipsis;\n  overflow: hidden;\n  white-space: nowrap;\n}\n.raised {\n  background-color: #fff8df;\n  border: 1px solid #cccccc;\n  -moz-box-shadow: 4px 4px 16px 1px rgba(0, 0, 0, 0.25);\n  -webkit-box-shadow: 4px 4px 16px 1px rgba(0, 0, 0, 0.25);\n  box-shadow: 4px 4px 16px 1px rgba(0, 0, 0, 0.25);\n}\nol,\nul {\n  padding-left: 40px;\n  margin: 10px 0;\n}\nol.compact li,\nul.compact li,\nol li.compact,\nul li.compact {\n  font-size: 14px;\n}\nul.download {\n  margin-top: 25px;\n}\nul.download li,\nul li.download,\nul.Download li,\nul li.Download {\n  background: url(\"/images/download24.png\") no-repeat scroll left center\n    transparent;\n  font-weight: bold;\n  list-style-type: none;\n  margin: 0px 0 6px -40px;\n  padding: 0 0 1px 30px;\n  vertical-align: middle;\n}\n.callout {\n  margin: 20px 0;\n  background-color: #ffffe1;\n  color: #333333;\n  border: 1px solid #cccccc;\n  padding: 15px;\n  border-radius: 3px;\n  -webkit-border-radius: 3px;\n  -moz-border-radius: 3px;\n}\n.trace {\n  padding: 20px;\n  background-color: #eeeeee;\n  color: #333333;\n  border: 1px solid red;\n  font-size: 13px;\n}\ntextarea,\ninput[type=\"text\"],\ninput[type=\"button\"],\ninput[type=\"submit\"] {\n  -webkit-appearance: none;\n  border-radius: 0;\n}\n.container-content {\n  background-color: white;\n  position: relative;\n  zoom: 1;\n  padding: 0 9px;\n  cursor: default;\n}\n.container-content-wrap {\n  margin: auto;\n  max-width: 1270px;\n}\n.container-content pre,\n.container-code pre,\n.answer pre {\n  white-space: pre-wrap;\n  /* css-3 */\n  white-space: -moz-pre-wrap;\n  /* Mozilla, since 1999 */\n  white-space: -pre-wrap;\n  /* Opera 4-6 */\n  white-space: -o-pre-wrap;\n  /* Opera 7 */\n  word-wrap: break-word;\n  /* Internet Explorer 5.5+ */\n  _white-space: pre;\n  /* IE only hack to re-specify in addition to word-wrap  */\n  word-break: break-word;\n  -ms-word-break: break-word;\n}\n.flex-container {\n  display: -webkit-box;\n  /* OLD - iOS 6-, Safari 3.1-6 */\n  display: -moz-box;\n  /* OLD - Firefox 19- (buggy but mostly works) */\n  display: -ms-flexbox;\n  /* TWEENER - IE 10 */\n  display: -webkit-flex;\n  /* NEW - Chrome */\n  display: flex;\n  /* NEW, Spec - Opera 12.1, Firefox 20+ */\n}\n.flex-extend {\n  justify-content: space-between;\n}\n.flex-wrap {\n  flex-wrap: wrap;\n}\n.flex-item {\n  -webkit-box-flex: 1;\n  /* OLD - iOS 6-, Safari 3.1-6 */\n  -moz-box-flex: 1;\n  /* OLD - Firefox 19- */\n  -webkit-flex: 1;\n  /* Chrome */\n  -ms-flex: 1;\n  /* IE 10 */\n  flex: 1;\n}\n.flex-item-tight {\n  flex: 0 1 auto;\n}\n.hover-container {\n  display: block;\n  position: relative;\n}\n.clearfix:after,\n.container:after {\n  display: block;\n  content: \".\";\n  visibility: hidden;\n  height: 0px;\n  clear: both;\n}\n.clearfix,\n.container {\n  display: inline-block;\n  /* Mac IE5 sees this */\n  /* Mac IE5 comment hack \\*/\n  display: block;\n  /* Mac IE5 doesn't see this, but everyone else does */\n}\n.access-link,\n.access-link img {\n  position: absolute;\n  top: 0px;\n  left: 0px;\n  width: 1px;\n  height: 1px;\n  z-index: 101;\n  border-style: none;\n  margin-top: -1px;\n  overflow: hidden;\n}\n.site-top-menu {\n  white-space: nowrap;\n  position: absolute;\n  z-index: 101;\n  width: 100%;\n}\n.site-top-menu .main-content {\n  width: 100%;\n}\n.site-top-menu .main-content .memberbar {\n  margin-left: 90px;\n  margin-right: 10px;\n}\n.site-top-menu.fixed .main-content {\n  margin: auto;\n  max-width: 1270px;\n}\n.site-header {\n  background-image: url(\"/App_Themes/CodeProject/Img/logo135-bg.gif\");\n  white-space: nowrap;\n  overflow: hidden;\n}\n.site-header .main-content {\n  position: relative;\n  overflow: hidden;\n  white-space: nowrap;\n}\n.site-header .logo {\n  display: inline-block;\n}\n.site-header .promo {\n  display: inline-block;\n  position: absolute;\n  top: 33px;\n  right: 0;\n}\n.site-header.fixed .main-content {\n  margin: auto;\n  max-width: 1270px;\n}\n.sub-headerbar {\n  padding-right: 9px;\n  position: relative;\n  margin: auto;\n  max-width: 1270px;\n}\n.sub-headerbar-divider {\n  margin-left: 10px;\n  height: 1px;\n  border-bottom: 1px solid #cccccc;\n  position: absolute;\n  bottom: 2px;\n  left: 0px;\n  right: 9px;\n}\n.memberbar {\n  height: 25px;\n  padding-top: 10px;\n  color: #999999;\n  font-size: 14px;\n}\n.memberbar a {\n  color: #808080;\n  font-size: 14px;\n}\ndiv.navbar {\n  white-space: nowrap;\n}\n.navmenu {\n  background: white;\n  color: #4d4d4d;\n  padding: 0px;\n  margin: 0px;\n  list-style: none;\n  height: 25px;\n}\n.navmenu ul,\n.navmenu li {\n  margin: 0;\n  padding: 0;\n}\n.navmenu .has-submenu {\n  position: absolute;\n  right: 5px;\n  padding-left: 10px;\n}\n.navmenu \u003e li:hover \u003e a,\n.navmenu \u003e li \u003e a:active {\n  border: 1px solid #cccccc;\n}\n.navmenu ul,\n.navmenu \u003e li.open:hover \u003e a,\n.navmenu \u003e li.open \u003e a:active {\n  border: 1px solid #cccccc;\n  border-bottom-color: white;\n}\n.navmenu \u003e li {\n  margin: 0 11px 2px 2px;\n}\n.navmenu \u003e li:active,\n.navmenu \u003e li:active \u003e a,\n.navmenu \u003e li:hover,\n.navmenu \u003e li \u003e a:active {\n  background: white;\n  color: #4d4d4d;\n}\n.navmenu \u003e li.openable \u003e a:active,\n.navmenu \u003e li.openable:hover \u003e a {\n  /*border-bottom: 1px solid @ColourBack-Menu; */\n}\n.navmenu \u003e li \u003e a {\n  padding: 2px 7px 6px 7px;\n  border: 1px solid transparent;\n  font-weight: bold;\n}\n.navmenu a {\n  display: block;\n  float: left;\n  color: #666666;\n  background: white;\n  font-size: 17px;\n  padding: 0px 9px;\n  text-decoration: none;\n  white-space: nowrap;\n}\n.navmenu a.fly {\n  white-space: nowrap;\n}\n.navmenu ul {\n  background: white;\n  position: absolute;\n  left: -9999px;\n  top: -9999px;\n  list-style: none;\n}\n.navmenu li {\n  float: left;\n  color: #4d4d4d;\n}\n.navmenu li.last {\n  height: 9px;\n}\n.navmenu li a:active,\n.navmenu li a:hover {\n  color: white;\n  background-color: #ff9900;\n}\n.navmenu li \u003e a:active,\n.navmenu li:hover,\n.navmenu li:hover \u003e a,\n.navmenu li:hover.heading,\n.navmenu li a.selected {\n  position: relative;\n  color: white;\n  background-color: #ff9900;\n}\n.navmenu li.openable:hover ul {\n  left: 0px;\n  top: 30px;\n  z-index: 500;\n}\n.navmenu li.openable:hover \u003e ul ul {\n  position: absolute;\n  left: -9999px;\n  top: -9999px;\n  width: auto;\n}\n.navmenu li ul {\n  border-bottom: 5px solid #ff9900;\n}\n.navmenu li li {\n  float: none;\n}\n.navmenu li li a {\n  float: none;\n  font-size: 16px;\n  font-weight: normal;\n}\n.navmenu li li a.fly {\n  color: #4d4d4d;\n  background-color: white;\n  padding: 2px 20px;\n}\n.navmenu li li a.break {\n  margin-bottom: 15px;\n}\n.navmenu li li a.highlight1,\n.navmenu li li a.highlight1:active,\n.navmenu li li a.highlight1:hover {\n  background-color: #009900;\n}\n.navmenu li li a.highlight2,\n.navmenu li li a.highlight2:active,\n.navmenu li li a.highlight2:hover {\n  background-color: #ff9900;\n}\n.navmenu li li a.highlight3,\n.navmenu li li a.highlight3:active,\n.navmenu li li a.highlight3:hover {\n  background-color: #000000;\n}\n.navmenu li li a.highlight1,\n.navmenu li li a.highlight2,\n.navmenu li li a.highlight3 {\n  color: white;\n  font-size: 16px;\n  margin: 5px 0;\n  padding: 9px 20px;\n}\n.site-footer {\n  display: -webkit-box;\n  /* OLD - iOS 6-, Safari 3.1-6 */\n  display: -moz-box;\n  /* OLD - Firefox 19- (buggy but mostly works) */\n  display: -ms-flexbox;\n  /* TWEENER - IE 10 */\n  display: -webkit-flex;\n  /* NEW - Chrome */\n  display: flex;\n  /* NEW, Spec - Opera 12.1, Firefox 20+ */\n  padding-top: 5px;\n  width: 100%;\n  font-size: 13px;\n  color: #999999;\n}\n.site-footer .align-left,\n.site-footer .align-center,\n.site-footer .align-right {\n  -webkit-box-flex: 1;\n  /* OLD - iOS 6-, Safari 3.1-6 */\n  -moz-box-flex: 1;\n  /* OLD - Firefox 19- */\n  -webkit-flex: 1;\n  /* Chrome */\n  -ms-flex: 1;\n  /* IE 10 */\n  flex: 1;\n}\n.site-footer .align-left {\n  flex: 1 0 100px;\n}\n.site-footer .align-center {\n  flex: 0 1 0%;\n  white-space: nowrap;\n}\n.site-footer .align-right {\n  flex: 1 0 100px;\n}\n.site-footer .page-width .active {\n  border-bottom: 2px solid #ff9900;\n}\n.searchbar {\n  padding: 0;\n}\n.searchbar .search {\n  margin-bottom: 4px;\n  padding: 2px 5px 0px;\n  border: 1px solid #cccccc;\n}\n.searchbar .search.subdue {\n  color: #cccccc;\n}\n.searchbar input.search {\n  width: 190px;\n  border: none;\n  font-size: 13px;\n  padding: 4px 2px;\n}\n.searchbar .search-advanced {\n  padding: 8px;\n  width: 203px;\n  z-index: 1000;\n  background-color: white;\n  border: solid 1px #cccccc;\n  position: absolute;\n  top: -4px;\n  right: 0px;\n}\n.searchbar .popup {\n  display: none;\n}\n.sub-headerbar .searchbar {\n  /*\n\t.search-advanced\n\t{\n        .transition(width, .1s, linear);\n\n        \u0026.open\n        {\n    \t\twidth: 320px;\n        }\n    }\n    */\n}\n.sub-headerbar .searchbar input.search {\n  /*\n        \u0026:focus,\u0026:active\n        {\n            position     : absolute;\n            top          : 3px;\n            right        : 36px;\n            height       : 19px;\n            border       : 1px solid #ccc;\n            border-right : none;\n            width:         300px;\n\n            .transition(width, .1s, linear);\n        }\n        */\n}\n.search td {\n  background-color: white;\n}\n.article-container-parts {\n  display: -webkit-box;\n  /* OLD - iOS 6-, Safari 3.1-6 */\n  display: -moz-box;\n  /* OLD - Firefox 19- (buggy but mostly works) */\n  display: -ms-flexbox;\n  /* TWEENER - IE 10 */\n  display: -webkit-flex;\n  /* NEW - Chrome */\n  display: flex;\n  /* NEW, Spec - Opera 12.1, Firefox 20+ */\n}\n.article-container {\n  -webkit-box-flex: 1;\n  /* OLD - iOS 6-, Safari 3.1-6 */\n  -moz-box-flex: 1;\n  /* OLD - Firefox 19- */\n  -webkit-flex: 1;\n  /* Chrome */\n  -ms-flex: 1;\n  /* IE 10 */\n  flex: 1;\n  background-color: white;\n  color: #111111;\n  zoom: 1;\n  position: relative;\n  max-width: 100%;\n  min-height: 675px;\n}\n.article-container .article {\n  margin: 0 20px 0 10px;\n  line-height: 143%;\n}\n.article-container span.stats {\n  margin-left: 30px;\n}\n.article-left-sidebar {\n  width: 120px;\n  min-width: 120px;\n  min-height: 400px;\n  font-size: 14px;\n  border-right: 1px solid #f2f2f2;\n  padding: 0;\n  /* Old school style */\n  /*\n    .license {\n        font-weight: bold;\n        display: inline-block;\n        margin-top: 10px;\n    }\n    */\n}\n.article-left-sidebar .article-left-sidebar-inner {\n  width: 120px;\n  min-width: 120px;\n}\n.article-left-sidebar .tabs \u003e div {\n  padding: 5px 0 5px 10px;\n}\n.article-left-sidebar .selected {\n  font-weight: bold;\n  background: transparent url(\"/images/right-selected.gif\") no-repeat scroll\n    right 9px;\n}\n.article-left-sidebar h4 {\n  color: #ff9900;\n  font-size: 14px;\n  font-weight: bold;\n}\n.article-left-sidebar .stats div div div {\n  padding: 0px 0 10px 10px;\n  color: #666666;\n}\n.article-right-sidebar {\n  width: 300px;\n  margin-left: 10px;\n  font-size: 14px;\n}\n.article-right-sidebar .header {\n  font-size: 22px;\n  color: white;\n  background-color: #ff9900;\n  padding: 8px;\n  font-weight: 400;\n  margin: 0;\n}\n.article-right-sidebar .reading-list-toc {\n  max-height: 250px;\n  overflow-y: auto;\n  padding-right: 6px;\n  margin-top: 5px;\n}\n.article-right-sidebar .reading-list-toc .count {\n  font-weight: normal;\n  font-size: 13px;\n}\n.article-right-sidebar .reading-list-toc .title {\n  font-size: 16px;\n}\n.article-right-sidebar .content-list-item {\n  display: -webkit-box;\n  /* OLD - iOS 6-, Safari 3.1-6 */\n  display: -moz-box;\n  /* OLD - Firefox 19- (buggy but mostly works) */\n  display: -ms-flexbox;\n  /* TWEENER - IE 10 */\n  display: -webkit-flex;\n  /* NEW - Chrome */\n  display: flex;\n  /* NEW, Spec - Opera 12.1, Firefox 20+ */\n  justify-content: space-between;\n  font-size: 14px;\n  margin: 4px 0;\n}\n.article-right-sidebar .content-list-item .count {\n  width: 15%;\n  padding: 0px;\n}\n.article-right-sidebar .content-list-item .title {\n  width: 85%;\n  font-weight: normal;\n}\n.article-right-sidebar .gototop {\n  text-align: center;\n  padding: 10px 0;\n  opacity: 0;\n  -webkit-transition: opacity 0.3s linear 0ms;\n  -moz-transition: opacity 0.3s linear 0ms;\n  -o-transition: opacity 0.3s linear 0ms;\n  transition: opacity 0.3s linear 0ms;\n}\n.container-content .edit-links {\n  margin: 21px 0 0 10px;\n}\n.article-summary {\n  padding: 0px 10px 0px 10px;\n  overflow: hidden;\n}\n.article h1 {\n  margin: 0 0 15px 0;\n}\n.article h2 {\n  color: #ff9900;\n}\n.article pre {\n  overflow: auto;\n}\n.article .header .title {\n  color: #808080;\n}\n.article .header .author {\n  font-weight: bold;\n  min-width: 100px;\n}\n.article .header .author a {\n  color: #808080;\n}\n.article .header .avatar {\n  max-width: 48px;\n  max-height: 48px;\n  overflow: unset;\n}\n.article .header .avatar-wrap {\n  width: 48px;\n  height: 48px;\n  margin-right: 10px;\n  text-align: center;\n}\n.article .header .date {\n  white-space: nowrap;\n}\n.article .header .license {\n  margin-left: 15px;\n}\n.article .header .stats {\n  margin-left: 30px;\n}\n.article img.lazyload,\n.article img.lazyloading {\n  opacity: 0;\n}\n.article img {\n  max-width: 700px;\n  height: auto;\n}\n.article img.lazyloaded {\n  opacity: 1;\n  transition: opacity 300ms;\n}\n.article .summary {\n  color: #808080;\n  padding: 40px 0 15px 0;\n}\n.article .text {\n  padding-top: 10px;\n}\n.article .reading-list-nav {\n  border-top: 1px #dedede solid;\n  border-bottom: 1px #dedede solid;\n  padding: 10px 0;\n}\n.article .reading-list-nav .prev {\n  padding-left: 20px;\n}\n.article .reading-list-nav .next {\n  margin-left: 5px;\n  padding-right: 20px;\n  text-align: right;\n}\n.article-nav {\n  text-align: right;\n  margin-top: 21px;\n  vertical-align: middle;\n  line-height: 15px;\n}\n.msg-728x90 {\n  width: 728px;\n  height: 90px;\n  overflow: hidden;\n}\n.msg-300x250 {\n  width: 300px;\n  height: 250px;\n  overflow: hidden;\n}\n.content-list {\n  margin-bottom: 17px;\n}\n.content-list .count {\n  font-weight: bold;\n  font-size: 16px;\n  color: #ff9900;\n  padding: 3px;\n  text-align: center;\n}\n.content-list-item {\n  margin: 10px 0;\n}\n.content-list-item .title {\n  font-size: 14px;\n  font-weight: bold;\n  padding: 0px 0;\n}\n.content-list-item .title a {\n  color: #005782;\n}\n.tags {\n  line-height: 190%;\n}\n.tags .t {\n  background: none repeat scroll 0 0 transparent;\n  border: 1px solid #fbedbb;\n  border-radius: 12px 0 0 12px;\n  line-height: 1.4;\n  padding: 0 2px 2px 3px;\n  position: relative;\n  text-decoration: none;\n  margin: 2px 5px 4px 0;\n  white-space: nowrap;\n}\n.tags .t a {\n  color: #666666;\n  display: inline-block;\n  margin-right: 3px;\n  padding-left: 5px;\n  text-overflow: ellipsis;\n}\n.container-breadcrumb {\n  font-size: 14px;\n  margin-top: 7px;\n  color: #808080;\n  margin: 12px 0 35px;\n}\n.container-breadcrumb a {\n  color: #808080;\n}\n.pre-lang {\n  display: -webkit-box;\n  /* OLD - iOS 6-, Safari 3.1-6 */\n  display: -moz-box;\n  /* OLD - Firefox 19- (buggy but mostly works) */\n  display: -ms-flexbox;\n  /* TWEENER - IE 10 */\n  display: -webkit-flex;\n  /* NEW - Chrome */\n  display: flex;\n  /* NEW, Spec - Opera 12.1, Firefox 20+ */\n  background-color: #fbedbb;\n  justify-content: space-between;\n  padding: 4px 8px;\n  margin-top: 5px;\n  color: #999999;\n  border-bottom: solid 1px #ffd044;\n}\n.code-comment {\n  color: #008000;\n  font-style: italic;\n}\n.code-keyword {\n  color: Blue;\n}\n.code-sdkkeyword {\n  color: #339999;\n}\n.code-string {\n  color: Purple;\n}\n.code-attribute {\n  color: red;\n}\n.code-leadattribute {\n  color: #800000;\n}\n.pre-action-link {\n  font-size: 13px;\n  color: #999999;\n}\n.pre-action-link span {\n  cursor: pointer;\n  margin: 0;\n  -webkit-transition: color 0.1s linear;\n  -moz-transition: color 0.1s linear;\n  -o-transition: color 0.1s linear;\n  transition: color 0.1s linear;\n}\n.speech-bubble-container-down,\n.speech-bubble-container-up,\n.speech-bubble-container-up-right,\n.speech-bubble-container-left,\n.speech-bubble-container-right {\n  position: relative;\n}\n.speech-bubble-up,\n.speech-bubble-down,\n.speech-bubble-left,\n.speech-bubble-right,\n.speech-bubble-up-right {\n  padding: 0.6em;\n  border: 1px solid #cccccc;\n  background-color: white;\n  margin: 15px;\n  text-decoration: none;\n  font-weight: normal;\n  text-align: left;\n  white-space: normal;\n  color: #333333;\n  font-size: 14px;\n  line-height: 1.3;\n}\n.speech-bubble-down {\n  margin-bottom: 0px;\n}\n.tooltip .speech-bubble-up,\n.tooltip .speech-bubble-up-right,\n.tooltip .speech-bubble-down,\n.tooltip .speech-bubble-left,\n.tooltip .speech-bubble-right {\n  -moz-box-shadow: 4px 4px 16px 1px rgba(0, 0, 0, 0.25);\n  -webkit-box-shadow: 4px 4px 16px 1px rgba(0, 0, 0, 0.25);\n  box-shadow: 4px 4px 16px 1px rgba(0, 0, 0, 0.25);\n  border-radius: 5px;\n  -webkit-border-radius: 5px;\n  -moz-border-radius: 5px;\n  min-width: 75px;\n}\n.speech-bubble-pointer-down,\n.speech-bubble-pointer-down-inner {\n  width: 0;\n  height: 0;\n  border-bottom-width: 0;\n  background: none;\n}\n.speech-bubble-pointer-down {\n  border-left: 7px solid transparent;\n  border-right: 7px solid transparent;\n  border-top: 1px solid #cccccc;\n  border-top-width: 14px;\n  margin-left: 35px;\n  margin-bottom: 15px;\n  _display: none;\n}\n.speech-bubble-pointer-up,\n.speech-bubble-pointer-up-right,\n.speech-bubble-pointer-up-inner,\n.speech-bubble-pointer-up-right-inner {\n  width: 0;\n  height: 0;\n  border-top-width: 0;\n  background: none;\n}\n.speech-bubble-pointer-up,\n.speech-bubble-pointer-up-right {\n  border-left: 5px solid transparent;\n  border-right: 5px solid transparent;\n  border-bottom: 1px solid #cccccc;\n  border-bottom-width: 14px;\n  margin-left: 35px;\n  position: absolute;\n  top: -12px;\n  _display: none;\n}\n.speech-bubble-container-up-right .speech-bubble-pointer-up-right {\n  margin-left: 0;\n  margin-right: 0px;\n  right: 35px;\n}\n.tooltip {\n  position: relative;\n  text-decoration: none;\n}\n.tooltip .speech-bubble-container-up,\n.tooltip .speech-bubble-container-down,\n.tooltip .speech-bubble-container-left,\n.tooltip .speech-bubble-container-right,\n.tooltip .speech-bubble-container-up-right,\n.tooltip .tooltip-flyout {\n  display: none;\n  opacity: 0;\n  -webkit-transition: opacity 0.5s linear 0ms;\n  -moz-transition: opacity 0.5s linear 0ms;\n  -o-transition: opacity 0.5s linear 0ms;\n  transition: opacity 0.5s linear 0ms;\n}\n.micromodal {\n  display: none;\n}\n.micromodal .modal__overlay {\n  position: fixed;\n  top: 0;\n  left: 0;\n  right: 0;\n  bottom: 0;\n  display: flex;\n  justify-content: center;\n  align-items: center;\n  background: rgba(0, 0, 0, 0.65);\n  z-index: 1000;\n}\n.micromodal .modal__container {\n  box-sizing: border-box;\n  overflow-y: auto;\n  max-width: 500px;\n  max-height: 100vh;\n  padding: 30px;\n  background-color: #fff;\n  border-radius: 4px;\n}\n.micromodal .modal__container,\n.micromodal .modal__overlay {\n  will-change: transform;\n}\n.micromodal .modal_header {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  margin-bottom: 1rem;\n}\n.micromodal .modal_title {\n  margin-top: 0;\n  margin-bottom: 0;\n  color: #ff9900;\n  box-sizing: border-box;\n}\n.bottom-promo {\n  height: 90px;\n  margin-top: 10px;\n  overflow: hidden;\n}\n.bottom-promo .msg-728x90 {\n  width: 728px;\n  margin: 0 auto;\n}\n.msg-728x90 {\n  overflow: hidden;\n  position: relative;\n  height: 90px;\n  min-width: 728px;\n}\ntable.forum {\n  table-layout: fixed;\n  margin: 0 0 20px 0;\n  padding: 0px;\n  width: 100%;\n}\n.forum {\n  /*\n    .indent\n    {\n        padding-left:5px; padding-right: 5px;\n    }\n    */\n}\n.forum table {\n  border-collapse: separate;\n}\n.forum .header1,\n.forum .header1 TD {\n  color: #333333;\n  font-size: 14px;\n  vertical-align: middle;\n}\n.forum .header2,\n.forum .header2 TD {\n  color: white;\n  background-color: #ff9900;\n  font-size: 14px;\n  vertical-align: middle;\n}\n.forum .header2 input,\n.forum .header2 TD input,\n.forum .header2 select,\n.forum .header2 TD select {\n  padding: 2px;\n}\n.forum .button {\n  border: 1px solid #ffcc66;\n  margin: 1px;\n}\n.forum .searchbar {\n  border: 1px solid #cccccc;\n  padding: 4px 0 0 0;\n  margin: 3px 0;\n}\n.forum .searchbar .search {\n  width: 200px;\n}\n.forum .searchbar input[type=\"image\"] {\n  vertical-align: middle;\n}\n.forum .dropdown {\n  background-color: #fffdfa;\n  font-size: 95%;\n  margin-left: 5px;\n}\n.forum .footer,\n.forum .footer td,\n.forum .navbar,\n.forum .navbar td {\n  font-size: 14px;\n  padding: 8px 0;\n  border: 0;\n  border-top: 1px solid #808080;\n}\n.author-wrapper {\n  position: relative;\n}\n.author-wrapper .profile-pic {\n  border: 1px solid #333;\n  margin: 0 13px 0 0;\n  padding: 10px;\n  -moz-box-shadow: 3px 3px 5px 1px rgba(0, 0, 0, 0.2);\n  -webkit-box-shadow: 3px 3px 5px 1px rgba(0, 0, 0, 0.2);\n  box-shadow: 3px 3px 5px 1px rgba(0, 0, 0, 0.2);\n  max-height: 100px;\n}\n.author-wrapper .container-member .author {\n  font-size: 29px;\n  color: #333333;\n  font-weight: 600;\n}\n.member-signin .forgot {\n  padding: 0;\n}\n.member-signin a.forgot {\n  color: #808080;\n}\n.rating-container {\n  /*\n\t.rating-close\n\t{\n\t\tfont-size       : @FontSize-MediumSmall;\n\t\tfont-weight     : bold;\n\t\t// display         : inline-block;\n\t\t// height          : 19px;\n\t\tpadding         : 0px 7px 3px 5px;\n\t\ttext-decoration : none;\n\t\tborder          : 1px solid transparent;\n\t\tposition        : absolute;\n\t\tright           : 1px;\n\t\ttop             : -1px;\n\n\t\t\u0026:hover { border : 1px solid @Colour-Theme1; }\n\t}*/\n}\n.rating-container .rating-prompt {\n  padding-right: 5px;\n  white-space: nowrap;\n  line-height: 25px;\n  margin-right: 2px;\n  font-weight: bold;\n  color: #808080;\n}\n.rating-container .rating-votes {\n  margin-left: 5px;\n}\n.rating-container.large-stars,\n.rating-container.medium-stars,\n.rating-container.small-stars {\n  margin-left: 7px;\n}\n.rating-container.large-stars .rating-votes,\n.rating-container.large-stars .rating-prompt,\n.rating-container.large-stars .rating-poor,\n.rating-container.large-stars .rating-good {\n  line-height: 25px;\n}\n.tablet-only,\n.tablet-block-only {\n  display: none;\n}\n.mobile-only,\n.mobile-block-only {\n  display: none;\n}\n.desktop-only.tablet-only {\n  display: inherit;\n}\n.tablet-only.desktop-only {\n  display: inherit;\n}\n.rrssb-buttons,\n.rrssb-buttons li,\n.rrssb-buttons li a {\n  -moz-box-sizing: border-box;\n  box-sizing: border-box;\n}\n.clearfix:after {\n  clear: both;\n}\n.clearfix:before,\n.clearfix:after {\n  content: \" \";\n  display: table;\n}\n.rrssb-buttons {\n  font-family: \"Helvetica Neue\", Helvetica, Arial, sans-serif;\n  height: 40px;\n  margin: 0;\n  padding: 0;\n  width: 100%;\n}\n.rrssb-buttons li {\n  float: left;\n  height: 100%;\n  list-style: none;\n  margin: 0;\n  padding: 0 2.5px;\n  line-height: 13px;\n}\n.rrssb-buttons li.email a {\n  background-color: #0a88ff;\n}\n.rrssb-buttons li.facebook a {\n  background-color: #306199;\n}\n.rrssb-buttons li.linkedin a {\n  background-color: #007bb6;\n}\n.rrssb-buttons li.twitter a {\n  background-color: #26c4f1;\n}\n.rrssb-buttons li.reddit a {\n  background-color: #8bbbe3;\n}\n.rrssb-buttons li.pinterest a {\n  background-color: #b81621;\n}\n.rrssb-buttons li.compact {\n  padding: 0 4.5px;\n}\n.rrssb-buttons li.compact a {\n  border-radius: 50%;\n  padding: 0px 7px 0 32px;\n}\n.rrssb-buttons li.compact a .icon {\n  left: 7px;\n  top: -3px;\n  width: 5%;\n  transform: scale(0.85);\n}\n.rrssb-buttons li.compact a .icon svg {\n  height: auto;\n  width: auto;\n}\n.rrssb-buttons li a {\n  background-color: #ccc;\n  border-radius: 3px;\n  display: block;\n  font-size: 11px;\n  font-weight: bold;\n  height: 100%;\n  padding: 11px 7px 12px 27px;\n  position: relative;\n  text-align: center;\n  text-decoration: none;\n  text-transform: uppercase;\n  -webkit-font-smoothing: antialiased;\n  -moz-osx-font-smoothing: grayscale;\n  width: 100%;\n  -webkit-transition: background-color 0.2s ease-in-out;\n  -moz-transition: background-color 0.2s ease-in-out;\n  -o-transition: background-color 0.2s ease-in-out;\n  transition: background-color 0.2s ease-in-out;\n}\n.rrssb-buttons li a .icon {\n  display: block;\n  height: 100%;\n  left: 10px;\n  padding-top: 9px;\n  position: absolute;\n  top: 0;\n  width: 10%;\n}\n.rrssb-buttons li a .icon svg {\n  height: 17px;\n  width: 17px;\n}\n.rrssb-buttons li a .icon svg path,\n.rrssb-buttons li a .icon svg polygon {\n  fill: #fff;\n}\n.cc-window {\n  opacity: 1;\n  background-color: #ff9900;\n  /*\n  -webkit-transition: opacity .25s ease;\n  -moz-transition: opacity .25s ease;\n  -ms-transition: opacity .25s ease;\n  -o-transition: opacity .25s ease;\n  transition: opacity .25s ease;\n  */\n}\n.cc-window.cc-invisible {\n  opacity: 0;\n}\n.cc-animate.cc-revoke {\n  /*\n  -webkit-transition: transform .25s ease;\n  -moz-transition: transform .25s ease;\n  -ms-transition: transform .25s ease;\n  -o-transition: transform .25s ease;\n  transition: transform .25s ease;\n  */\n}\n.cc-animate.cc-revoke.cc-bottom {\n  transform: translateY(2em);\n}\n.cc-window,\n.cc-revoke {\n  position: fixed;\n  overflow: hidden;\n  box-sizing: border-box;\n  /* exclude padding when dealing with width */\n  font-family: \"Segoe UI\", Arial, Sans-Serif;\n  font-size: 13px;\n  /* by setting the base font here, we can size the rest of the popup using CSS `em` */\n  line-height: 1.5em;\n  display: flex;\n  flex-wrap: nowrap;\n  /* the following are random unjustified styles - just because - should probably be removed */\n  z-index: 9999;\n}\n.cc-window.cc-banner {\n  padding: 0.7em 1.8em;\n  width: 100%;\n  flex-direction: row;\n}\n.cc-revoke {\n  padding: 0.5em;\n}\n.cc-btn,\n.cc-link,\n.cc-close,\n.cc-revoke {\n  cursor: pointer;\n}\n.cc-link {\n  opacity: 0.8;\n  display: inline-block;\n  padding: 0.2em;\n  text-decoration: underline;\n}\n.cc-link:active,\n.cc-link:visited {\n  color: initial;\n}\n.cc-btn {\n  display: block;\n  padding: 0.4em 0.8em;\n  font-size: 0.9em;\n  font-weight: bold;\n  border-width: 2px;\n  border-style: solid;\n  text-align: center;\n  white-space: nowrap;\n}\n.cc-banner .cc-btn:last-child {\n  min-width: 110px;\n  margin-left: 10px;\n}\n.cc-highlight .cc-btn:first-child {\n  background-color: transparent;\n  border-color: transparent;\n}\n.cc-revoke.cc-bottom {\n  bottom: 0;\n  left: 3em;\n  border-top-left-radius: 0.5em;\n  border-top-right-radius: 0.5em;\n}\n.cc-bottom {\n  bottom: 1em;\n}\n.cc-window.cc-banner {\n  align-items: center;\n}\n.cc-banner.cc-bottom {\n  left: 0;\n  right: 0;\n  bottom: 0;\n}\n.cc-banner .cc-message {\n  flex: 1;\n}\n.cc-compliance {\n  display: flex;\n  align-items: center;\n  align-content: space-between;\n}\n.cc-compliance \u003e .cc-btn {\n  flex: 1;\n}\n.cc-btn + .cc-btn {\n  margin-left: 0.5em;\n}\n\n@keyframes showcopied {\n  0% {\n    opacity: 0;\n  }\n  70% {\n    opacity: 1;\n  }\n  100% {\n    opacity: 0;\n  }\n}\n"])</script><script>self.__next_f.push([1,"1a:T6d3a,"])</script><script>self.__next_f.push([1,"\u003ch2\u003ePart I: Getting Started\u003c/h2\u003e\r\n\r\n\u003cul class=\"download\"\u003e\r\n\t\u003cli\u003e\u003ca href=\"https://github.com/zijianhuang/TraceHubDemos\"\u003eTraceHub Demo at GitHub\u003c/a\u003e\u003c/li\u003e\t\u003cli\u003e\u003ca href=\"https://github.com/zijianhuang/HelloWorldAuth/tree/branches/TraceHub\"\u003eWCF Service and TraceHub Demo at GitHub\u003c/a\u003e\u003c/li\u003e\t\u003cli\u003e\u003ca href=\"http://tracehubslim.fonlow.com\"\u003eTraceHub Slim Demo\u003c/a\u003e\u003c/li\u003e\t\u003cli\u003e\u003ca href=\"https://youtu.be/e7uWITR7Kjc\"\u003eDemo\u003c/a\u003e\u003c/li\u003e\u003c/ul\u003e\r\n\r\n\u003ch2\u003eIntroduction\u003c/h2\u003e\r\n\r\n\u003cp\u003e\u003ca href=\"https://github.com/zijianhuang/TraceHub/\"\u003e\u003cstrong\u003eTraceHub\u003c/strong\u003e \u003c/a\u003eis a Web based centralized logging system that utilizes \u003ccode\u003eSystem.Diagnostic\u003c/code\u003e for structured logging, and SignalR for transporting structured traces from your service applications to trace observers. This open source project delivers 4 products out of the box:\u003c/p\u003e\r\n\r\n\u003col\u003e\r\n\t\u003cli\u003e\u003cstrong\u003eTraceHub MVC\u003c/strong\u003e: ASP.NET MVC Application that provides the \u003ccode\u003eTraceHub\u003c/code\u003e service, displays structured traces from \u003ccode\u003eHubTraceListeners\u003c/code\u003e injected to your service applications, and push the traces to other clients like \u003ccode\u003eTraceHub\u003c/code\u003e Console.\u003c/li\u003e\t\u003cli\u003e\u003cstrong\u003eTraceHub Slim\u003c/strong\u003e: Slim edition of \u003ccode\u003eTraceHub\u003c/code\u003e, with only 1 Web page and without built-in authentication, however with all key features of \u003ccode\u003eTraceHub\u003c/code\u003e MVC.\u003c/li\u003e\t\u003cli\u003e\u003cstrong\u003eTraceHub Console\u003c/strong\u003e: Windows console application that listens to the \u003ccode\u003eTraceHub\u003c/code\u003e service and displays the traces, and could be used to relay traces to other trace listeners.\u003c/li\u003e\t\u003cli\u003e\u003cstrong\u003eHubTraceListener\u003c/strong\u003e: Derived class of \u003ccode\u003eSystem.Diagnostics.TraceListener\u003c/code\u003e, which uploads structured traces to the \u003ccode\u003eTraceHub\u003c/code\u003e service.\u003c/li\u003e\u003c/ol\u003e\r\n\r\n\u003cp\u003eIf you have been using \u003ca href=\"https://msdn.microsoft.com/en-us/library/windows/desktop/bb968803(v=vs.85).aspx\"\u003eEvent Tracing for Windows (ETW)\u003c/a\u003e and trace listeners in \u003ccode\u003eSystem.Diagnostics\u003c/code\u003e or other tracing and logging frameworks compatible with \u003ccode\u003eSystem.Diagnostics\u003c/code\u003e, you may find that the learning curve of using \u003ccode\u003eTraceHub\u003c/code\u003e is almost zero, and your existing application codes don't need to be altered for logging structured traces to the new medias, thus don't need to be rebuilt.\u003c/p\u003e\r\n\r\n\u003cp\u003eAnd this article also introduces some design concepts / contexts behind \u003ccode\u003eTraceHub\u003c/code\u003e.\u003c/p\u003e\r\n\r\n\u003cdiv class=\"Caption\"\u003eFigure 1: TraceHub MVC\u003c/div\u003e\r\n\r\n\u003cp\u003e\u003ca href=\"http://tracehub.fonlow.com/\"\u003e\u003cimg alt=\"TraceHub MVC\" src=\"https://cloudfront.codeproject.com/articles/1118166/tracehub.png\" style=\"height: 228px; width: 640px\"\u003e\u003c/a\u003e\u003c/p\u003e\r\n\r\n\u003cdiv class=\"Caption\"\u003eFigure 2: TraceHub Slim\u003c/div\u003e\r\n\r\n\u003cp\u003e\u003cimg alt=\"\" src=\"https://cloudfront.codeproject.com/articles/1118166/tracehub.gif\" style=\"height: 225px; width: 640px\"\u003e\u003c/p\u003e\r\n\r\n\u003cdiv class=\"Caption\"\u003eFigure 3: TraceHub Console\u003c/div\u003e\r\n\r\n\u003cp\u003e\u003cimg alt=\"TraceHub Console\" src=\"https://cloudfront.codeproject.com/articles/1118166/tracehubconsole.png\" style=\"height: 277px; width: 640px\"\u003e\u003c/p\u003e\r\n\r\n\u003cdiv class=\"Caption\"\u003eFigure 4: View a trace in multiple lines\u003c/div\u003e\r\n\r\n\u003cp\u003e\u003cimg alt=\"TraceHub Slim\" height=\"438\" src=\"https://cloudfront.codeproject.com/articles/1118166/5848b330-e3a5-4064-9909-da6f6234119c.png\" style=\"height: 237px; width: 640px\" width=\"1181\"\u003e\u003c/p\u003e\r\n\r\n\u003ch2\u003eUse TraceHub\u003c/h2\u003e\r\n\r\n\u003cp\u003ePresumably, you have been using \u003ccode\u003eTrace\u003c/code\u003e and \u003ccode\u003eTraceSource\u003c/code\u003e of \u003ccode\u003eSystem.Diagnostics\u003c/code\u003e in your applications, like these examples:\u003c/p\u003e\r\n\r\n\u003cpre lang=\"cs\"\u003e\r\n    try\r\n    {\r\n        ...\r\n        Debug.WriteLine(\"...\");\r\n        ...\r\n        myTraceSource.TraceInformation(\"......\");\r\n        ...\r\n        myTraceSource.TraceEvent(TraceEventType.Warning, 3, \"File {0} not found.\", \"test\");\r\n        ...\r\n        return true;\r\n    }\r\n    catch (IOException e)\r\n    {\r\n        Trace.TraceWarning(e.Message);\r\n        return false;\r\n    }\r\n    catch (UnauthorizedAccessException e)\r\n    {\r\n        Trace.TraceWarning(e.Message);\r\n        return false;\r\n    }\r\n    catch (System.Security.SecurityException e)\r\n    {\r\n        Trace.TraceWarning(e.Message);\r\n        return false;\r\n    }\r\n    catch (FormatException ex)\r\n    {\r\n        System.Diagnostics.Trace.TraceWarning($\"{s} is not a valid IP address or range.\");\r\n        return false;\r\n    }\r\n    catch (System.Exception ex)\r\n    {\r\n        Trace.TraceError(ex.ToString());\r\n        throw;\r\n    }\r\n\r\n\r\n   public class TraceErrorAttribute : HandleErrorAttribute\r\n    {\r\n        public override void OnException(ExceptionContext filterContext)\r\n        {\r\n            System.Diagnostics.Trace.TraceError(\"Controller: {0}; View: {1}; Exception: {2}\",\r\n                filterContext.Controller.ToString(), View, filterContext.Exception.ToString());\r\n            base.OnException(filterContext);\r\n        }\r\n    }\u003c/pre\u003e\r\n\r\n\u003ch3\u003eStep 1: Install TraceHub MVC or TraceHub Slim to a Server\u003c/h3\u003e\r\n\r\n\u003cp\u003eSimply download the source codes of \u003ccode\u003eTraceHub\u003c/code\u003e, build and deploy \u003ccode\u003eTraceHub\u003c/code\u003e MVC or \u003ccode\u003eTraceHub\u003c/code\u003e Slim to a server as you would do for ASP.NET applications and configure the URL like \u003ca href=\"http://mytracehub.com\"\u003ehttp://mytracehub.com\u003c/a\u003e.\u003c/p\u003e\r\n\r\n\u003ch4\u003eRemarks\u003c/h4\u003e\r\n\r\n\u003cp\u003eFor \u003ccode\u003eTraceHub\u003c/code\u003e MVC, the Identity 2 database should have a user role named \"\u003ccode\u003eAPI\u003c/code\u003e\", and a user associated with \"\u003ccode\u003eAPI\u003c/code\u003e\". And you can may make \u003ccode\u003eTraceHub\u003c/code\u003e MVC share the same Identity 2 database with other ASP.NET MVC/Web API applications. It shouldn't be difficult for you to integrate \u003ccode\u003eTraceHub\u003c/code\u003e MVC to your existing authentication.\u003c/p\u003e\r\n\r\n\u003ch4\u003eHint\u003c/h4\u003e\r\n\r\n\u003cp\u003e\u003ccode\u003eTraceHub\u003c/code\u003e Slim does not use any authentication, while you could \u003ca href=\"https://github.com/zijianhuang/TraceHub/wiki/UseTraceHubSlim\"\u003euse white listed IP addresses\u003c/a\u003e for basic security.\u003c/p\u003e\r\n\r\n\u003ch3\u003eStep 2: Inject HubTraceListener to Your Application\u003c/h3\u003e\r\n\r\n\u003ch4\u003eStep 2.1: Copy the following files in the Fonlow.HubTraceListener CS project to the program directory\u003c/h4\u003e\r\n\r\n\u003ch5\u003eFile List\u003c/h5\u003e\r\n\r\n\u003cul\u003e\r\n\t\u003cli\u003e\u003cem\u003eFonlow.HubTraceListener.dll\u003c/em\u003e\u003c/li\u003e\t\u003cli\u003e\u003cem\u003eFonlow.TraceHub.Common\u003c/em\u003e\u003c/li\u003e\t\u003cli\u003e\u003cem\u003eEssential.Diagnostics.Core.dll\u003c/em\u003e\u003c/li\u003e\t\u003cli\u003e\u003cem\u003eMicrosoft.AspNet.SignalR.Client.dll\u003c/em\u003e\u003c/li\u003e\t\u003cli\u003e\u003cem\u003eNewtonsoft.Json.dll\u003c/em\u003e\u003c/li\u003e\u003c/ul\u003e\r\n\r\n\u003cp\u003eAlternatively, you may import NuGet package \u003ca href=\"https://www.nuget.org/packages/Fonlow.HubTraceListener/\"\u003eFonlow.HubTraceListener\u003c/a\u003e, even though your application codes don't need static references to those files.\u003c/p\u003e\r\n\r\n\u003ch4\u003eStep 2.2: Modify app.config or Web.config of Your Application\u003c/h4\u003e\r\n\r\n\u003cp\u003eYour service applications may be using \u003cem\u003eWeb.config\u003c/em\u003e or \u003cem\u003eMyService.exe.config\u003c/em\u003e.\u003c/p\u003e\r\n\r\n\u003cp\u003eExample:\u003c/p\u003e\r\n\r\n\u003cpre lang=\"xml\"\u003e\r\n  \u0026lt;system.diagnostics\u0026gt;\r\n    \u0026lt;sharedListeners\u0026gt;\r\n      \u0026lt;add name=\"hubListener\" type=\"Fonlow.Diagnostics.HubTraceListener, \r\n       Fonlow.HubTraceListener\" template=\"{Message}{Data}\" hubUrl=\"http://MyTraceHub.com\" \r\n       apiUser=\"api\" apiPassword=\"MyPassword\" instanceId=\"MyServiceInstanceId\" /\u0026gt;\r\n      \u0026lt;add name=\"rollingfile\" type=\"Essential.Diagnostics.RollingFileTraceListener, \r\n       Essential.Diagnostics\" template=\"{LocalDateTime:HH':'mm':'ss} \r\n       [{Thread}] {EventType} {Source}: {Message}{Data}\" \r\n          initializeData=\"%AllUsersProfile%\\MyCompany\\logs\\\r\n               MyService-{LocalDateTime:yyyy-MM-dd}-p{ProcessId}.log\" /\u0026gt;\r\n    \u0026lt;/sharedListeners\u0026gt;\r\n    \u0026lt;switches\u0026gt;\r\n      \u0026lt;add name=\"TraceLevelSwitch\" value=\"Verbose\" /\u0026gt;\r\n    \u0026lt;/switches\u0026gt;\r\n    \u0026lt;sources\u0026gt;\r\n      \u0026lt;source name=\"myAppSource\" switchValue=\"All\"\u0026gt;\r\n        \u0026lt;listeners\u0026gt;\r\n          \u0026lt;clear /\u0026gt;\r\n          \u0026lt;add name=\"hubListener\" /\u0026gt;\r\n          \u0026lt;add name=\"rollingfile\" /\u0026gt;\r\n        \u0026lt;/listeners\u0026gt;\r\n      \u0026lt;/source\u0026gt;\r\n    \u0026lt;/sources\u0026gt;\r\n    \u0026lt;trace autoflush=\"true\"\u0026gt;\r\n      \u0026lt;listeners\u0026gt;\r\n        \u0026lt;clear /\u0026gt;\r\n        \u0026lt;add name=\"hubListener\" /\u0026gt;\r\n        \u0026lt;add name=\"rollingfile\" /\u0026gt;\r\n      \u0026lt;/listeners\u0026gt;\r\n    \u0026lt;/trace\u0026gt;\r\n  \u0026lt;/system.diagnostics\u0026gt;\u003c/pre\u003e\r\n\r\n\u003cp\u003eIn this example, the template attribute for \u003ccode\u003ehubListener\u003c/code\u003e does not include time stamp and trace event type, etc., however, \u003ccode\u003eTraceHub\u003c/code\u003e still displays them. This is because \u003ccode\u003eHubTraceListener\u003c/code\u003e sends not only the formatted trace message according to the template, but also the structured trace data, so the \u003ccode\u003eTraceHub\u003c/code\u003e Web page would display them and filter them accordingly.\u003c/p\u003e\r\n\r\n\u003ch4\u003eHints\u003c/h4\u003e\r\n\r\n\u003cp\u003eFor \u003ccode\u003eTraceHub\u003c/code\u003e Slim, the value of the \u003ccode\u003eapiUser\u003c/code\u003e attribute should be \"\u003ccode\u003eanonymous\u003c/code\u003e\", and the value of password is not used.\u003c/p\u003e\r\n\r\n\u003ch3\u003eStep 3: Up and Run\u003c/h3\u003e\r\n\r\n\u003cp\u003eBoth \u003ccode\u003eTraceListener\u003c/code\u003e and ASP.NET Web application are starting up in a lazy manner. That is, only when the application or the CLR startup logic creates the first trace, the \u003ccode\u003eTraceListener\u003c/code\u003e instances defined in \u003cem\u003eapp.config\u003c/em\u003e are created; only when the first HTTP request reaches IIS, an instance of the Web application is created. And there could be significant interval between the first trace and the full operation of \u003ccode\u003eTraceHub\u003c/code\u003e, and there could be latency and interruptions between your application and \u003ccode\u003eTraceHub\u003c/code\u003e. \u003ccode\u003eHubTraceListener\u003c/code\u003e may buffer up to 100,000 traces in case of network outage between your applications and \u003ccode\u003eTraceHub\u003c/code\u003e. And it is good to keep local rolling log files through \u003ccode\u003eRollingFileTraceListener\u003c/code\u003e, since local resources like local file and Windows Events log are the most reliable medias for logging.\u003c/p\u003e\r\n\r\n\u003ch4\u003eHints\u003c/h4\u003e\r\n\r\n\u003cp\u003eTo minimize the negative impact of lazy loading, you may consider to alter the following setting:\u003c/p\u003e\r\n\r\n\u003col\u003e\r\n\t\u003cli\u003eIn Advanced Settings of the IIS Website, set \"\u003cstrong\u003eStart Automatically\u003c/strong\u003e\" or \"\u003cstrong\u003ePreload Enabled\u003c/strong\u003e\" to \u003ccode\u003eTrue\u003c/code\u003e.\u003c/li\u003e\t\u003cli\u003eIn the Advanced Settings of respective \u003ccode\u003eAppPool\u003c/code\u003e, set \"\u003cstrong\u003eStart Automatically\u003c/strong\u003e\" to \u003ccode\u003eTrue\u003c/code\u003e or set \"\u003cstrong\u003eStart Mode\u003c/strong\u003e\" to \"\u003ccode\u003eAlwaysRunning\u003c/code\u003e\".\u003c/li\u003e\t\u003cli\u003eIn the Advanced Settings of respective \u003ccode\u003eAppPool\u003c/code\u003e, set \"\u003cstrong\u003eIdle Time-out(minutes)\u003c/strong\u003e\" to a larger number.\u003c/li\u003e\u003c/ol\u003e\r\n\r\n\u003ch2\u003eArchitecture and Deployments\u003c/h2\u003e\r\n\r\n\u003cp\u003e\u003ccode\u003eHubTraceListener\u003c/code\u003e listens to trace events of the service application, and upload the formatted trace message along with some structured trace info to \u003ccode\u003eTraceHub\u003c/code\u003e; and \u003ccode\u003eTraceHub\u003c/code\u003e pushes the trace data to Web browsers which are loading the Web pages of \u003ccode\u003eTraceHub\u003c/code\u003e MVC or \u003ccode\u003eTraceHub\u003c/code\u003e Slim, so you could view traces on the client side; and an alternative client viewer is \u003ccode\u003eTraceHub\u003c/code\u003e Console.\u003c/p\u003e\r\n\r\n\u003cp\u003e\u003cimg alt=\"Deploy TraceHub components\" src=\"https://cloudfront.codeproject.com/articles/1118166/tracehubdeployment.png\" style=\"height: 378px; width: 640px\"\u003e\u003c/p\u003e\r\n\r\n\u003cp\u003eIf you want to introduce more trace sinks, you just inject respective trace listeners implemented in \u003ccode\u003eSystem.Diagnostics\u003c/code\u003e, Essential Diagnostics or Semantic Logging to \u003ccode\u003eTraceHub\u003c/code\u003e Console. You may install \u003ccode\u003eTraceHub\u003c/code\u003e Console in a Windows workstation or Windows Server, depending on how you would further process trace data.\u003c/p\u003e\r\n\r\n\u003cp\u003eTo use products out of the box, you may download or clone the source codes of \u003ccode\u003eTraceHub\u003c/code\u003e, build and deploy, as describe in \u003ca href=\"https://github.com/zijianhuang/TraceHub/wiki/UseTraceHub\"\u003eTraceHub Wiki\u003c/a\u003e.\u003c/p\u003e\r\n\r\n\u003cp\u003ePlease note, applications that need \u003ccode\u003eHubTraceListener\u003c/code\u003e don't need to be compiled with the listener, because derived classes of \u003ccode\u003eTraceListener\u003c/code\u003e could be injected to an application through \u003cem\u003eapp.config\u003c/em\u003e. And you just need to make sure \u003ca href=\"https://github.com/zijianhuang/TraceHub/wiki/UseFonlowHubTraceListener\"\u003ethe dependencies\u003c/a\u003e are available in the program directory.\u003c/p\u003e\r\n\r\n\u003ch2\u003ePart II: Concepts behind TraceHub\u003c/h2\u003e\r\n\r\n\u003ch3\u003eStructured Tracing and Logging Have Been Available Since .NET Framework 2!\u003c/h3\u003e\r\n\r\n\u003cp\u003eOver years, I have come across a few Web based logging and diagnostics tools for ASP.NET Web applications:\u003c/p\u003e\r\n\r\n\u003cul\u003e\r\n\t\u003cli\u003e\u003ca href=\"http://getglimpse.com/\"\u003eGlimpse\u003c/a\u003e\u003c/li\u003e\t\u003cli\u003e\u003ca href=\"https://azure.microsoft.com/en-us/services/application-insights/\"\u003eApplication Insights\u003c/a\u003e\u003c/li\u003e\u003c/ul\u003e\r\n\r\n\u003cp\u003eThey are excellent tools, though I had rarely used them. And the scope of the \u003ccode\u003eTraceHub\u003c/code\u003e won't be anywhere closer to Glimpse and Application Insights which cover wider spectrums and more scenarios.\u003c/p\u003e\r\n\r\n\u003cp\u003eIf you have never used Serilog + Seq, you may probably skip this chapter and go next to \"\u003cstrong\u003eDesign Concepts\u003c/strong\u003e\".\u003c/p\u003e\r\n\r\n\u003cp\u003eA few months ago, I was introduced to \u003ca href=\"https://serilog.net/\"\u003eSerilog \u003c/a\u003e+ \u003ca href=\"https://getseq.net/\"\u003eSeq \u003c/a\u003e\u003ca href=\"https://serilog.net/\"\u003e/ \u003c/a\u003e\u003ca href=\"https://raygun.com/\"\u003eRaygun \u003c/a\u003ein some Web service + Azure projects that I did not lead. So I had a bit hands-on experience in these new toys, while the team leads and other developers were eager to teach me the new concepts of structured logging. I was very puzzled, since I supposedly had been doing structured logging for years without these new toys or being aware of \"structured logging\". And I had grown up in the .NET world since 2003 with these concepts:\u003c/p\u003e\r\n\r\n\u003col\u003e\r\n\t\u003cli\u003eUse Trace and Debug of \u003ccode\u003eSystem.Diagnostics\u003c/code\u003e; and in complex applications and libraries, use \u003ccode\u003eTraceSource\u003c/code\u003e.\u003c/li\u003e\t\u003cli\u003e.NET codes should have no knowledge of the logging mechanism. The logging is done through trace listeners, and trace listeners generally are injected by .NET runtime according to app settings in element \u003ccode\u003esystem.diagnostics\u003c/code\u003e in \u003cem\u003eapp.config\u003c/em\u003e, so some CLR startup errors could be logged before the first line of the application code is executed.\u003c/li\u003e\t\u003cli\u003e\u003ccode\u003eSystem.Diagnostics\u003c/code\u003e since .NET Framework 2 had already provided advanced tracing of structured data and correlation.\u003c/li\u003e\u003c/ol\u003e\r\n\r\n\u003cp\u003eWith Serilog, you have to create an instance of \u003ccode\u003eLoggerConfiguration\u003c/code\u003e in your application codes and library codes, because CLR startup logic has no knowledge of it,\u003c/p\u003e\r\n\r\n\u003col\u003e\r\n\t\u003cli\u003eSo CLR startup errors won't be picked up by Serilog.\u003c/li\u003e\t\u003cli\u003eAnd every library you create will need make to reference to Serilog just for the sake of logging. Why should I always make a reference to Serilog in every library? Not only 3\u003csup\u003erd\u003c/sup\u003e party libraries, but also WCF, WPF and WF, etc. had provided specific trace sources for diagnostics. Serilog and alike are missing these. A workaround is to use \u003ca href=\"https://github.com/serilog-trace-listener/SerilogTraceListener\"\u003eSerilog Tracelistener\u003c/a\u003e. But a logging instrument on top of another logging instrument is looking odd to me.\u003c/li\u003e\u003c/ol\u003e\r\n\r\n\u003cp\u003eThe popular Log4Net has similar shortfalls, even though if you have been using it since .NET Framework 1, you won't see any problem.\u003c/p\u003e\r\n\r\n\u003cp\u003eA few weeks ago, I happened to have some moment reading the materials about Serilog and Seq in more details in addition to those in the official Websites:\u003c/p\u003e\r\n\r\n\u003cul\u003e\r\n\t\u003cli\u003e\u003ca href=\"https://nblumhardt.com/2015/01/designing-log-events-for-effective-correlation/\"\u003eTagging log events for effective correlation\u003c/a\u003e\u003c/li\u003e\t\u003cli\u003e\u003ca href=\"https://nblumhardt.com/2013/03/serilog/\"\u003eSerilog at the beginning\u003c/a\u003e\u003c/li\u003e\t\u003cli\u003e\u003ca href=\"https://leastprivilege.com/2015/10/22/identityserver3-logging-monitoring-using-serilog-and-seq/\"\u003eIdentityServer 3 Logging \u0026amp; Monitoring using Serilog and Seq\u003c/a\u003e\u003c/li\u003e\t\u003cli\u003e\u003ca href=\"http://programmers.stackexchange.com/questions/312197/benefits-of-structured-logging-vs-basic-logging\"\u003eBenefits of Structured Logging vs basic logging\u003c/a\u003e\u003c/li\u003e\t\u003cli\u003e\u003ca href=\"https://www.troyhunt.com/error-logging-and-tracking-done-right/\"\u003eError logging and tracking done right with Raygun.io\u003c/a\u003e\u003c/li\u003e\u003c/ul\u003e\r\n\r\n\u003cp\u003eIt is confirmed that \u003ca href=\"https://msdn.microsoft.com/en-us/library/system.diagnostics(v=vs.110).aspx\"\u003eSystem.Diagnostics\u003c/a\u003e + \u003ca href=\"http://essentialdiagnostics.codeplex.com/\"\u003eEssential.Diagnostics\u003c/a\u003e had covered most of what Serilog offers. To be fair, Serilog does offer some additional sophisticated features:\u003c/p\u003e\r\n\r\n\u003col\u003e\r\n\t\u003cli\u003eMessage Template\u003c/li\u003e\t\u003cli\u003ePreserving Object Structure\u003c/li\u003e\t\u003cli\u003eFlood gate upon identical traces in flooding\u003c/li\u003e\u003c/ol\u003e\r\n\r\n\u003cp\u003eIt is probably very context specific to value these features.\u003c/p\u003e\r\n\r\n\u003cp\u003eStructured tracing has been available in \u003ccode\u003eSystem.Diagnostics\u003c/code\u003e of .NET Framework since .NET 2 released in 2005. And for structured logging, there are quite a few free and open source solutions around, and here's an incomplete list:\u003c/p\u003e\r\n\r\n\u003cul\u003e\r\n\t\u003cli\u003e\u003ca href=\"https://github.com/mspnp/semantic-logging\"\u003eSemantic Logging \u003c/a\u003e(formerly know at the\u003ca href=\"https://msdn.microsoft.com/en-us/library/dn440729(v=pandp.60).aspx\"\u003e Semantic Logging Application Block\u003c/a\u003e or SLAB)\u003c/li\u003e\t\u003cli\u003e\u003ca href=\"http://essentialdiagnostics.codeplex.com/\"\u003eEssential Diagnostics\u003c/a\u003e\u003c/li\u003e\u003c/ul\u003e\r\n\r\n\u003cp\u003eBoth Semantic Logging and Essential Diagnostics were designed on top of \u003ca href=\"https://msdn.microsoft.com/en-us/library/windows/desktop/bb968803(v=vs.85).aspx\"\u003eEvent Tracing for Windows (ETW)\u003c/a\u003e and \u003ccode\u003eSystem.Diagnostics\u003c/code\u003e.\u003c/p\u003e\r\n\r\n\u003ch3\u003eDesign Concepts for Web Applications/Services\u003c/h3\u003e\r\n\r\n\u003cp\u003eWhen I lead a green field project, I would ensure:\u003c/p\u003e\r\n\r\n\u003col\u003e\r\n\t\u003cli\u003eSmall and evolvable designs\u003c/li\u003e\t\u003cli\u003eBasic separation of concerns\u003c/li\u003e\t\u003cli\u003eConformation to SOLID; design patterns for right contexts\u003c/li\u003e\t\u003cli\u003eComponent designs\u003c/li\u003e\t\u003cli\u003eSeparation of development concerns and deployment concerns; and application and library codes having least knowledge of the deployment environments\u003c/li\u003e\t\u003cli\u003eDefensive programming\u003c/li\u003e\t\u003cli\u003eStatic code analysis\u003c/li\u003e\t\u003cli\u003eIntegration tests as early as possible, in local dev machine first, then in the team test environment\u003c/li\u003e\t\u003cli\u003eStress testing as early as possible\u003c/li\u003e\u003c/ol\u003e\r\n\r\n\u003cp\u003eAlso, I would:\u003c/p\u003e\r\n\r\n\u003col\u003e\r\n\t\u003cli\u003eAvoid premature introduction of DI/IoC frameworks like Autofac and Unity, etc.\u003c/li\u003e\t\u003cli\u003eAvoid premature scalability with Microservices.\u003c/li\u003e\t\u003cli\u003eAvoid excessive trace and logging. Application codes should have no knowledge of the logging mechanisms, except \u003ccode\u003eSystem.Diagnostics\u003c/code\u003e. Trace listeners are generally injected by .NET runtime as defined in \u003cem\u003eapp.config\u003c/em\u003e.\u003c/li\u003e\t\u003cli\u003eExcept in small and simple business applications, do not mix technical logging and \u003ca href=\"https://en.wikipedia.org/wiki/Business_activity_monitoring\"\u003ebusiness activity monitoring\u003c/a\u003e as well as traffic monitoring.\u003c/li\u003e\u003c/ol\u003e\r\n\r\n\u003cp\u003eFor Web application and services, I would keep the VS projects of WCF, MVC and Web API as thin as possible. Web services, SOAP based or RESTful are just a transportation layer or tier for delivering server side functions to clients and get feedback from clients. It is good for teamwork and testing to put most, if not all the business logic into the model assemblies rather than in the Web entry assembly. And during stress testing of business domain functionality, I would already have a good idea about the performances of the core business modules. If you take such an approach, you will be less likely to be surprised about performance after deploying Web applications. If you endorse such design concepts, you may probably find \u003ccode\u003eTraceHub\u003c/code\u003e appealing.\u003c/p\u003e\r\n\r\n\u003ch3\u003eIs Logging Really Important to SDLC?\u003c/h3\u003e\r\n\r\n\u003cp\u003eWhile nowadays components of \u003ca href=\"http://essentialdiagnostics.codeplex.com/wikipage?title=Logging%20Levels\u0026amp;referringTitle=Guidance\"\u003etracing and logging \u003c/a\u003eare fairly fast even in heavy traffic, however, excessive logging could hamper the efforts of debugging because the overwhelming information.\u003c/p\u003e\r\n\r\n\u003cp\u003eThe bottom line is, if your program is highly reliable, you will depend less on logging; if you have good QA, your program will be naturally reliable and robust, and you will depend on less QC and testing; if you have good testing, you will depend less on debugging and logging. Debugging/diagnostic and logging should be the last resort to control quality. If your SDLC heavily depends on debugging/diagnostics and logging, there could be something dirty in your SDLC, eating you alive without you noticing it, even if you enjoy the technical challenges which bring no value to the stakeholders.\u003c/p\u003e\r\n\r\n\u003cp\u003eYou may ask why I would develop something similar to Serilog + Seq, etc., after saying all these. Here are my reasons:\u003c/p\u003e\r\n\r\n\u003col\u003e\r\n\t\u003cli\u003e\u003cstrong\u003eLogging and debugging are wastes that we developers haven't managed to eliminate\u003c/strong\u003e! However, at least, we could make logging easier and cheaper for most scenarios of development and deployment on the ASP.NET stacks.\u003c/li\u003e\t\u003cli\u003e\u003ccode\u003eSystem.Diagnostics\u003c/code\u003e since .NET 2 had already covered almost everything which Log4Net and alike cover. Some simple extensions like \u003ccode\u003eEssential.Diagnostics\u003c/code\u003e and Serilog are already well complementing what needed for distributed computing, while \u003ccode\u003eEssential.Diagnostics\u003c/code\u003e conforms more to \u003ca href=\"https://msdn.microsoft.com/en-us/library/windows/desktop/bb968803(v=vs.85).aspx\"\u003eEvent Tracing for Windows (ETW)\u003c/a\u003e and \u003ccode\u003eSystem.Diagnostics\u003c/code\u003e.\u003c/li\u003e\t\u003cli\u003eHaving structured logging and Web based logging together is much easier than you would had thought, as long as you pick the right resources to depend on. When using Serilog + Seq, I had already been feeling: logging shouldn't be so complex, so hard, so slow, so unreliable and so expensive. Logging should be simple, fast, reliable and free, because (technical) logging is a waste in the first place.\u003c/li\u003e\u003c/ol\u003e\r\n\r\n\u003ch2\u003ePoints of Interest\u003c/h2\u003e\r\n\r\n\u003cp\u003eOver years, I have been reviewing or maintaining quite a lot of legacy applications with dirty designs and implementations, as well as excessive logging on variety of logging components. A few years ago, I have done some \u003ca href=\"http://webandlife.blogspot.com/2013/04/essential-diagnostics.html\"\u003eextensive researches on logging components\u003c/a\u003e, before joining project Essential Diagnostic. I had been thinking of developing a light-weight centralized logging system occasionally over years. There have also been a few good Web based logging and diagnostics systems around like Glimpse and AI. Though they are comprehensive and heavy, there seemed no need for some additions to the landscape. The poor experiences in using Serilog+Seq had prompted me to develop a Web based centralized logging system based on \u003ccode\u003eSystem.Diagnostics\u003c/code\u003e + Essential Diagnostics + SignalR. To be fair, Serilog on its own is a well designed and implemented product, and is pretty fast. However, in my observations, people using Serilog had often enjoyed excessive logging and debugging on premature scalability with Microservices and premature usage of CI server like TeamCity, rather than spend more efforts in making simpler designs and writing clean codes. So I was thinking whether a light-weight Web based logging system could be fixing the gap between primitive log files and heavy tools like Glimpse and AI, and providing a free, simpler and more flexible alternative to Seq. Here you are, when you have some light-weight needs for Web based centralized logging as I normally do, you will have more choices for your contexts.\u003c/p\u003e\r\n\r\n\u003cp\u003eDo you find it interesting that the author of the logging components does not encourage developers to log and debug?\u003c/p\u003e\r\n\r\n\u003ch3\u003eWhat's Not\u003c/h3\u003e\r\n\r\n\u003cp\u003e\u003ccode\u003eTraceHub\u003c/code\u003e is designed to be a light-weight centralized logging service extending what already in \u003ccode\u003eSystem.Diagnostics\u003c/code\u003e and \u003ccode\u003eEssential.Diagnostics\u003c/code\u003e. While it has some some overlap with Glimpse, Microsoft Application Insights and Azure Event Hubs, it won't be extended to the wider spectrums of these products.\u003c/p\u003e\r\n\r\n\u003ch3\u003eDifferences from Seq\u003c/h3\u003e\r\n\r\n\u003cp\u003eSeq stores traces, while \u003ccode\u003eTraceHub\u003c/code\u003e does not store traces directly. If you want to persist traces, there exist trace listeners to be injected to \u003ccode\u003eTraceHub\u003c/code\u003e Console that could be running on the server side.\u003c/p\u003e\r\n\r\n\u003cul\u003e\r\n\t\u003cli\u003e\u003ca href=\"http://essentialdiagnostics.codeplex.com/wikipage?title=RollingFileTraceListener\"\u003eRollingFileTraceListener\u003c/a\u003e\u003c/li\u003e\t\u003cli\u003e\u003ca href=\"https://essentialdiagnostics.codeplex.com/wikipage?title=RollingXmlTraceListener\u0026amp;referringTitle=Listeners\"\u003eRollingXmlTraceListener\u003c/a\u003e\u003c/li\u003e\t\u003cli\u003e\u003ca href=\"http://essentialdiagnostics.codeplex.com/wikipage?title=SqlDatabaseTraceListener\"\u003eSqlDatabaseTraceListener\u003c/a\u003e\u003c/li\u003e\t\u003cli\u003e\u003ca href=\"https://github.com/amccool/ElasticSearch.Diagnostics\"\u003eElasticSearchTraceListener\u003c/a\u003e\u003c/li\u003e\t\u003cli\u003e\u003ca href=\"https://github.com/aws/aws-dotnet-trace-listener/\"\u003eAWS DynamoDB TraceListener\u003c/a\u003e\u003c/li\u003e\t\u003cli\u003e\u003ca href=\"https://azure.microsoft.com/en-us/documentation/articles/cloud-services-dotnet-diagnostics-trace-flow/\"\u003eDiagnosticMonitorTraceListener\u003c/a\u003e\u003c/li\u003e\u003c/ul\u003e\r\n\r\n\u003cp\u003eOther than this, \u003ccode\u003eTraceHub\u003c/code\u003e has covered most functionality of Seq, additionally, it is free, fast, open source and more flexible.\u003c/p\u003e\r\n\r\n\u003ch3\u003eDifferences from Serilog\u003c/h3\u003e\r\n\r\n\u003cp\u003eSerilog is apparently to become a better log4net, while \u003ccode\u003eHubTraceListener\u003c/code\u003e is based on \u003ccode\u003eSystem.Diagnostics\u003c/code\u003e and \u003ccode\u003eEssential.Diagnostics\u003c/code\u003e, inheriting the capability of structured logging. Serilog endorses some fluent API coding style, Most of the differences had already been mentioned in this article about the design concepts and contexts in SDLC.\u003c/p\u003e\r\n\r\n\u003ch3\u003eTracing, Logging, Business Activity Monitoring\u003c/h3\u003e\r\n\r\n\u003cp\u003eThe creator of Essential Diagnostics \u003ca href=\"http://www.codeplex.com/site/users/view/sgryphon\"\u003eSly Gryphon\u003c/a\u003e said: \" \u003ca href=\"http://essentialdiagnostics.codeplex.com/wikipage?title=Logging%20Levels\u0026amp;referringTitle=Guidance\"\u003eA distinction should be made between the concepts of logging and tracing (although sometimes the terminology used is unclear). \u003c/a\u003e\". In my view, generally you decide what to trace during development/coding, and decide whether to log, what to log and where to log during deployment and operations.\u003c/p\u003e\r\n\r\n\u003cp\u003e\u003ca href=\"https://en.wikipedia.org/wiki/Business_activity_monitoring\"\u003eBusiness Activity Monitoring (BAM)\u003c/a\u003e is software that aids in monitoring of business activities implemented in computer systems. So BAM is application specific, and it is natural that BAM is tightly associated with your applications codes, while the concrete implementation of logging like trace listeners should be de-coupled from your applications codes, and it is even better that your applications codes have no knowledge of logging until deployment and operation. In small and simple applications, you may probably use tracing (with Trace, TraceSource, Log4Net, or Serilog) and logging (with trace listeners) to implement BAM. However, for more complex applications, it is better to separate technical logging and BAM, and develop or use a dedicated subsystem like Biztalk BAM to monitor business activities.\u003c/p\u003e\r\n\r\n\u003cp\u003eA few years ago, I had maintained some legacy Biztalk applications designed and implemented by a consultant firm, and previous developers had used Biztalk BAM to log all kinds of technical traces and very little business activities. It is not hard to imagine the impacts on development and operations from such design, even if you haven't ever used Biztalk BAM.\u003c/p\u003e\r\n\r\n\u003cp\u003eThere's no one-size-fits-all. It is quite fine that your ASP.NET projects use Glimpse, AI, TraceHub and Azure Event Hubs for different concerns and contexts in order to scale and evolve.\u003c/p\u003e\r\n\r\n\u003ch2\u003eFurther References\u003c/h2\u003e\r\n\r\n\u003cul\u003e\r\n\t\u003cli\u003e\u003ca href=\"http://essentialdiagnostics.codeplex.com/wikipage?title=Guidance\"\u003eGuidance \u003c/a\u003eon considerations when implementing logging and other instrumentation for your project\u003c/li\u003e\t\u003cli\u003e\u003ca href=\"https://msdn.microsoft.com/en-us/library/ty48b824(v=vs.110).aspx\"\u003eConfigure Network Tracking\u003c/a\u003e\u003c/li\u003e\t\u003cli\u003e\u003ca href=\"http://www.codeproject.com/Tips/1071853/Use-TraceSource-Efficiently\"\u003eUse TraceSource Efficiently\u003c/a\u003e\u003c/li\u003e\t\u003cli\u003e\u003ca href=\"https://essentialdiagnostics.codeplex.com/wikipage?title=Hello%20Logging\"\u003eLogging with Correlation\u003c/a\u003e\u003c/li\u003e\u003c/ul\u003e"])</script><script>self.__next_f.push([1,"9:[\"$\",\"div\",null,{\"className\":\"custom-container flex px-2 gap-8 overflow-hidden\",\"children\":[[\"$\",\"div\",null,{\"className\":\"w-[948px] max-w-full\",\"children\":[[\"$\",\"div\",null,{\"className\":\"flex gap-2 mb-2 flex-wrap\",\"children\":[[\"$\",\"a\",\"HTML\",{\"rel\":\"tag\",\"href\":\"/Tags/HTML\",\"className\":\"px-2 border border-border-yellow rounded-l-full text-gray-light visited:text-gray-light hover:underline hover:bg-yellow-light\",\"children\":\"HTML\"}],[\"$\",\"a\",\"Intermediate\",{\"rel\":\"tag\",\"href\":\"/Tags/Intermediate\",\"className\":\"px-2 border border-border-yellow rounded-l-full text-gray-light visited:text-gray-light hover:underline hover:bg-yellow-light\",\"children\":\"Intermediate\"}],[\"$\",\"a\",\"Dev\",{\"rel\":\"tag\",\"href\":\"/Tags/Dev\",\"className\":\"px-2 border border-border-yellow rounded-l-full text-gray-light visited:text-gray-light hover:underline hover:bg-yellow-light\",\"children\":\"Dev\"}],[\"$\",\"a\",\"Javascript\",{\"rel\":\"tag\",\"href\":\"/Tags/Javascript\",\"className\":\"px-2 border border-border-yellow rounded-l-full text-gray-light visited:text-gray-light hover:underline hover:bg-yellow-light\",\"children\":\"Javascript\"}],[\"$\",\"a\",\"C#\",{\"rel\":\"tag\",\"href\":\"/Tags/C#\",\"className\":\"px-2 border border-border-yellow rounded-l-full text-gray-light visited:text-gray-light hover:underline hover:bg-yellow-light\",\"children\":\"C#\"}]]}],[\"$\",\"h1\",null,{\"className\":\"text-4xl text-text-gray\",\"children\":\"TraceHub, A Flexible Solution for Web Based Structured Logging\"}],[\"$\",\"div\",null,{\"className\":\"max-w-[600px]\",\"children\":[[\"$\",\"div\",null,{\"className\":\"flex pt-4 justify-between\",\"children\":[[\"$\",\"div\",null,{\"className\":\"text-base hover:underline font-bold\",\"children\":[\"$\",\"$L3\",null,{\"href\":\"/script/Membership/View.aspx?mid=3627575\",\"className\":\"text-gray-lightest\",\"children\":\"Zijian\"}]}],[\"$\",\"div\",null,{\"className\":\"flex items-center gap-2\",\"children\":[[\"$\",\"div\",null,{\"className\":\"flex\",\"children\":[[\"$\",\"$L4\",\"0\",{\"src\":\"/icons/starIcon.png\",\"alt\":\"starIcon\",\"width\":24,\"height\":24}],[\"$\",\"$L4\",\"1\",{\"src\":\"/icons/starIcon.png\",\"alt\":\"starIcon\",\"width\":24,\"height\":24}],[\"$\",\"$L4\",\"2\",{\"src\":\"/icons/starIcon.png\",\"alt\":\"starIcon\",\"width\":24,\"height\":24}],[\"$\",\"$L4\",\"3\",{\"src\":\"/icons/starIcon.png\",\"alt\":\"starIcon\",\"width\":24,\"height\":24}],[\"$\",\"div\",\"4\",{\"className\":\"relative\",\"children\":[[\"$\",\"$L4\",null,{\"src\":\"/icons/emptyStarIcon.png\",\"alt\":\"emptyStarIcon\",\"width\":24,\"height\":24}],[\"$\",\"div\",null,{\"className\":\"absolute left-0 top-0 overflow-hidden\",\"style\":{\"maxWidth\":\"89.65515999999995%\"},\"children\":[\"$\",\"$L4\",null,{\"src\":\"/icons/starIcon.png\",\"alt\":\"starIcon\",\"width\":24,\"height\":24}]}]]}]]}],[\"$\",\"p\",null,{\"className\":\"text-sm\",\"children\":[\"4.90\",\"/5 (\",16,\" vote\",\"s\",\")\"]}]]}]]}],[\"$\",\"div\",null,{\"className\":\"flex pt-2 gap-4\",\"children\":[[\"$\",\"p\",null,{\"className\":\"text-gray-lightest text-[13px]\",\"children\":\"Aug 23, 2016\"}],[\"$\",\"$L3\",null,{\"href\":\"http://www.codeproject.com/info/cpol10.aspx\",\"className\":\"text-[13px] flex\",\"children\":\"CPOL\"}],[\"$\",\"p\",null,{\"className\":\"text-gray-lightest text-[13px]\",\"children\":[14,\" min read\"]}],[\"$\",\"div\",null,{\"className\":\"flex gap-1 items-center\",\"children\":[[\"$\",\"$L4\",null,{\"src\":\"/icons/viewsIcon.png\",\"alt\":\"viewsIcon\",\"width\":16,\"height\":16,\"className\":\"w-4 h-4\"}],[\"$\",\"p\",null,{\"className\":\"text-gray-lightest text-[13px] pl-0.5\",\"children\":33692}]]}],null]}]]}],[\"$\",\"p\",null,{\"className\":\"pt-6 pb-4 text-gray-lightest\",\"children\":\"Overview of TraceHub, and the design concepts/contexts behind this open source project\"}],[\"$\",\"$L17\",null,{\"css\":\"$18\",\"children\":[\"$\",\"$L19\",null,{\"children\":[\"$\",\"div\",null,{\"className\":\"article\",\"dangerouslySetInnerHTML\":{\"__html\":\"$1a\"}}]}]}]]}],[\"$\",\"div\",null,{\"children\":[\"$\",\"$L5\",null,{\"adUnit\":\"/67541884/CPLargeSky160600\",\"adSlotId\":\"div-gpt-ad-1738591766860-0\",\"adSize\":[300,600],\"className\":\"mt-40 sticky top-40\"}]}]]}]\n"])</script><script src="./TraceHub, A Flexible Solution for Web Based Structured Logging - CodeProject_files/js" data-nscript="afterInteractive"></script><script id="gtag" data-nscript="afterInteractive">
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+
+          gtag('config', 'G-VW6LK9H6PP');
+        </script><next-route-announcer style="position: absolute;"><template shadowrootmode="open"><div aria-live="assertive" id="__next-route-announcer__" role="alert" style="position: absolute; border: 0px; height: 1px; margin: -1px; padding: 0px; width: 1px; clip: rect(0px, 0px, 0px, 0px); overflow: hidden; white-space: nowrap; overflow-wrap: normal;"></div></template></next-route-announcer><iframe name="googlefcPresent" style="display: none; width: 0px; height: 0px; border: none; z-index: -1000; left: -1000px; top: -1000px;" src="./TraceHub, A Flexible Solution for Web Based Structured Logging - CodeProject_files/saved_resource(2).html"></iframe><iframe name="__tcfapiLocator" src="./TraceHub, A Flexible Solution for Web Based Structured Logging - CodeProject_files/saved_resource(3).html" style="display: none; width: 0px; height: 0px; border: none; z-index: -1000; left: -1000px; top: -1000px;"></iframe><iframe name="googlefcInactive" src="./TraceHub, A Flexible Solution for Web Based Structured Logging - CodeProject_files/saved_resource(4).html" style="display: none; width: 0px; height: 0px; border: none; z-index: -1000; left: -1000px; top: -1000px;"></iframe><iframe name="googlefcLoaded" src="./TraceHub, A Flexible Solution for Web Based Structured Logging - CodeProject_files/saved_resource(5).html" style="display: none; width: 0px; height: 0px; border: none; z-index: -1000; left: -1000px; top: -1000px;"></iframe><iframe name="google_ads_top_frame" id="google_ads_top_frame" style="display: none; position: fixed; left: -999px; top: -999px; width: 0px; height: 0px;" src="./TraceHub, A Flexible Solution for Web Based Structured Logging - CodeProject_files/saved_resource(6).html"></iframe><iframe src="./TraceHub, A Flexible Solution for Web Based Structured Logging - CodeProject_files/aframe.html" width="0" height="0" style="display: none;"></iframe></body><iframe name="goog_topics_frame" src="./TraceHub, A Flexible Solution for Web Based Structured Logging - CodeProject_files/topics_frame.html" style="display: none;"></iframe></html>

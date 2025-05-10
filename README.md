@@ -37,7 +37,7 @@ TraceHub requires no change in your application codes, and is fast and consuming
 
 Currently, the codebase is maintained at https://github.com/zijianhuang/TraceHub , the project management is carried out at https://www.fonlow.com:8443/redmine/projects/tracetoweb/issues . Please feel free to raise issues at the Issues section of Github.
 
-Please check [Wiki](https://github.com/zijianhuang/TraceHub/wiki) for more details. And [this article published in CodeProject.com](http://www.codeproject.com/Articles/1118166/TraceHub-a-flexible-solution-for-Web-based-structu) explains some design concepts / contexts behind TraceHub.
+Please check [Wiki](https://github.com/zijianhuang/TraceHub/wiki) for more details. And [this article published in CodeProject.com](http://www.codeproject.com/Articles/1118166/TraceHub-a-flexible-solution-for-Web-based-structu) / [Local Copy](Docs/TraceHub,%20A%20Flexible%20Solution%20for%20Web%20Based%20Structured%20Logging%20-%20CodeProject.html) explains some design concepts / contexts behind TraceHub.
 
 ## Additional Resources that could be used along with TraceHub and Your ASP.NET Applications
 
